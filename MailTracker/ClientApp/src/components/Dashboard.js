@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, {useState, useEffect} from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -20,7 +20,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import RecentExternalMail from './RecentExternalMail';
 import ScanExternalMail from './ScanExternalMail'; 
+import axios from 'axios';
+import createAPIEndpoint from "../api"
 
+//Copyright Footer
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -34,6 +37,7 @@ function Copyright(props) {
   );
 }
 
+//App drawer functions
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -82,12 +86,29 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
  
-
 function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [mailList, setMailList] = useState([]); //Scanpage
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+
+  useEffect(() => {
+    getMailList()
+  }, []);
+
+  const getMailList = () => {
+    createAPIEndpoint("ExternalMails").fetchAll()
+      .then(res => {
+        setMailList(res.data)
+        console.log(res.data);
+      })
+      .catch(err => console.log(err))
+  }
+
+
+
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -119,7 +140,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Mail Tracker
+              Operations Delivery Mail Tracker
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -163,7 +184,7 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
+              {/* Scan Mail */}
               <Grid item xs={12}>
                 <Paper
                   sx={{
@@ -173,14 +194,14 @@ function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  <ScanExternalMail  />
+                  <ScanExternalMail getMailList={getMailList}   />
                 </Paper>
               </Grid>
               
               {/* Recent Scans */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <RecentExternalMail />
+                  <RecentExternalMail mailList={mailList} />
                 </Paper>
               </Grid>
             </Grid>
