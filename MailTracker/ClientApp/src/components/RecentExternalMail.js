@@ -11,8 +11,6 @@ import nz from 'date-fns/locale/en-NZ';
 
 export default function RecentExternalMail({mailList}) {
 
- 
-
   return(
     <React.Fragment>
       <Title>Recent Mail Scanned</Title>

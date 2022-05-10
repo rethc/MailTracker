@@ -8,17 +8,17 @@ import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
 import SearchIcon from '@mui/icons-material/Search';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import GroupIcon from '@mui/icons-material/Group';
-import { Link } from 'react-router-dom' 
+import {Link } from "react-router-dom";
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton >
+    <ListItemButton component={Link} to="/">
       <ListItemIcon>
         <DocumentScannerIcon />
       </ListItemIcon>
       <ListItemText primary="Scan Mail" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to="/search">
       <ListItemIcon>
         <SearchIcon />
       </ListItemIcon>
@@ -50,5 +50,5 @@ export const secondaryListItems = (
       </ListItemIcon>
       <ListItemText primary="Teams" />
     </ListItemButton>
-  </React.Fragment>
+    </React.Fragment>
 );

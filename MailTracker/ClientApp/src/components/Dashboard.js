@@ -21,7 +21,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import RecentExternalMail from './RecentExternalMail';
 import ScanExternalMail from './ScanExternalMail'; 
 import axios from 'axios';
-import createAPIEndpoint from "../api"
+import createAPIEndpoint from "../api" 
 
 //Copyright Footer
 function Copyright(props) {
@@ -106,9 +106,6 @@ function DashboardContent() {
       })
       .catch(err => console.log(err))
   }
-
-
-
 
   return (
     <ThemeProvider theme={mdTheme}>
