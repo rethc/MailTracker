@@ -28,8 +28,8 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://reth.nz/">
+          Ops Delivery Mail Tracker
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -198,7 +198,7 @@ function DashboardContent() {
               {/* Recent Scans */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <RecentExternalMail mailList={mailList} />
+                  <RecentExternalMail mailList={mailList}/>
                 </Paper>
               </Grid>
             </Grid>

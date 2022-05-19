@@ -14,7 +14,7 @@ export default function RecentExternalMail({mailList}) {
   return(
     <React.Fragment>
       <Title>Recent Mail Scanned</Title>
-      <Table>
+      <Table sx={{ maxWidth: '100vw' }}>
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
@@ -27,12 +27,14 @@ export default function RecentExternalMail({mailList}) {
           {mailList.slice(0).reverse().map((m) => (
               <TableRow key={m.externalMailID}>
                 <TableCell>{m.externalMailID}</TableCell>
-                <TableCell>{m.trackingNo}</TableCell>
+                {/* If tracking number is longer than 30 characters, truncate and apend ...*/}
+               <TableCell>{m.trackingNo.length > 30 ? `${m.trackingNo.substring(0,30)}...` : m.trackingNo}</TableCell>
                 <TableCell>{m.mailType}</TableCell>
                 <TableCell>{format(parseISO(m.dateCreated), "dd/MM/yyyy,  HH:mm", nz)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
+          
       </Table>
 
     </React.Fragment> 
