@@ -1,10 +1,11 @@
-import { Typography, Container, Grid, Paper, CssBaseline,  TextField, Button, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { Typography, Container, Grid, Paper, CssBaseline,  TextField, Button, Table, TableHead, TableRow, TableCell, TableBody, TablePagination } from "@mui/material";
 import { Box } from '@mui/system';
 import React, { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";  
-import createAPIEndpoint from "../api"; 
-import { format, parseISO } from "date-fns";
-import nz from "date-fns/locale/en-NZ";
+import createAPIEndpoint from "../api";  
+import { format, utcToZonedTime } from "date-fns-tz"; 
+import { parseISO } from "date-fns";
+import enNZ from "date-fns/locale/en-NZ";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
@@ -14,13 +15,35 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const initialValues = {
   mailType: "Mail In",
   trackingNumber: "",
-  dateCreated: new Date(),
+  dateCreated: new Date()
 };
-
+ 
 export default function ScanIn() {
-  const input1 = useRef();
+
+  //Scanning In
+  const trackingInput = useRef();
   const [values, setValues] = useState(initialValues); 
   const [mailList, setMailList] = useState([]);
+
+  //Pagination
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+
+  const formatInTimeZone = (date, fmt, tz) =>
+    format(utcToZonedTime(date, tz), fmt, { timeZone: tz });
+
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, mailList.length - page * rowsPerPage);
+
 
    useEffect(() => {
      getMailList();
@@ -57,14 +80,11 @@ export default function ScanIn() {
     await createAPIEndpoint("ExternalMails").create(item);
     await getMailList();
     values.trackingNumber = "";
-    input1.current.focus(); 
+    trackingInput.current.focus(); 
   }
 
   return (
-    <Box
-      component="main"
-      sx={{ flexGrow: 1, p: 3, marginLeft: { sm: 30, xs: 0 } }}
-    >
+    <Box component="main" sx={{ flexGrow: 1, marginLeft: { sm: 30, xs: 0 } }}>
       <CssBaseline />
       <DrawerHeader />
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -87,7 +107,7 @@ export default function ScanIn() {
                   name="trackingNumber"
                   value={values.trackingNumber}
                   onChange={handleInputChange}
-                  inputRef={input1}
+                  inputRef={trackingInput}
                   sx={{
                     width: "100%",
                     marginTop: "10px",
@@ -113,10 +133,10 @@ export default function ScanIn() {
                 flexDirection: "column",
               }}
             >
-              <Table sx={{ maxWidth: "100vw" }}>
+              <Typography variant="h6">Recent Scanned Mail</Typography>
+              <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>ID</TableCell>
                     <TableCell>Tracking Number</TableCell>
                     <TableCell>Mail Type</TableCell>
                     <TableCell>Date Scanned</TableCell>
@@ -124,11 +144,11 @@ export default function ScanIn() {
                 </TableHead>
                 <TableBody>
                   {mailList
-                    .slice(0)
+                    .slice()
                     .reverse()
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((m) => (
                       <TableRow key={m.externalMailID}>
-                        <TableCell>{m.externalMailID}</TableCell>
                         {/* If tracking number is longer than 30 characters, truncate and apend ...*/}
                         <TableCell>
                           {m.trackingNo.length > 30
@@ -137,16 +157,30 @@ export default function ScanIn() {
                         </TableCell>
                         <TableCell>{m.mailType}</TableCell>
                         <TableCell>
-                          {format(
+                          {formatInTimeZone(
                             parseISO(m.dateCreated),
-                            "dd/MM/yyyy,  HH:mm",
-                            nz
+                            "dd/MM/yyyy,  kk:mm",
+                            "Pacific/Auckland",  
                           )}
                         </TableCell>
                       </TableRow>
                     ))}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
                 </TableBody>
               </Table>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={mailList.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             </Paper>
           </Grid>
         </Grid>

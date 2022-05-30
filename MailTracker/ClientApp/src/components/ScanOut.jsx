@@ -1,52 +1,197 @@
-import { CssBaseline, Typography } from "@mui/material";
+import {
+  Typography,
+  Container,
+  Grid,
+  Paper,
+  CssBaseline,
+  TextField,
+  Button,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TablePagination,
+} from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";
+import createAPIEndpoint from "../api";
+import { format, parseISO } from "date-fns";
+import enNZ from "date-fns/locale/en-NZ";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
-const ScanOut = () => {
-  return (
-    <Box
-      component="main"
-      sx={{ flexGrow: 1, p: 3, marginLeft: { sm: 30, xs: 0 } }}
-    >
-      <CssBaseline />
-      <DrawerHeader />
-      <h1>ScanOut ScanOut</h1>
-      <Typography paragraph>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus
-        non enim praesent elementum facilisis leo vel. Risus at ultrices mi
-        tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non
-        tellus. Convallis convallis tellus id interdum velit laoreet id donec
-        ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl
-        suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod
-        quis viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet
-        proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt. Cras
-        tincidunt lobortis feugiat vivamus at augue. At augue eget arcu dictum
-        varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt.
-        Lorem donec massa sapien faucibus et molestie ac.
-      </Typography>
-      <Typography paragraph>
-        Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-        ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar elementum
-        integer enim neque volutpat ac tincidunt. Ornare suspendisse sed nisi
-        lacus sed viverra tellus. Purus sit amet volutpat consequat mauris.
-        Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-        vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra
-        accumsan in. In hendrerit gravida rutrum quisque non tellus orci ac.
-        Pellentesque nec nam aliquam sem et tortor. Habitant morbi tristique
-        senectus et. Adipiscing elit duis tristique sollicitudin nibh sit.
-        Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra
-        maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin
-        aliquam ultrices sagittis orci a.
-      </Typography>
-    </Box>
-  );
+const initialValues = {
+  mailType: "Mail Out",
+  trackingNumber: "",
+  dateCreated: new Date(),
 };
 
-export default ScanOut;
+export default function ScanOut() {
+  //Scanning In
+  const trackingInput = useRef();
+  const [values, setValues] = useState(initialValues);
+  const [mailList, setMailList] = useState([]);
+
+  //Pagination
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, mailList.length - page * rowsPerPage);
+
+  useEffect(() => {
+    getMailList();
+  }, []);
+
+  const getMailList = () => {
+    createAPIEndpoint("ExternalMails")
+      .fetchAll()
+      .then((res) => {
+        setMailList(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    //Create new object
+    let item = {
+      mailType: values.mailType,
+      trackingNo: values.trackingNumber,
+      dateCreated: values.dateCreated,
+    };
+    //Add to db
+    await createAPIEndpoint("ExternalMails").create(item);
+    await getMailList();
+    values.trackingNumber = "";
+    trackingInput.current.focus();
+  }
+
+  return (
+    <Box component="main" sx={{ flexGrow: 1, marginLeft: { sm: 30, xs: 0 } }}>
+      <CssBaseline />
+      <DrawerHeader />
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Typography variant="h6">Scan Mail Out</Typography>
+
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  autoFocus
+                  variant="outlined"
+                  label="Tracking Number"
+                  name="trackingNumber"
+                  value={values.trackingNumber}
+                  onChange={handleInputChange}
+                  inputRef={trackingInput}
+                  sx={{
+                    width: "100%",
+                    marginTop: "10px",
+                    marginBottom: "15px",
+                  }}
+                />
+
+                <center>
+                  <Button variant="contained" onClick={handleSubmit}>
+                    Save Mail
+                  </Button>
+                </center>
+              </form>
+            </Paper>
+          </Grid>
+
+          {/* TABLE */}
+          <Grid item xs={12}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Typography variant="h6">Recent Scanned Mail</Typography>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Tracking Number</TableCell>
+                    <TableCell>Mail Type</TableCell>
+                    <TableCell>Date Scanned</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {mailList
+                    .slice()
+                    .reverse()
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((m) => (
+                      <TableRow key={m.externalMailID}>
+                        {/* If tracking number is longer than 30 characters, truncate and apend ...*/}
+                        <TableCell>
+                          {m.trackingNo.length > 30
+                            ? `${m.trackingNo.substring(0, 30)}...`
+                            : m.trackingNo}
+                        </TableCell>
+                        <TableCell>{m.mailType}</TableCell>
+                        <TableCell>
+                          {format(
+                            parseISO(m.dateCreated),
+                            "dd/MM/yyyy,  HH:mm",
+                            enNZ
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={mailList.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
+}
