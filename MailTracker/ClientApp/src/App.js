@@ -7,37 +7,7 @@ import ScanIn from "./components/ScanIn";
 import { blue,  grey } from "@mui/material/colors";
 
 import { ThemeProvider } from '@mui/material/styles';
-import Search from "./components/Search";
-
-/*function App() {
-  const [mode, setMode] = useState("light");
-
-  const darkTheme = createTheme ({
-    palette: {
-      primary: {
-        main: "#00465D",
-      },
-      mode: mode
-    }
-
-  });
- 
-  return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <Box bgcolor={"background.default"} color={"text.primary"}>
-        <Wrapper setMode={setMode} mode={mode}/> 
-        <Routes>
-          <Route path="/" element={<ScanIn setMode={setMode} mode={mode} />} /> 
-          <Route path="/scanout" element={<ScanOut setMode={setMode} mode={mode} />} /> 
-        </Routes>
-      </Box>
-    </ThemeProvider>
-  );
-}
-
-export default App;*/
-
+import Search from "./components/Search"; 
 
 const getDesignTokens = (mode) => ({
   palette: {

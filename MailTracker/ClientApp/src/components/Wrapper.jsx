@@ -1,31 +1,50 @@
 import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton"; 
+import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText"; 
+import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Avatar, Link, ListSubheader, Menu, MenuItem, Stack, Switch, Tooltip } from "@mui/material";
+import {
+  Avatar,
+  ListSubheader,
+  Menu,
+  MenuItem,
+  Switch, 
+} from "@mui/material";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import SearchIcon from "@mui/icons-material/Search";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import PersonIcon from "@mui/icons-material/Person";
-import PeopleIcon from "@mui/icons-material/People"; 
-import DarkModeIcon from "@mui/icons-material/DarkMode"; 
+import PeopleIcon from "@mui/icons-material/People";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { useNavigate } from "react-router-dom";
+import { styled } from "@mui/material/styles";
 
 const drawerWidth = 240;
 
-function Wrapper({mode, setMode},props) {
+const HtmlTooltip = styled(({ className, ...props }) => (
+  <Tooltip placement="right-start" {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "white",
+    color: "rgba(0, 0, 0, 0.87)",
+    maxWidth: 220,
+    fontSize: theme.typography.pxToRem(13),
+    border: "1px solid #dadde9", 
+  },
+}));
+
+function Wrapper({ mode, setMode }, props) {
   let navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -34,9 +53,8 @@ function Wrapper({mode, setMode},props) {
     setMobileOpen(!mobileOpen);
   };
 
-  
   //Profile settings
-  const settings = ['Profile', 'Logout'];
+  const settings = ["Profile", "Logout"];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -65,44 +83,104 @@ function Wrapper({mode, setMode},props) {
           Menu
         </ListSubheader>
         <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate("/");
-            }}
+          <HtmlTooltip
+            title={
+              <React.Fragment>
+                <Typography color="inherit">Scan all Incoming mail</Typography>
+                {"1. Select"}{" "}
+                <b>
+                  <u>Product Type</u>
+                </b>{" "}
+                {"from dropdown"}
+                <br />
+                {"2. Scan"}{" "}
+                <b>
+                  <u>Tracking Number</u>
+                </b>
+              </React.Fragment>
+            }
           >
-            <ListItemIcon>
-              <QrCodeScannerIcon />
-            </ListItemIcon>
-            <ListItemText primary="Scan Mail In" />
-          </ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              <ListItemIcon>
+                <QrCodeScannerIcon />
+              </ListItemIcon>
+              <ListItemText primary="Scan Incoming Mail" />
+            </ListItemButton>
+          </HtmlTooltip>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate("/scanout");
-            }}
+          <HtmlTooltip
+            title={
+              <React.Fragment>
+                <Typography color="inherit">Scan all Outgoing mail</Typography>
+                {"1. Select"}{" "}
+                <b>
+                  <u>Product Type</u>
+                </b>{" "}
+                {"from dropdown"}
+                <br />
+                {"2. Scan"}{" "}
+                <b>
+                  <u>Tracking Number</u>
+                </b>
+              </React.Fragment>
+            }
           >
-            <ListItemIcon>
-              <DocumentScannerIcon />
-            </ListItemIcon>
-            <ListItemText primary="Scan Mail Out" />
-          </ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                navigate("/scanout");
+              }}
+            >
+              <ListItemIcon>
+                <DocumentScannerIcon />
+              </ListItemIcon>
+              <ListItemText primary="Scan Outgoing Mail" />
+            </ListItemButton>
+          </HtmlTooltip>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton component="a" href="/search">
-            <ListItemIcon>
-              <SearchIcon />
-            </ListItemIcon>
-            <ListItemText primary="Search Mail" />
-          </ListItemButton>
+          <HtmlTooltip
+            title={
+              <React.Fragment>
+                <Typography color="inherit">
+                  Search Incoming/Outgoing Mail
+                </Typography>
+                {
+                  "by Tracking Number, Product Type, Mail incoming/outgoing or Date scanned."
+                }
+              </React.Fragment>
+            }
+          >
+            <ListItemButton component="a" href="/search">
+              <ListItemIcon>
+                <SearchIcon />
+              </ListItemIcon>
+              <ListItemText primary="Search Mail" />
+            </ListItemButton>
+          </HtmlTooltip>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton component="a" href="/internalmail">
-            <ListItemIcon>
-              <ContactMailIcon />
-            </ListItemIcon>
-            <ListItemText primary="Internal Mail" />
-          </ListItemButton>
+          <HtmlTooltip
+            title={
+              <React.Fragment>
+                <Typography color="inherit">
+                  Sort Mail going to other teams
+                </Typography>
+                {"Not yet implemented..."}
+              </React.Fragment>
+            }
+          >
+            <ListItemButton component="a" href="/internalmail">
+              <ListItemIcon>
+                <ContactMailIcon />
+              </ListItemIcon>
+              <ListItemText primary="Internal Mail" />
+            </ListItemButton>
+          </HtmlTooltip>
         </ListItem>
         <br />
         <Divider />
@@ -143,15 +221,14 @@ function Wrapper({mode, setMode},props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}> 
-      <AppBar 
+    <Box sx={{ display: "flex" }}>
+      <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(0100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-
         <Toolbar>
           <IconButton
             color="inherit"
@@ -162,28 +239,28 @@ function Wrapper({mode, setMode},props) {
           >
             <MenuIcon />
           </IconButton>
-           
-          <Typography variant="h6"  component="div" sx={{ flexGrow: 1 }}>
+
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Mail Tracker
-          </Typography>  
+          </Typography>
           <Box alignContent="flex-end">
-          <Tooltip title="Open settings">
-              <IconButton  onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Chesda" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '42px' }}
+              sx={{ mt: "42px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
@@ -194,8 +271,8 @@ function Wrapper({mode, setMode},props) {
                 </MenuItem>
               ))}
             </Menu>
-            </Box>
-        </Toolbar> 
+          </Box>
+        </Toolbar>
       </AppBar>
       <Box
         component="nav"
@@ -238,5 +315,5 @@ function Wrapper({mode, setMode},props) {
     </Box>
   );
 }
- 
+
 export default Wrapper;
