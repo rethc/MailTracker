@@ -19,6 +19,7 @@ import { styled } from "@mui/material/styles";
 import createAPIEndpoint from "../api";
 import { format, parseISO } from "date-fns";
 import enNZ from "date-fns/locale/en-NZ";
+import Copyright from "./Copyright";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
@@ -60,8 +61,7 @@ export default function ScanOut() {
     createAPIEndpoint("ExternalMails")
       .fetchAll()
       .then((res) => {
-        setMailList(res.data);
-        console.log(res.data);
+        setMailList(res.data); 
       })
       .catch((err) => console.log(err));
   };
@@ -191,6 +191,7 @@ export default function ScanOut() {
             </Paper>
           </Grid>
         </Grid>
+        <Copyright sx={{ pt: 4 }} />
       </Container>
     </Box>
   );

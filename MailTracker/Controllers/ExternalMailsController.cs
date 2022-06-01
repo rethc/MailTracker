@@ -42,6 +42,29 @@ namespace MailTracker.Controllers
             return externalMail;
         }
 
+        /*GET: api/ExternalMails/<search>
+        [HttpGet("{search}")]
+        public async Task<ActionResult<IEnumerable<ExternalMail>>> GetTrackingNumber(string search)
+        {
+            try
+            {
+                var result = await _context.GetTrackingNumber(search);
+
+                if (result.Any())
+                {
+                    return Ok(result);
+                }
+
+                return NotFound();
+
+            }
+            catch(Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ),);
+
+            }
+         }*/
+
         // PUT: api/ExternalMails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -104,5 +127,6 @@ namespace MailTracker.Controllers
         {
             return _context.ExternalMails.Any(e => e.ExternalMailID == id);
         }
+
     }
 }

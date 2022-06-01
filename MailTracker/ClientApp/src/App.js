@@ -7,6 +7,7 @@ import ScanIn from "./components/ScanIn";
 import { blue,  grey } from "@mui/material/colors";
 
 import { ThemeProvider } from '@mui/material/styles';
+import Search from "./components/Search";
 
 /*function App() {
   const [mode, setMode] = useState("light");
@@ -93,8 +94,9 @@ function App() {
       <Box>
         <Wrapper setMode={setMode} mode={mode} />
         <Routes>
-          <Route path="/" element={<ScanIn setMode={setMode} mode={mode} />} />
-          <Route path="/scanout" element={<ScanOut setMode={setMode} mode={mode} />} />
+          <Route path="/" element={<ScanIn />} />
+          <Route path="/scanout" element={<ScanOut />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </Box>
       </ThemeProvider>

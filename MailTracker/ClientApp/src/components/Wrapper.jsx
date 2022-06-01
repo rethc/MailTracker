@@ -1,4 +1,4 @@
-import * as React from "react"; 
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,7 +13,7 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { ListSubheader, Switch } from "@mui/material";
+import { Avatar, Link, ListSubheader, Menu, MenuItem, Stack, Switch, Tooltip } from "@mui/material";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import SearchIcon from "@mui/icons-material/Search";
@@ -28,9 +28,31 @@ const drawerWidth = 240;
 function Wrapper({mode, setMode},props) {
   let navigate = useNavigate();
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false); 
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  
+  //Profile settings
+  const settings = ['Profile', 'Logout'];
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   const drawer = (
@@ -129,6 +151,7 @@ function Wrapper({mode, setMode},props) {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
+
         <Toolbar>
           <IconButton
             color="inherit"
@@ -139,10 +162,40 @@ function Wrapper({mode, setMode},props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+           
+          <Typography variant="h6"  component="div" sx={{ flexGrow: 1 }}>
             Mail Tracker
-          </Typography>
-        </Toolbar>
+          </Typography>  
+          <Box alignContent="flex-end">
+          <Tooltip title="Open settings">
+              <IconButton  onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Chesda" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '42px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+            </Box>
+        </Toolbar> 
       </AppBar>
       <Box
         component="nav"

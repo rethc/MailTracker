@@ -3,9 +3,10 @@ import { Box } from '@mui/system';
 import React, { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";  
 import createAPIEndpoint from "../api";  
-import { format, utcToZonedTime } from "date-fns-tz"; 
-import { parseISO } from "date-fns";
+import { format, utcToZonedTime, zonedTimeToUtc } from "date-fns-tz"; 
+import { parseISO, parse } from "date-fns";
 import enNZ from "date-fns/locale/en-NZ";
+import Copyright from "./Copyright";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
@@ -38,8 +39,6 @@ export default function ScanIn() {
   };
 
 
-  const formatInTimeZone = (date, fmt, tz) =>
-    format(utcToZonedTime(date, tz), fmt, { timeZone: tz });
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, mailList.length - page * rowsPerPage);
@@ -54,7 +53,6 @@ export default function ScanIn() {
          .fetchAll()
          .then((res) => {
            setMailList(res.data);
-           console.log(res.data);
          })
          .catch((err) => console.log(err));
      };
@@ -64,6 +62,7 @@ export default function ScanIn() {
       setValues({
         ...values,
         [name]: value,
+ 
       });
     }; 
 
@@ -76,9 +75,11 @@ export default function ScanIn() {
       trackingNo: values.trackingNumber,
       dateCreated: values.dateCreated,
     };
+    console.log(item);
     //Add to db
     await createAPIEndpoint("ExternalMails").create(item);
     await getMailList();
+    console.log(item)
     values.trackingNumber = "";
     trackingInput.current.focus(); 
   }
@@ -100,6 +101,19 @@ export default function ScanIn() {
               <Typography variant="h6">Scan Mail In</Typography>
 
               <form onSubmit={handleSubmit}>
+                <Grid container>
+                <Grid >
+                <TextField
+                   
+                  variant="outlined"
+                  label="Mail Type"
+                  name="trackingNumber"
+                  value={values.trackingNumber}
+                  onChange={handleInputChange}
+                  inputRef={trackingInput} 
+                />
+                </Grid> 
+                 <Grid >
                 <TextField
                   autoFocus
                   variant="outlined"
@@ -109,12 +123,11 @@ export default function ScanIn() {
                   onChange={handleInputChange}
                   inputRef={trackingInput}
                   sx={{
-                    width: "100%",
-                    marginTop: "10px",
-                    marginBottom: "15px",
+                    width: "100%"
                   }}
                 />
-
+                </Grid> 
+              </Grid>
                 <center>
                   <Button variant="contained" onClick={handleSubmit}>
                     Save Mail
@@ -157,11 +170,11 @@ export default function ScanIn() {
                         </TableCell>
                         <TableCell>{m.mailType}</TableCell>
                         <TableCell>
-                          {formatInTimeZone(
-                            parseISO(m.dateCreated),
-                            "dd/MM/yyyy,  kk:mm",
-                            "Pacific/Auckland",  
-                          )}
+                          {
+                          
+                          format(zonedTimeToUtc(parseISO(m.dateCreated), "UTC"), "dd/MM/yyyy hh:mm aaa")
+                         
+                          }
                         </TableCell>
                       </TableRow>
                     ))}
@@ -184,6 +197,7 @@ export default function ScanIn() {
             </Paper>
           </Grid>
         </Grid>
+        <Copyright sx={{ pt: 4 }} />
       </Container>
     </Box>
   );
