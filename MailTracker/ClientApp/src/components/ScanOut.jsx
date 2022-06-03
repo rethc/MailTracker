@@ -22,8 +22,7 @@ import { styled } from "@mui/material/styles";
 import createAPIEndpoint from "../api";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
-import Copyright from "./Copyright";
-import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
+import Copyright from "./Copyright"; 
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
@@ -168,16 +167,11 @@ export default function ScanOut() {
                     />
                   </Grid>
                 </Grid>
-                <center>
-                  <Button
-                    startIcon={<ArrowCircleUpIcon />}
-                    variant="contained"
+                <button
+                  hidden
                     onClick={handleSubmit}
                     type="submit"
-                  >
-                    Scan Out
-                  </Button>
-                </center>
+                  /> 
               </form>
             </Paper>
           </Grid>

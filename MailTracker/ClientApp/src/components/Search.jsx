@@ -18,11 +18,14 @@ import { Box } from "@mui/system";
 import React, { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import createAPIEndpoint from "../api";
-import { format, parseISO } from "date-fns";
+import { format, zonedTimeToUtc } from "date-fns-tz";
+import { parseISO } from "date-fns";
 import enNZ from "date-fns/locale/en-NZ";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Copyright from "./Copyright";
+
+import MUIDataTable from "mui-datatables";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
@@ -92,7 +95,6 @@ export default function Search() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     //Create new object
     let item = {
       mailType: values.mailType,
@@ -104,14 +106,87 @@ export default function Search() {
     await getMailList();
     values.trackingNumber = "";
     trackingInput.current.focus();
-  }
+  } 
 
+  const columns = [
+    {
+      name: "trackingNo",
+      label: "Tracking Number",
+      options: {
+        filter: false,
+        sort: true,
+      }
+    },
+    {
+      name: "productType",
+      label: "Product Type",
+      options: {
+        filter: true,
+        sort: false,
+      }
+    },
+    {
+      name: "mailType",
+      label: "Mail Type",
+      options: {
+        filter: true,
+        sort: false,
+      }
+    },
+    {
+      name: "dateCreated",
+      label: "Date Scanned",
+      options: {
+        filter: true,
+        sort: true,
+        filterOptions: {
+          logic(dateCreated, filters)
+          {
+            return false;
+          }
+        }
+      }
+    }
+  ];
+ 
+  const data = mailList.map(mail => {  
+    return {
+        trackingNo: mail.trackingNo,
+        productType: mail.productType,
+        mailType: mail.mailType,
+        dateCreated:  format(
+          zonedTimeToUtc(parseISO(mail.dateCreated), "UTC"),
+          "dd/MM/yyyy hh:mm aaa"
+        )
+    }
+  }).slice()
+  .reverse()
+
+  const options = {
+    filterType: 'checkbox', 
+    customToolbarSelect: () => {}
+  };
+   
   return (
     <Box component="main" sx={{ flexGrow: 1, marginLeft: { sm: 30, xs: 0 } }}>
       <CssBaseline />
       <DrawerHeader />
-      <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-        <Grid container spacing={3} sx={{ width: "100%" }}>
+      <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}> 
+        <MUIDataTable
+          title={"External Mail List"}
+          data={data}
+          columns={columns} 
+          options={options}
+        /> 
+        <Copyright sx={{ pt: 4 }} />
+      </Container>
+    </Box>
+  );
+}
+   {/* Search Function */}
+            {/*
+          
+        <Grid sx={{ width: "100%" }}>
           <Grid item xs={12}>
             <Paper
               sx={{
@@ -123,7 +198,7 @@ export default function Search() {
               <Typography variant="h6">Search Mail</Typography>
 
               <form onSubmit={handleSubmit}>
-                {/* Tracking Number */}
+                //Tracking Number 
                 <TextField
                   variant="outlined"
                   label="Tracking Number"
@@ -132,7 +207,7 @@ export default function Search() {
                   onChange={handleInputChange}
                 />
 
-                {/* Mail Type */}
+               
                 <TextField
                   select
                   variant="outlined"
@@ -151,7 +226,6 @@ export default function Search() {
                     Mail Out
                   </MenuItem>
                 </TextField>
-                {/* Date Picker */}
 
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DesktopDatePicker
@@ -169,9 +243,10 @@ export default function Search() {
                 </center>
               </form>
             </Paper>
-          </Grid>
+          </Grid>  
 
-          {/* TABLE */}
+          {/* TABLE 
+
           <Grid item xs={12}>
             <Paper
               sx={{
@@ -180,6 +255,14 @@ export default function Search() {
                 flexDirection: "column",
               }}
             >
+                    <Typography
+          sx={{ flex: '1 1 100%' }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          External Mail List
+        </Typography>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -221,9 +304,4 @@ export default function Search() {
               />
             </Paper>
           </Grid>
-        </Grid>
-        <Copyright sx={{ pt: 4 }} />
-      </Container>
-    </Box>
-  );
-}
+          */}

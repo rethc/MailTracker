@@ -155,7 +155,9 @@ function Wrapper({ mode, setMode }, props) {
               </React.Fragment>
             }
           >
-            <ListItemButton component="a" href="/search">
+            <ListItemButton        onClick={() => {
+                navigate("/search");
+              }}>
               <ListItemIcon>
                 <SearchIcon />
               </ListItemIcon>
@@ -174,7 +176,11 @@ function Wrapper({ mode, setMode }, props) {
               </React.Fragment>
             }
           >
-            <ListItemButton component="a" href="/internalmail">
+            <ListItemButton        onClick={() => {
+                navigate("/non");
+              }}>
+
+              
               <ListItemIcon>
                 <ContactMailIcon />
               </ListItemIcon>
@@ -220,13 +226,14 @@ function Wrapper({ mode, setMode }, props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  return (
+  return ( 
     <Box sx={{ display: "flex" }}>
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(0100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          backgroundImage: 'url(https://raw.githubusercontent.com/rethc/rethc/main/weave.png)'    
         }}
       >
         <Toolbar>
@@ -312,7 +319,7 @@ function Wrapper({ mode, setMode }, props) {
           {drawer}
         </Drawer>
       </Box>
-    </Box>
+    </Box> 
   );
 }
 
