@@ -44,31 +44,27 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
+ 
+
 function Wrapper({ mode, setMode }, props) {
   let navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   //Profile settings
-  const settings = ["Profile", "Logout"];
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const settings = ["Profile", "Logout"]; 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+ 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
+ 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -226,14 +222,19 @@ function Wrapper({ mode, setMode }, props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  return ( 
+              
+
+  return (
     <Box sx={{ display: "flex" }}>
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(0100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          backgroundImage: 'url(https://raw.githubusercontent.com/rethc/rethc/main/weave.png)'    
+          backgroundImage:
+            mode === "light"
+              ? "url(https://raw.githubusercontent.com/rethc/rethc/main/weave1.png)"
+              : "url(https://raw.githubusercontent.com/rethc/rethc/main/weave1_bw.png)",
         }}
       >
         <Toolbar>
@@ -319,7 +320,7 @@ function Wrapper({ mode, setMode }, props) {
           {drawer}
         </Drawer>
       </Box>
-    </Box> 
+    </Box>
   );
 }
 

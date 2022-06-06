@@ -1,26 +1,13 @@
-import {
-  Typography,
-  Container,
-  Grid,
-  Paper,
-  CssBaseline,
-  TextField,
-  Button,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TablePagination,
-  MenuItem,
+import { 
+  Container, 
+  CssBaseline, 
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import createAPIEndpoint from "../api";
 import { format, zonedTimeToUtc } from "date-fns-tz";
-import { parseISO } from "date-fns";
-import enNZ from "date-fns/locale/en-NZ";
+import { parseISO } from "date-fns"; 
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Copyright from "./Copyright";
@@ -45,10 +32,7 @@ export default function Search() {
   const [mailType, setMailType] = useState("Any");
 
   const [dateValue, setDateValue] = useState(null);
-  {
-    new Date();
-  }
-
+ 
   const handleDate = (newValue) => {
     setDateValue(newValue);
   };
@@ -182,126 +166,4 @@ export default function Search() {
       </Container>
     </Box>
   );
-}
-   {/* Search Function */}
-            {/*
-          
-        <Grid sx={{ width: "100%" }}>
-          <Grid item xs={12}>
-            <Paper
-              sx={{
-                p: 2,
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <Typography variant="h6">Search Mail</Typography>
-
-              <form onSubmit={handleSubmit}>
-                //Tracking Number 
-                <TextField
-                  variant="outlined"
-                  label="Tracking Number"
-                  name="trackingNumber"
-                  value={values.trackingNumber}
-                  onChange={handleInputChange}
-                />
-
-               
-                <TextField
-                  select
-                  variant="outlined"
-                  label="Mail Type"
-                  name="Mail Type"
-                  value={mailType}
-                  onChange={handleSelect}
-                >
-                  <MenuItem key="Any" value="Any">
-                    Any
-                  </MenuItem>
-                  <MenuItem key="Mail In" value="Mail In">
-                    Mail In
-                  </MenuItem>
-                  <MenuItem key="Mail Out" value="Mail Out">
-                    Mail Out
-                  </MenuItem>
-                </TextField>
-
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DesktopDatePicker
-                    value={dateValue}
-                    onChange={handleDate}
-                    renderInput={(params) => <TextField {...params} />}
-                    label="Search by Date"
-                    inputFormat="dd/MM/yyyy"
-                  />
-                </LocalizationProvider>
-                <center>
-                  <Button variant="contained" onClick={handleSubmit}>
-                    Search
-                  </Button>
-                </center>
-              </form>
-            </Paper>
-          </Grid>  
-
-          {/* TABLE 
-
-          <Grid item xs={12}>
-            <Paper
-              sx={{
-                p: 2,
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-                    <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          External Mail List
-        </Typography>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Tracking Number</TableCell>
-                    <TableCell>Product Type</TableCell>
-                    <TableCell>Mail Type</TableCell>
-                    <TableCell>Date Scanned</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {mailList
-                    .slice()
-                    .reverse()
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((m) => (
-                      <TableRow key={m.externalMailID}>
-                        <TableCell>{m.trackingNo}</TableCell>
-                        <TableCell>{m.productType}</TableCell>
-                        <TableCell>{m.mailType}</TableCell>
-                        <TableCell>
-                          {format(
-                            parseISO(m.dateCreated),
-                            "dd/MM/yyyy,  HH:mm",
-                            enNZ
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={mailList.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Paper>
-          </Grid>
-          */}
+} 
