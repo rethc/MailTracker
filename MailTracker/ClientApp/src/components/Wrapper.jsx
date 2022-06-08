@@ -257,7 +257,7 @@ function Wrapper({ mode, setMode }, props) {
           <Box alignContent="flex-end">
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Chesda" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Chesda"/>
               </IconButton>
             </Tooltip>
             <Menu

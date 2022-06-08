@@ -23,9 +23,7 @@ const initialValues = {
   dateCreated: new Date(),
 };
 
-export default function Search() {
-  const trackingInput = useRef();
-  const [values, setValues] = useState(initialValues);
+export default function Search() { 
   const [mailList, setMailList] = useState([]);
 
   useEffect(() => {
