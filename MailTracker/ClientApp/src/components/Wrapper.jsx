@@ -151,9 +151,11 @@ function Wrapper({ mode, setMode }, props) {
               </React.Fragment>
             }
           >
-            <ListItemButton        onClick={() => {
+            <ListItemButton
+              onClick={() => {
                 navigate("/search");
-              }}>
+              }}
+            >
               <ListItemIcon>
                 <SearchIcon />
               </ListItemIcon>
@@ -172,11 +174,11 @@ function Wrapper({ mode, setMode }, props) {
               </React.Fragment>
             }
           >
-            <ListItemButton        onClick={() => {
+            <ListItemButton
+              onClick={() => {
                 navigate("/non");
-              }}>
-
-              
+              }}
+            >
               <ListItemIcon>
                 <ContactMailIcon />
               </ListItemIcon>
@@ -210,7 +212,7 @@ function Wrapper({ mode, setMode }, props) {
             <ListItemIcon>
               <DarkModeIcon />
             </ListItemIcon>
-            <Switch
+            <Switch 
               onChange={() => setMode(mode === "light" ? "dark" : "light")}
             />
           </ListItemButton>

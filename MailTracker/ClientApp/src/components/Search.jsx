@@ -1,6 +1,11 @@
 import { 
+  Checkbox,
   Container, 
-  CssBaseline, 
+  CssBaseline,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
+  TextField, 
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState, useEffect, useRef } from "react";
@@ -8,7 +13,7 @@ import { styled } from "@mui/material/styles";
 import createAPIEndpoint from "../api";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns"; 
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker, DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Copyright from "./Copyright";
 
@@ -30,6 +35,8 @@ export default function Search() {
   const [values, setValues] = useState(initialValues);
   const [mailList, setMailList] = useState([]);
   const [mailType, setMailType] = useState("Any");
+
+    const [value, setValue] = React.useState(null);
 
   const [dateValue, setDateValue] = useState(null);
  
@@ -99,7 +106,7 @@ export default function Search() {
       options: {
         filter: false,
         sort: true,
-      }
+      },
     },
     {
       name: "productType",
@@ -107,7 +114,7 @@ export default function Search() {
       options: {
         filter: true,
         sort: false,
-      }
+      },
     },
     {
       name: "mailType",
@@ -115,22 +122,52 @@ export default function Search() {
       options: {
         filter: true,
         sort: false,
-      }
+      },
     },
     {
       name: "dateCreated",
       label: "Date Scanned",
       options: {
         filter: true,
-        sort: true,
+        filterType: "custom",
+        customFilterListOptions: {},
+        update: (filterList, filterPos, index) => {
+          console.log(
+            "customFilterListOnDelete: ",
+            filterList,
+            filterPos,
+            index
+          );
+        },
         filterOptions: {
-          logic(dateCreated, filters)
-          {
+          names: [],
+          logic(date, filters) {
+            if (filters[0] && filters[1]) {
+              return date < filters[0] || date > filters[1];
+            } else if (filters[0]) {
+              return date < filters[0];
+            } else if (filters[1]) {
+              return date > filters[1];
+            }
             return false;
-          }
-        }
-      }
-    }
+          },
+          display: (filterList, onChange, index, column) => (
+            <div>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  label="Basic example"
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </div>
+          ),
+        },
+      },
+    },
   ];
  
   const data = mailList.map(mail => {  
@@ -148,7 +185,7 @@ export default function Search() {
 
   const options = {
     filterType: 'checkbox', 
-    customToolbarSelect: () => {}
+    customToolbarSelect: () => {}, 
   };
    
   return (
