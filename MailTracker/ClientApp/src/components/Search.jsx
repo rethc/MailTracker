@@ -8,8 +8,6 @@ import { styled } from "@mui/material/styles";
 import createAPIEndpoint from "../api";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns"; 
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Copyright from "./Copyright";
 
 import MUIDataTable from "mui-datatables";
@@ -30,19 +28,6 @@ export default function Search() {
   const [values, setValues] = useState(initialValues);
   const [mailList, setMailList] = useState([]);
 
-  const [dateValue, setDateValue] = useState(null);
- 
-  const handleDate = (newValue) => {
-    setDateValue(newValue);
-  };
-
-  //Pagination
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
-
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, mailList.length - page * rowsPerPage);
-
   useEffect(() => {
     getMailList();
   }, []);
@@ -55,29 +40,6 @@ export default function Search() {
       })
       .catch((err) => console.log(err));
   };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
-  };
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    //Create new object
-    let item = {
-      mailType: values.mailType,
-      trackingNo: values.trackingNumber,
-      dateCreated: values.dateCreated,
-    };
-    //Add to db
-    await createAPIEndpoint("ExternalMails").create(item);
-    await getMailList();
-    values.trackingNumber = "";
-    trackingInput.current.focus();
-  } 
 
   const columns = [
     {
