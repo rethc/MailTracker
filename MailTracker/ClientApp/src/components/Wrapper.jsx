@@ -27,6 +27,8 @@ import ContactMailIcon from "@mui/icons-material/ContactMail";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
+import Weave from "../components/weave.png"
+import WeaveBW from "../components/weavebw.png";
 
 const drawerWidth = 240;
 
@@ -229,10 +231,7 @@ function Wrapper({ mode, setMode }, props) {
         sx={{
           width: { sm: `calc(0100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          backgroundImage:
-            mode === "light"
-              ? "url(https://raw.githubusercontent.com/rethc/rethc/main/weave1.png)"
-              : "url(https://raw.githubusercontent.com/rethc/rethc/main/weave1_bw.png)",
+          backgroundImage: mode === "light" ? `url(${Weave})` : `url(${WeaveBW})`,
         }}
       >
         <Toolbar>
@@ -252,7 +251,7 @@ function Wrapper({ mode, setMode }, props) {
           <Box alignContent="flex-end">
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Chesda"/>
+                <Avatar alt="Chesda" />
               </IconButton>
             </Tooltip>
             <Menu
