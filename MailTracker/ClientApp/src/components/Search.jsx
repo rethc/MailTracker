@@ -29,7 +29,6 @@ export default function Search() {
   const trackingInput = useRef();
   const [values, setValues] = useState(initialValues);
   const [mailList, setMailList] = useState([]);
-  const [mailType, setMailType] = useState("Any");
 
   const [dateValue, setDateValue] = useState(null);
  
@@ -40,18 +39,6 @@ export default function Search() {
   //Pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleSelect = (e) => {
-    setMailType(e.target.value);
-  };
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, mailList.length - page * rowsPerPage);
@@ -122,13 +109,7 @@ export default function Search() {
       label: "Date Scanned",
       options: {
         filter: true,
-        sort: true,
-        filterOptions: {
-          logic(dateCreated, filters)
-          {
-            return false;
-          }
-        }
+        sort: true
       }
     }
   ];
@@ -147,7 +128,7 @@ export default function Search() {
   .reverse()
 
   const options = {
-    filterType: 'checkbox', 
+    filterType: 'dropdown', 
     customToolbarSelect: () => {}
   };
    
