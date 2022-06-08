@@ -12,6 +12,9 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import Collapse from "@mui/material/Collapse";
 import {
   Avatar,
   ListSubheader,
@@ -53,15 +56,38 @@ function Wrapper({ mode, setMode }, props) {
     setMobileOpen(!mobileOpen);
   };
 
+  //Internal Mail
+    const [openMailMenu, setopenMailMenu] = React.useState(true);
+
+    const handleMailClick = () => {
+      setopenMailMenu(!openMailMenu);
+    };
+    
+    const internalMailLabel = [
+      { label: "Issuance 1" },
+      { label: "Issuance 2" },
+      { label: "Maintenance" },
+      { label: "Registrations" },
+      { label: "COS Team" },
+      { label: "Services 1" },
+      { label: "Services 2" },
+      { label: "Services 3" },
+      { label: "Services 4" },
+      { label: "Services 5" },
+      { label: "Services 6" },
+      { label: "Services 7" },
+      { label: "Certify" },
+      { label: "Translations" },
+      { label: "On Hold Mail" }
+    ];
+
+
   //Profile settings
   const settings = ["Profile", "Logout"]; 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
- 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
- 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -75,145 +101,143 @@ function Wrapper({ mode, setMode }, props) {
         <ListSubheader component="div" inset>
           Menu
         </ListSubheader>
-        <ListItem disablePadding>
-          <HtmlTooltip
-            title={
-              <React.Fragment>
-                <Typography color="inherit">Scan all Incoming mail</Typography>
-                {"1. Select"}{" "}
-                <b>
-                  <u>Product Type</u>
-                </b>{" "}
-                {"from dropdown"}
-                <br />
-                {"2. Scan"}{" "}
-                <b>
-                  <u>Tracking Number</u>
-                </b>
-              </React.Fragment>
-            }
+
+        {/* Scan Incoming Mail */}
+        <HtmlTooltip
+          title={
+            <React.Fragment>
+              <Typography color="inherit">Scan all Incoming mail</Typography>
+              {"1. Select"}{" "}
+              <b>
+                <u>Product Type</u>
+              </b>{" "}
+              {"from dropdown"}
+              <br />
+              {"2. Scan"}{" "}
+              <b>
+                <u>Tracking Number</u>
+              </b>
+            </React.Fragment>
+          }
+        >
+          <ListItemButton
+            onClick={() => {
+              navigate("/");
+            }}
           >
-            <ListItemButton
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              <ListItemIcon>
-                <QrCodeScannerIcon />
-              </ListItemIcon>
-              <ListItemText primary="Scan Incoming Mail" />
-            </ListItemButton>
-          </HtmlTooltip>
-        </ListItem>
-        <ListItem disablePadding>
-          <HtmlTooltip
-            title={
-              <React.Fragment>
-                <Typography color="inherit">Scan all Outgoing mail</Typography>
-                {"1. Select"}{" "}
-                <b>
-                  <u>Product Type</u>
-                </b>{" "}
-                {"from dropdown"}
-                <br />
-                {"2. Scan"}{" "}
-                <b>
-                  <u>Tracking Number</u>
-                </b>
-              </React.Fragment>
-            }
+            <ListItemIcon>
+              <QrCodeScannerIcon />
+            </ListItemIcon>
+            <ListItemText primary="Scan Incoming Mail" />
+          </ListItemButton>
+        </HtmlTooltip>
+
+        {/* Scan Outgoing Mail */}
+        <HtmlTooltip
+          title={
+            <React.Fragment>
+              <Typography color="inherit">Scan all Outgoing mail</Typography>
+              {"1. Select"}{" "}
+              <b>
+                <u>Product Type</u>
+              </b>{" "}
+              {"from dropdown"}
+              <br />
+              {"2. Scan"}{" "}
+              <b>
+                <u>Tracking Number</u>
+              </b>
+            </React.Fragment>
+          }
+        >
+          <ListItemButton
+            onClick={() => {
+              navigate("/scanout");
+            }}
           >
-            <ListItemButton
-              onClick={() => {
-                navigate("/scanout");
-              }}
-            >
-              <ListItemIcon>
-                <DocumentScannerIcon />
-              </ListItemIcon>
-              <ListItemText primary="Scan Outgoing Mail" />
-            </ListItemButton>
-          </HtmlTooltip>
-        </ListItem>
-        <ListItem disablePadding>
-          <HtmlTooltip
-            title={
-              <React.Fragment>
-                <Typography color="inherit">
-                  Search Incoming/Outgoing Mail
-                </Typography>
-                {
-                  "by Tracking Number, Product Type, Mail incoming/outgoing or Date scanned."
-                }
-              </React.Fragment>
-            }
+            <ListItemIcon>
+              <DocumentScannerIcon />
+            </ListItemIcon>
+            <ListItemText primary="Scan Outgoing Mail" />
+          </ListItemButton>
+        </HtmlTooltip>
+
+        {/* Search External Mail */}
+        <HtmlTooltip
+          title={
+            <React.Fragment>
+              <Typography color="inherit">
+                Search Incoming/Outgoing Mail
+              </Typography>
+              {
+                "by Tracking Number, Product Type, Mail incoming/outgoing or Date scanned."
+              }
+            </React.Fragment>
+          }
+        >
+          <ListItemButton
+            onClick={() => {
+              navigate("/search");
+            }}
           >
-            <ListItemButton
-              onClick={() => {
-                navigate("/search");
-              }}
-            >
-              <ListItemIcon>
-                <SearchIcon />
-              </ListItemIcon>
-              <ListItemText primary="Search Mail" />
-            </ListItemButton>
-          </HtmlTooltip>
-        </ListItem>
-        <ListItem disablePadding>
-          <HtmlTooltip
-            title={
-              <React.Fragment>
-                <Typography color="inherit">
-                  Sort Mail going to other teams
-                </Typography>
-                {"Not yet implemented..."}
-              </React.Fragment>
-            }
-          >
-            <ListItemButton
-              onClick={() => {
-                navigate("/non");
-              }}
-            >
-              <ListItemIcon>
-                <ContactMailIcon />
-              </ListItemIcon>
-              <ListItemText primary="Internal Mail" />
-            </ListItemButton>
-          </HtmlTooltip>
-        </ListItem>
-         {/*
+            <ListItemIcon>
+              <SearchIcon />
+            </ListItemIcon>
+            <ListItemText primary="Search Mail" />
+          </ListItemButton>
+        </HtmlTooltip>
+        {/* Internal Mail */}
+        <HtmlTooltip
+          title={
+            <React.Fragment>
+              <Typography color="inherit">
+                Search Incoming/Outgoing Mail
+              </Typography>
+              {"Not yet implemented."}
+            </React.Fragment>
+          }
+        >
+          <ListItemButton onClick={handleMailClick}>
+            <ListItemIcon>
+              <ContactMailIcon />
+            </ListItemIcon>
+            <ListItemText primary="Internal Mail" />
+            {openMailMenu ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+        </HtmlTooltip>
+        <Collapse in={openMailMenu} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {internalMailLabel.map((item) => (
+              <ListItemButton key={item.label} sx={{ py: 0, minHeight: 32 }}>
+                <ListItemText
+                  primary={item.label}
+                  primaryTypographyProps={{
+                    fontSize: 15,
+                    paddingLeft: 1,
+                  }}
+                />
+              </ListItemButton>
+            ))}
+          </List>
+        </Collapse>
+
+        {/* Dark Mode Toggle */}
         <br />
         <Divider />
         <ListSubheader component="div" inset>
           Settings
         </ListSubheader>
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/person">
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText primary="Staff" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/teams">
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Teams" />
-          </ListItemButton>
-        </ListItem> */}
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="/teams">
-            <ListItemIcon>
-              <DarkModeIcon />
-            </ListItemIcon>
-            <Switch 
-              onChange={() => setMode(mode === "light" ? "dark" : "light")}
-            />
-          </ListItemButton>
+        <ListItem>
+          <ListItemIcon>
+            <DarkModeIcon />
+          </ListItemIcon>
+          <Switch
+            edge="end"
+            onChange={() => setMode(mode === "light" ? "dark" : "light")}
+            inputProps={{
+              "aria-labelledby": "switch-list-label-darkmode",
+            }}
+          />
         </ListItem>
       </List>
     </div>
@@ -221,8 +245,6 @@ function Wrapper({ mode, setMode }, props) {
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
-
-              
 
   return (
     <Box sx={{ display: "flex" }}>
