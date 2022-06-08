@@ -186,6 +186,7 @@ function Wrapper({ mode, setMode }, props) {
             </ListItemButton>
           </HtmlTooltip>
         </ListItem>
+         {/*
         <br />
         <Divider />
         <ListSubheader component="div" inset>
@@ -206,7 +207,7 @@ function Wrapper({ mode, setMode }, props) {
             </ListItemIcon>
             <ListItemText primary="Teams" />
           </ListItemButton>
-        </ListItem>
+        </ListItem> */}
         <ListItem disablePadding>
           <ListItemButton component="a" href="/teams">
             <ListItemIcon>
