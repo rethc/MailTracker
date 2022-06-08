@@ -3,7 +3,7 @@ import {
   CssBaseline, 
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import createAPIEndpoint from "../api";
 import { format, zonedTimeToUtc } from "date-fns-tz";
@@ -16,12 +16,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
-
-const initialValues = {
-  mailType: "Mail Out",
-  trackingNumber: "",
-  dateCreated: new Date(),
-};
 
 export default function Search() { 
   const [mailList, setMailList] = useState([]);

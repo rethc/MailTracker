@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -24,8 +24,6 @@ import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import SearchIcon from "@mui/icons-material/Search";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
-import PersonIcon from "@mui/icons-material/Person";
-import PeopleIcon from "@mui/icons-material/People";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
@@ -44,13 +42,10 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
- 
-
 function Wrapper({ mode, setMode }, props) {
   let navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

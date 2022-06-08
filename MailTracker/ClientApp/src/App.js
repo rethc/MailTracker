@@ -9,9 +9,6 @@ import { blue,  grey } from "@mui/material/colors";
 import { ThemeProvider } from '@mui/material/styles';
 import Search from "./components/Search"; 
 
-//Testing background image
-import bgImage from "./components/Characters.svg"
-
 const getDesignTokens = (mode) => ({
   palette: {
     mode,
