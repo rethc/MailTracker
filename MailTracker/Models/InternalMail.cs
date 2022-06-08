@@ -16,11 +16,7 @@ namespace MailTrackerAPI.Models
 
         [DataType(DataType.DateTime)]
         public DateTime? DateCollected { get; set; }
-
-        public int ExternalMailID { get; set; }
-        public ExternalMail? ExternalMail { get; set; }
-        public int PersonID { get; set; }
-        public Person? Person { get; set; }
+         
         public int TeamID { get; set; }
         public Team? Team { get; set; }
 

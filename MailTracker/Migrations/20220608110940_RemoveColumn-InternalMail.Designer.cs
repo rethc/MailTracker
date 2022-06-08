@@ -4,6 +4,7 @@ using MailTrackerAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MailTracker.Migrations
 {
     [DbContext(typeof(MailTrackerDbContext))]
-    partial class MailTrackerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220608110940_RemoveColumn-InternalMail")]
+    partial class RemoveColumnInternalMail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,10 +76,15 @@ namespace MailTracker.Migrations
                     b.Property<DateTime?>("DateCollected")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("PersonID")
+                        .HasColumnType("int");
+
                     b.Property<int>("TeamID")
                         .HasColumnType("int");
 
                     b.HasKey("InternalMailID");
+
+                    b.HasIndex("PersonID");
 
                     b.HasIndex("TeamID");
 
@@ -122,11 +129,19 @@ namespace MailTracker.Migrations
 
             modelBuilder.Entity("MailTrackerAPI.Models.InternalMail", b =>
                 {
+                    b.HasOne("MailTrackerAPI.Models.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MailTrackerAPI.Models.Team", "Team")
                         .WithMany()
                         .HasForeignKey("TeamID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Person");
 
                     b.Navigation("Team");
                 });
