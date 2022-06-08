@@ -64,7 +64,7 @@ function Wrapper({ mode, setMode }, props) {
     };
     
     const internalMailLabel = [
-      { label: "Issuance 1" },
+      { label: "Issuance 1", navigate: "/issuance1" },
       { label: "Issuance 2" },
       { label: "Maintenance" },
       { label: "Registrations" },
@@ -78,9 +78,8 @@ function Wrapper({ mode, setMode }, props) {
       { label: "Services 7" },
       { label: "Certify" },
       { label: "Translations" },
-      { label: "On Hold Mail" }
+      { label: "On Hold Mail" },
     ];
-
 
   //Profile settings
   const settings = ["Profile", "Logout"]; 
@@ -208,7 +207,13 @@ function Wrapper({ mode, setMode }, props) {
         <Collapse in={openMailMenu} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {internalMailLabel.map((item) => (
-              <ListItemButton key={item.label} sx={{ py: 0, minHeight: 32 }}>
+              <ListItemButton
+                onClick={() => {
+                  navigate(item.navigate);
+                }}
+                key={item.label}
+                sx={{ py: 0, minHeight: 32 }}
+              >
                 <ListItemText
                   primary={item.label}
                   primaryTypographyProps={{
