@@ -14,13 +14,14 @@ import {
   MenuItem,
   CircularProgress,
   Box,
+  Chip, 
 } from "@mui/material";  
 import React, { useState, useEffect, useRef } from "react"; 
 import createAPIEndpoint from "../api";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
-import DrawerHeader from "./DrawerHeader";
+import DrawerHeader from "./DrawerHeader"; 
 
 export default function Scan(props) {
   //New External Mail Object
@@ -34,25 +35,51 @@ export default function Scan(props) {
   const trackingInput = useRef(); //Autofocus to tracking number field
   //initial state for External Mail Object
   const [values, setValues] = useState(initialValues);
+  const [lastScanned, setLastScanned] = useState(values.lastScanned | null);
   const [isLoading, setLoading] = useState(true); //loading spinner
   const [mailList, setMailList] = useState([]); //MailList
-  const products = [
-    "Passports",
-    "BDM",
-    "Citizenship",
-    "Authentications",
-    "Other",
-  ];
+  const products = ["Bread", "Milk", "Eggs", "Salad", "Other"];
 
-  async function fetchData() {
-    const { data } = await createAPIEndpoint("ExternalMails").fetchAll();
-    setMailList(data);
-    setLoading(false);
-  }
+ async function fetchData() {
+   const { data } = await createAPIEndpoint("ExternalMails").fetchAll();
+   setMailList(data);
+   setLoading(false);
+ }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+ useEffect(() => {
+   fetchData();
+ }, []);
+
+const handleLastScanned = (value) => {
+    setLastScanned(value); 
+};
+
+  //Refresh immediately
+  // const getMailList = () => {
+  //   createAPIEndpoint("ExternalMails")
+  //     .fetchAll()
+  //     .then((res) => {
+  //       setMailList(res.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
+  // useEffect(() => {
+  //   getMailList();
+  // }, []);
+
+  // //  function fetchData() {
+  // //   const { data } = await axios.get(
+  // //     "https://mailtrackerapi.azurewebsites.net/api/ExternalMails"
+  // //   );
+  // //   setMailList(data);
+  // //   setLoading(false);
+  // // }
+
+  // // useEffect(() => {
+  // //   fetchData();
+  // // }, []);
 
   //Pagination
   const [page, setPage] = useState(0);
@@ -78,6 +105,7 @@ export default function Scan(props) {
     });
   };
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     createAPIEndpoint("ExternalMails").create({
@@ -86,12 +114,31 @@ export default function Scan(props) {
       dateCreated: values.dateCreated,
       productType: values.productType,
     });
+   handleLastScanned(values.trackingNumber);
     //Refresh list
     values.trackingNumber = "";
     trackingInput.current.focus();
+
     fetchData();
+    
   };
 
+  //Refresh List Immediately NOT WORKING
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   await createAPIEndpoint("ExternalMails").create({
+  //     mailType: props.title,
+  //     trackingNo: values.trackingNumber,
+  //     dateCreated: values.dateCreated,
+  //     productType: values.productType,
+  //   });
+
+  //   values.trackingNumber = "";
+  //   trackingInput.current.focus();
+
+  //   //Refresh list
+  //   getMailList();
+  // }
   return (
     <Box component="main" sx={{ flexGrow: 1, marginLeft: { sm: 30, xs: 0 } }}>
       <CssBaseline />
@@ -146,6 +193,25 @@ export default function Scan(props) {
                         mb: 2,
                       }}
                     />
+                  </Grid>
+                  <Grid container>
+                    <Grid item xs={2}>
+                      <Typography variant="body1" sx={{ mt: 0.5, ml: 3, mb: 0.5 }}>
+                        Last scanned:
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      {lastScanned.length > 0 && 
+                        <Chip
+                          sx={{
+                            fontWeight: "bold",
+                            fontSize: 16,
+                            display: "inline-flex",
+                          }}
+                          label={lastScanned}
+                        ></Chip>
+                      }
+                    </Grid>
                   </Grid>
                 </Grid>
                 <button hidden onClick={handleSubmit} type="submit" />

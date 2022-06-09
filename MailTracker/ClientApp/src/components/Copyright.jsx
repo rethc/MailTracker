@@ -11,7 +11,7 @@ export default function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://www.dia.govt.nz/">
-        DIA Mail Tracker
+       Mail Tracker
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

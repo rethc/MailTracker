@@ -301,7 +301,7 @@ function Wrapper({ mode, setMode }, props) {
           </IconButton>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            DIA Mail Tracker
+             Mail Tracker
           </Typography>
           <Tooltip title="Toggle Dark Mode">
             <MaterialUISwitch
