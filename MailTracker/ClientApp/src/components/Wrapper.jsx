@@ -273,7 +273,7 @@ function Wrapper({ mode, setMode }, props) {
           </IconButton>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Mail Tracker
+            DIA Mail Tracker
           </Typography>
           <Box alignContent="flex-end">
             <Tooltip title="Open settings">

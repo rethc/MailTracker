@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 import Wrapper from "./components/Wrapper";  
 import { Routes, Route} from "react-router-dom"; 
 import { blue,  grey } from "@mui/material/colors";
-
 import { ThemeProvider } from '@mui/material/styles';
 import Search from "./components/Search"; 
 import TeamMail from "./components/TeamMail";
@@ -44,7 +43,7 @@ const getDesignTokens = (mode) => ({
 function App() { 
 
   const [mode, setMode] = useState('light');
-  const colorMode = useMemo(
+  useMemo(
     () => ({
       // The dark mode switch would invoke this method
       toggleColorMode: () => {
