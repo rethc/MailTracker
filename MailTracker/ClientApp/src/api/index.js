@@ -8,12 +8,11 @@ export const createAPIEndpoint = endpoint => {
     //Production
     let url = 'https://mailtrackerapi.azurewebsites.net/api/' + endpoint + "/";
     return {
-        fetchAll: () => axios.get(urlLocal),
-        fetchById: id => axios.get(urlLocal + id),
-        create: newRecord => axios.post(urlLocal, newRecord),
-        update: (id, updatedRecord) => axios.put(urlLocal + id, updatedRecord),
-        delete: id => axios.delete(urlLocal + id)
+        fetchAll: () => axios.get(url),
+        fetchById: id => axios.get(url + id),
+        create: newRecord => axios.post(url, newRecord),
+        update: (id, updatedRecord) => axios.put(url + id, updatedRecord),
+        delete: id => axios.delete(url + id)
     }
 }
-
 export default createAPIEndpoint;
