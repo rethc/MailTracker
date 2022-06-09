@@ -14,14 +14,14 @@ import {
   MenuItem,
   CircularProgress,
   Box,
-  Chip, 
-} from "@mui/material";  
-import React, { useState, useEffect, useRef } from "react"; 
+  Chip,
+} from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
 import createAPIEndpoint from "../api";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
-import DrawerHeader from "./DrawerHeader"; 
+import DrawerHeader from "./DrawerHeader";
 
 export default function Scan(props) {
   //New External Mail Object
@@ -38,48 +38,23 @@ export default function Scan(props) {
   const [lastScanned, setLastScanned] = useState(values.lastScanned | null);
   const [isLoading, setLoading] = useState(true); //loading spinner
   const [mailList, setMailList] = useState([]); //MailList
-  const products = ["Passport", "BDM", "Authentication", "Citizenship", "Other"];
+  const products = [
+    "Passport",
+    "BDM",
+    "Authentication",
+    "Citizenship",
+    "Other",
+  ];
 
- async function fetchData() {
-   const { data } = await createAPIEndpoint("ExternalMails").fetchAll();
-   setMailList(data);
-   setLoading(false);
- }
+  async function fetchData() {
+    const { data } = await createAPIEndpoint("ExternalMails").fetchAll();
+    setMailList(data);
+    setLoading(false);
+  }
 
- useEffect(() => {
-   fetchData();
- }, []);
-
-const handleLastScanned = (value) => {
-    setLastScanned(value); 
-};
-
-  //Refresh immediately
-  // const getMailList = () => {
-  //   createAPIEndpoint("ExternalMails")
-  //     .fetchAll()
-  //     .then((res) => {
-  //       setMailList(res.data);
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
-  // useEffect(() => {
-  //   getMailList();
-  // }, []);
-
-  // //  function fetchData() {
-  // //   const { data } = await axios.get(
-  // //     "https://mailtrackerapi.azurewebsites.net/api/ExternalMails"
-  // //   );
-  // //   setMailList(data);
-  // //   setLoading(false);
-  // // }
-
-  // // useEffect(() => {
-  // //   fetchData();
-  // // }, []);
+  useEffect(() => {
+    fetchData();
+  }, []); 
 
   //Pagination
   const [page, setPage] = useState(0);
@@ -105,40 +80,22 @@ const handleLastScanned = (value) => {
     });
   };
 
-  
   const handleSubmit = (e) => {
     e.preventDefault();
-    createAPIEndpoint("ExternalMails").create({
+    let item = {
       mailType: props.title,
       trackingNo: values.trackingNumber,
-      dateCreated: values.dateCreated,
+      dateCreated: new Date(),
       productType: values.productType,
-    });
-   handleLastScanned(values.trackingNumber);
-    //Refresh list
+    };
+    createAPIEndpoint("ExternalMails").create(item);
+
+    setLastScanned(values.trackingNumber);
     values.trackingNumber = "";
     trackingInput.current.focus();
-
     fetchData();
-    
   };
 
-  //Refresh List Immediately NOT WORKING
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   await createAPIEndpoint("ExternalMails").create({
-  //     mailType: props.title,
-  //     trackingNo: values.trackingNumber,
-  //     dateCreated: values.dateCreated,
-  //     productType: values.productType,
-  //   });
-
-  //   values.trackingNumber = "";
-  //   trackingInput.current.focus();
-
-  //   //Refresh list
-  //   getMailList();
-  // }
   return (
     <Box component="main" sx={{ flexGrow: 1, marginLeft: { sm: 30, xs: 0 } }}>
       <CssBaseline />
@@ -195,22 +152,11 @@ const handleLastScanned = (value) => {
                     />
                   </Grid>
                   <Grid container>
-                    <Grid item xs={2}>
-                      <Typography variant="body1" sx={{ mt: 0.5, ml: 3, mb: 0.5 }}>
-                        Last scanned:
+                    <Grid item xs={12}>
+                      <Typography variant="body1" sx={{ ml: 3 }}>
+                        Last scanned:{" "}
+                        <b>{lastScanned.length > 0 && lastScanned}</b>
                       </Typography>
-                    </Grid>
-                    <Grid item xs={10}>
-                      {(lastScanned.length > 0 && values.productType.length > 0) && 
-                        <Chip
-                          sx={{
-                            fontWeight: "bold",
-                            fontSize: 16,
-                            display: "inline-flex",
-                          }}
-                          label={lastScanned}
-                        ></Chip>
-                      }
                     </Grid>
                   </Grid>
                 </Grid>
@@ -255,8 +201,8 @@ const handleLastScanned = (value) => {
                         <TableRow key={m.externalMailID}>
                           {/* If tracking number is longer than 30 characters, truncate and append ...*/}
                           <TableCell>
-                            {m.trackingNo.length > 30
-                              ? `${m.trackingNo.substring(0, 30)}...`
+                            {m.trackingNo.length > 80
+                              ? `${m.trackingNo.substring(0, 80)}...`
                               : m.trackingNo}
                           </TableCell>
                           <TableCell>{m.productType}</TableCell>

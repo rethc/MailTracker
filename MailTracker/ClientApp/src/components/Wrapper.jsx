@@ -10,8 +10,7 @@ import {
   Toolbar,
   ListItemText,
   ListItemIcon,
-  ListItemButton,
-  ListItem,
+  ListItemButton, 
   List,
   IconButton,
   Drawer,
@@ -19,6 +18,7 @@ import {
   Box,
   AppBar,
   styled,
+  ListItem,
 } from "@mui/material";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
@@ -26,12 +26,11 @@ import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import SearchIcon from "@mui/icons-material/Search";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; 
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
-import Weave from "../components/weave.png";
-import WeaveBW from "../components/weavebw.png";
+import Weave from "../components/weave.webp";
+import WeaveBW from "../components/weavebw.webp";
 
 const drawerWidth = 240;
 
@@ -82,7 +81,6 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     borderRadius: 20 / 2,
   },
 }));
-
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip placement="right-start" {...props} classes={{ popper: className }} />
@@ -145,10 +143,11 @@ function Wrapper({ mode, setMode }, props) {
 
       <Divider />
       <List>
-        <ListSubheader component="div" inset>
-          Menu
-        </ListSubheader>
-
+        <ListItem disablePadding>
+          <ListSubheader component="div" inset>
+            Menu
+          </ListSubheader>
+        </ListItem>
         {/* Scan Incoming Mail */}
         <HtmlTooltip
           title={
@@ -167,16 +166,18 @@ function Wrapper({ mode, setMode }, props) {
             </React.Fragment>
           }
         >
-          <ListItemButton
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            <ListItemIcon>
-              <QrCodeScannerIcon />
-            </ListItemIcon>
-            <ListItemText primary="Scan Incoming Mail" />
-          </ListItemButton>
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              <ListItemIcon>
+                <QrCodeScannerIcon />
+              </ListItemIcon>
+              <ListItemText primary="Scan Incoming Mail" />
+            </ListItemButton>
+          </ListItem>
         </HtmlTooltip>
 
         {/* Scan Outgoing Mail */}
@@ -197,16 +198,18 @@ function Wrapper({ mode, setMode }, props) {
             </React.Fragment>
           }
         >
-          <ListItemButton
-            onClick={() => {
-              navigate("/scanout");
-            }}
-          >
-            <ListItemIcon>
-              <DocumentScannerIcon />
-            </ListItemIcon>
-            <ListItemText primary="Scan Outgoing Mail" />
-          </ListItemButton>
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                navigate("/scanout");
+              }}
+            >
+              <ListItemIcon>
+                <DocumentScannerIcon />
+              </ListItemIcon>
+              <ListItemText primary="Scan Outgoing Mail" />
+            </ListItemButton>
+          </ListItem>
         </HtmlTooltip>
 
         {/* Search External Mail */}
@@ -222,16 +225,18 @@ function Wrapper({ mode, setMode }, props) {
             </React.Fragment>
           }
         >
-          <ListItemButton
-            onClick={() => {
-              navigate("/search");
-            }}
-          >
-            <ListItemIcon>
-              <SearchIcon />
-            </ListItemIcon>
-            <ListItemText primary="Search Mail" />
-          </ListItemButton>
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                navigate("/search");
+              }}
+            >
+              <ListItemIcon>
+                <SearchIcon />
+              </ListItemIcon>
+              <ListItemText primary="Search Mail" />
+            </ListItemButton>
+          </ListItem>
         </HtmlTooltip>
         {/* Internal Mail */}
         <HtmlTooltip
@@ -242,13 +247,15 @@ function Wrapper({ mode, setMode }, props) {
             </React.Fragment>
           }
         >
-          <ListItemButton onClick={handleMailClick}>
-            <ListItemIcon>
-              <ContactMailIcon />
-            </ListItemIcon>
-            <ListItemText primary="Internal Mail" />
-            {openMailMenu ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </ListItemButton>
+          <ListItem disablePadding>
+            <ListItemButton onClick={handleMailClick}>
+              <ListItemIcon>
+                <ContactMailIcon />
+              </ListItemIcon>
+              <ListItemText primary="Internal Mail" />
+              {openMailMenu ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </ListItemButton>
+          </ListItem>
         </HtmlTooltip>
         <Collapse in={openMailMenu} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -270,7 +277,7 @@ function Wrapper({ mode, setMode }, props) {
               </ListItemButton>
             ))}
           </List>
-        </Collapse> 
+        </Collapse>
       </List>
     </div>
   );
