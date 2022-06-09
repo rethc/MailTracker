@@ -12,38 +12,45 @@ import {
   TableBody,
   TablePagination,
   MenuItem,
-  Snackbar
 } from "@mui/material";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 import { Box } from "@mui/system";
 import React, { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import createAPIEndpoint from "../api";
 import { format, zonedTimeToUtc } from "date-fns-tz";
-import { parseISO } from "date-fns"; 
-import Copyright from "./Copyright";   
+import { parseISO } from "date-fns";
+import Copyright from "./Copyright";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
-//New External Mail Object
-const initialValues = {
-  mailType: "Incoming",
-  trackingNumber: "",
-  productType: "",
-  dateCreated: new Date(),
-};
 
-export default function ScanIn() {
+
+
+export default function Scan(props) {
+  //New External Mail Object
+  const initialValues = {
+    mailType: props.title,
+    trackingNumber: "",
+    productType: "",
+    dateCreated: new Date(),
+  };
   //Scanning In States
   const trackingInput = useRef(); //Autofocus to tracking number field
-  const [values, setValues] = useState(initialValues); //initial state for External Mail Object
+  //initial state for External Mail Object
+  const [values, setValues] = useState(initialValues);
   const [isLoading, setLoading] = useState(true); //loading spinner
   const [mailList, setMailList] = useState([]);
-  const products = ["Passports", "BDM", "Citizenship", "Other"]; 
-  
+  const products = [
+    "Passports",
+    "BDM",
+    "Citizenship",
+    "Authentications",
+    "Other",
+  ];
 
   //Pagination
   const [page, setPage] = useState(0);
@@ -51,8 +58,6 @@ export default function ScanIn() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
-   const [open, setOpen] = React.useState(false);
 
   //Display Empty rows to fill table
   const emptyRows =
@@ -76,39 +81,26 @@ export default function ScanIn() {
       })
       .catch((err) => console.log(err));
   };
- 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setValues({
       ...values,
       [name]: value,
     });
-  }; 
-
-    const handleClose = (event, reason) => {
-      if (reason === "clickaway") {
-        return;
-      }
-
-      setOpen(false);
-    };
- 
-  async function handleSubmit(e) {
+  };
+  function handleSubmit(e) {
     e.preventDefault();
-    //Create new object
-    let item = {
-      mailType: values.mailType,
+    createAPIEndpoint("ExternalMails").create({
+      mailType: props.title,
       trackingNo: values.trackingNumber,
       dateCreated: values.dateCreated,
       productType: values.productType,
-    };
-    //Add to db
-    await createAPIEndpoint("ExternalMails").create(item);
+    });
     //Refresh list
-    getMailList();
     values.trackingNumber = "";
-    setOpen(true);
     trackingInput.current.focus();
+    getMailList();
   }
 
   return (
@@ -125,7 +117,7 @@ export default function ScanIn() {
                 flexDirection: "column",
               }}
             >
-              <Typography variant="h6">Scan Incoming Mail</Typography>
+              <Typography variant="h6">Scan {props.title} Mail</Typography>
 
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
@@ -167,11 +159,7 @@ export default function ScanIn() {
                     />
                   </Grid>
                 </Grid>
-                  <button
-                  hidden
-                    onClick={handleSubmit}
-                    type="submit"
-                  /> 
+                <button hidden onClick={handleSubmit} type="submit" />
               </form>
             </Paper>
           </Grid>
@@ -248,13 +236,6 @@ export default function ScanIn() {
           </Grid>
         </Grid>
         <Copyright sx={{ pt: 4 }} />
-        <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          autoHideDuration={1000}
-          message="Mail scanned in"
-          open={open}
-          onClose={handleClose}
-        />
       </Container>
     </Box>
   );

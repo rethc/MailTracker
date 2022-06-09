@@ -57,7 +57,7 @@ function Wrapper({ mode, setMode }, props) {
   };
 
   //Internal Mail
-    const [openMailMenu, setopenMailMenu] = React.useState(true);
+    const [openMailMenu, setopenMailMenu] = React.useState(false);
 
     const handleMailClick = () => {
       setopenMailMenu(!openMailMenu);

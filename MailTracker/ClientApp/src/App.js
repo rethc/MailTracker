@@ -1,14 +1,13 @@
 import { Box, createTheme } from "@mui/material";
 import { useMemo, useState } from "react"; 
 import Wrapper from "./components/Wrapper";  
-import { Routes, Route} from "react-router-dom";
-import ScanOut from "./components/ScanOut";
-import ScanIn from "./components/ScanIn";
+import { Routes, Route} from "react-router-dom"; 
 import { blue,  grey } from "@mui/material/colors";
 
 import { ThemeProvider } from '@mui/material/styles';
 import Search from "./components/Search"; 
 import TeamMail from "./components/TeamMail";
+import Scan from "./components/Scan";
 
 const getDesignTokens = (mode) => ({
   palette: {
@@ -64,8 +63,8 @@ function App() {
       <Box>
         <Wrapper setMode={setMode} mode={mode} />
         <Routes>
-          <Route path="/" element={<ScanIn />} />
-          <Route path="/scanout" element={<ScanOut />} />
+          <Route path="/" element={<Scan title="Incoming" />} />
+          <Route path="/scanout" element={<Scan title="Outgoing" />} />
           <Route path="/search" element={<Search />} />
           <Route path="/issuance1" element={<TeamMail teamName="Issuance 1" />} />
         </Routes>

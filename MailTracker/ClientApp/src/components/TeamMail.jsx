@@ -1,19 +1,14 @@
 import { CssBaseline, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react'
-import MUIDataTable from "mui-datatables";
-import createAPIEndpoint from '../api';
+import React, { } from 'react'
 import { styled } from "@mui/material/styles";
-import { Box, Container } from '@mui/system';
-import Copyright from './Copyright';
+import { Box, Container } from '@mui/system'; 
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
-
 export default function TeamMail(props) { 
-
   return (
     <Box component="main" sx={{ flexGrow: 1, marginLeft: { sm: 30, xs: 0 } }}>
       <CssBaseline />
