@@ -38,7 +38,7 @@ export default function Scan(props) {
   const [lastScanned, setLastScanned] = useState(values.lastScanned | null);
   const [isLoading, setLoading] = useState(true); //loading spinner
   const [mailList, setMailList] = useState([]); //MailList
-  const products = ["Bread", "Milk", "Eggs", "Salad", "Other"];
+  const products = ["Passport", "BDM", "Authentication", "Citizenship", "Other"];
 
  async function fetchData() {
    const { data } = await createAPIEndpoint("ExternalMails").fetchAll();
@@ -83,7 +83,7 @@ const handleLastScanned = (value) => {
 
   //Pagination
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(8);
+  const [rowsPerPage, setRowsPerPage] = useState(7);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -201,7 +201,7 @@ const handleLastScanned = (value) => {
                       </Typography>
                     </Grid>
                     <Grid item xs={10}>
-                      {lastScanned.length > 0 && 
+                      {(lastScanned.length > 0 && values.productType.length > 0) && 
                         <Chip
                           sx={{
                             fontWeight: "bold",
@@ -279,7 +279,7 @@ const handleLastScanned = (value) => {
                 </Table>
               )}
               <TablePagination
-                rowsPerPageOptions={[8, 10, 25]}
+                rowsPerPageOptions={[7, 15, 25]}
                 component="div"
                 count={mailList.length}
                 rowsPerPage={rowsPerPage}
