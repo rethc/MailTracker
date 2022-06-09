@@ -12,23 +12,15 @@ import {
   TableBody,
   TablePagination,
   MenuItem,
-} from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Box } from "@mui/system";
-import React, { useState, useEffect, useRef } from "react";
-import { styled } from "@mui/material/styles";
+  CircularProgress,
+  Box,
+} from "@mui/material";  
+import React, { useState, useEffect, useRef } from "react"; 
 import createAPIEndpoint from "../api";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
-
-
+import DrawerHeader from "./DrawerHeader";
 
 export default function Scan(props) {
   //New External Mail Object
@@ -43,7 +35,7 @@ export default function Scan(props) {
   //initial state for External Mail Object
   const [values, setValues] = useState(initialValues);
   const [isLoading, setLoading] = useState(true); //loading spinner
-  const [mailList, setMailList] = useState([]);
+  const [mailList, setMailList] = useState([]); //MailList
   const products = [
     "Passports",
     "BDM",
@@ -52,6 +44,16 @@ export default function Scan(props) {
     "Other",
   ];
 
+  async function fetchData() {
+    const { data } = await createAPIEndpoint("ExternalMails").fetchAll();
+    setMailList(data);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   //Pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -59,28 +61,14 @@ export default function Scan(props) {
     setPage(newPage);
   };
 
-  //Display Empty rows to fill table
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, mailList.length - page * rowsPerPage);
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  useEffect(() => {
-    getMailList();
-  }, []);
-
-  const getMailList = () => {
-    createAPIEndpoint("ExternalMails")
-      .fetchAll()
-      .then((res) => {
-        setMailList(res.data);
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  };
+  //Display Empty rows to fill table
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, mailList.length - page * rowsPerPage);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -89,7 +77,8 @@ export default function Scan(props) {
       [name]: value,
     });
   };
-  function handleSubmit(e) {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     createAPIEndpoint("ExternalMails").create({
       mailType: props.title,
@@ -100,8 +89,8 @@ export default function Scan(props) {
     //Refresh list
     values.trackingNumber = "";
     trackingInput.current.focus();
-    getMailList();
-  }
+    fetchData();
+  };
 
   return (
     <Box component="main" sx={{ flexGrow: 1, marginLeft: { sm: 30, xs: 0 } }}>

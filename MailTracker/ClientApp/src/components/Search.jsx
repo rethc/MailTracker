@@ -1,37 +1,32 @@
-import { 
-  Container, 
-  CssBaseline, 
+import {
+  CircularProgress,
+  Container,
+  CssBaseline,
+  styled,
+  Box,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import React, { useState, useEffect } from "react";
-import { styled } from "@mui/material/styles";
 import createAPIEndpoint from "../api";
 import { format, zonedTimeToUtc } from "date-fns-tz";
-import { parseISO } from "date-fns"; 
+import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
 
 import MUIDataTable from "mui-datatables";
+import DrawerHeader from "./DrawerHeader";
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
-export default function Search() { 
+export default function Search() {
   const [mailList, setMailList] = useState([]);
+  const [isLoading, setLoading] = useState(true); //loading spinner
+
+  async function fetchData() {
+    const { data } = await createAPIEndpoint("ExternalMails").fetchAll();
+    setMailList(data);
+    setLoading(false);
+  }
 
   useEffect(() => {
-    getMailList();
+    fetchData();
   }, []);
-
-  const getMailList = () => {
-    createAPIEndpoint("ExternalMails")
-      .fetchAll()
-      .then((res) => {
-        setMailList(res.data);
-      })
-      .catch((err) => console.log(err));
-  };
 
   const columns = [
     {
@@ -40,7 +35,7 @@ export default function Search() {
       options: {
         filter: false,
         sort: true,
-      }
+      },
     },
     {
       name: "productType",
@@ -48,7 +43,7 @@ export default function Search() {
       options: {
         filter: true,
         sort: false,
-      }
+      },
     },
     {
       name: "mailType",
@@ -56,49 +51,57 @@ export default function Search() {
       options: {
         filter: true,
         sort: false,
-      }
+      },
     },
     {
       name: "dateCreated",
       label: "Date Scanned",
       options: {
         filter: true,
-        sort: true
-      }
-    }
+        sort: true,
+      },
+    },
   ];
- 
-  const data = mailList.map(mail => {  
-    return {
+
+  const data = mailList
+    .map((mail) => {
+      return {
         trackingNo: mail.trackingNo,
         productType: mail.productType,
         mailType: mail.mailType,
-        dateCreated:  format(
+        dateCreated: format(
           zonedTimeToUtc(parseISO(mail.dateCreated), "UTC"),
           "dd/MM/yyyy hh:mm aaa"
-        )
-    }
-  }).slice()
-  .reverse()
+        ),
+      };
+    })
+    .slice()
+    .reverse();
 
   const options = {
-    filterType: 'dropdown', 
-    customToolbarSelect: () => {}
+    filterType: "dropdown",
+    customToolbarSelect: () => {},
   };
-   
+
   return (
     <Box component="main" sx={{ flexGrow: 1, marginLeft: { sm: 30, xs: 0 } }}>
       <CssBaseline />
       <DrawerHeader />
-      <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}> 
-        <MUIDataTable
-          title={"External Mail List"}
-          data={data}
-          columns={columns} 
-          options={options}
-        /> 
+      <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+        {isLoading ? (
+          <center>
+            <CircularProgress />
+          </center>
+        ) : (
+          <MUIDataTable
+            title={"External Mail List"}
+            data={data}
+            columns={columns}
+            options={options}
+          />
+        )}
         <Copyright sx={{ pt: 4 }} />
       </Container>
     </Box>
   );
-} 
+}

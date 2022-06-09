@@ -1,36 +1,36 @@
 import React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import Collapse from "@mui/material/Collapse";
 import {
   Avatar,
   ListSubheader,
   Menu,
   MenuItem,
-  Switch, 
+  Switch,
+  Collapse,
+  Typography,
+  Toolbar,
+  ListItemText,
+  ListItemIcon,
+  ListItemButton,
+  ListItem,
+  List,
+  IconButton,
+  Drawer,
+  Divider,
+  Box,
+  AppBar,
+  styled,
 } from "@mui/material";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import SearchIcon from "@mui/icons-material/Search";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
-import { styled } from "@mui/material/styles";
-import Weave from "../components/weave.png"
+import Weave from "../components/weave.png";
 import WeaveBW from "../components/weavebw.png";
 
 const drawerWidth = 240;
@@ -43,7 +43,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
     color: "rgba(0, 0, 0, 0.87)",
     maxWidth: 220,
     fontSize: theme.typography.pxToRem(13),
-    border: "1px solid #dadde9", 
+    border: "1px solid #dadde9",
   },
 }));
 
@@ -57,32 +57,31 @@ function Wrapper({ mode, setMode }, props) {
   };
 
   //Internal Mail
-    const [openMailMenu, setopenMailMenu] = React.useState(false);
+  const [openMailMenu, setopenMailMenu] = React.useState(false);
+  const handleMailClick = () => {
+    setopenMailMenu(!openMailMenu);
+  };
 
-    const handleMailClick = () => {
-      setopenMailMenu(!openMailMenu);
-    };
-    
-    const internalMailLabel = [
-      { label: "Issuance 1", navigate: "/issuance1" },
-      { label: "Issuance 2" },
-      { label: "Maintenance" },
-      { label: "Registrations" },
-      { label: "COS Team" },
-      { label: "Services 1" },
-      { label: "Services 2" },
-      { label: "Services 3" },
-      { label: "Services 4" },
-      { label: "Services 5" },
-      { label: "Services 6" },
-      { label: "Services 7" },
-      { label: "Certify" },
-      { label: "Translations" },
-      { label: "On Hold Mail" },
-    ];
+  const internalMailLabel = [
+    { label: "Issuance 1", navigate: "/issuance1" },
+    { label: "Issuance 2" },
+    { label: "Maintenance" },
+    { label: "Registrations" },
+    { label: "COS Team" },
+    { label: "Services 1" },
+    { label: "Services 2" },
+    { label: "Services 3" },
+    { label: "Services 4" },
+    { label: "Services 5" },
+    { label: "Services 6" },
+    { label: "Services 7" },
+    { label: "Certify" },
+    { label: "Translations" },
+    { label: "On Hold Mail" },
+  ];
 
   //Profile settings
-  const settings = ["Profile", "Logout"]; 
+  const settings = ["Profile", "Logout"];
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -201,7 +200,7 @@ function Wrapper({ mode, setMode }, props) {
               <ContactMailIcon />
             </ListItemIcon>
             <ListItemText primary="Internal Mail" />
-            {openMailMenu ? <ExpandLess /> : <ExpandMore />}
+            {openMailMenu ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </ListItemButton>
         </HtmlTooltip>
         <Collapse in={openMailMenu} timeout="auto" unmountOnExit>
@@ -258,7 +257,8 @@ function Wrapper({ mode, setMode }, props) {
         sx={{
           width: { sm: `calc(0100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          backgroundImage: mode === "light" ? `url(${Weave})` : `url(${WeaveBW})`,
+          backgroundImage:
+            mode === "light" ? `url(${Weave})` : `url(${WeaveBW})`,
         }}
       >
         <Toolbar>
