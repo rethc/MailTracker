@@ -14,15 +14,12 @@ import {
   MenuItem,
   CircularProgress,
   Box,
-  IconButton,
-  Stack,
 } from "@mui/material";
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
 import DrawerHeader from "./DrawerHeader";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import axios from "axios";
 
 export default function Scan(props) {
@@ -32,10 +29,9 @@ export default function Scan(props) {
     trackingNumber: "",
     productType: "",
     dateCreated: new Date(),
-  }; 
+  };
   //initial state for External Mail Object
   const [values, setValues] = useState(initialValues);
-  const [lastScanned, setLastScanned] = useState(values.lastScanned | null);
   const [isLoading, setLoading] = useState(true); //loading spinner
   const [mailList, setMailList] = useState([]); //MailList
   const products = [
@@ -56,7 +52,7 @@ export default function Scan(props) {
 
   useEffect(() => {
     fetchData();
-  }, []); 
+  }, []);
 
   //Pagination
   const [page, setPage] = useState(0);
@@ -74,7 +70,7 @@ export default function Scan(props) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, mailList.length - page * rowsPerPage);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const { name, value } = e.target;
     setValues({
       ...values,
@@ -82,17 +78,20 @@ export default function Scan(props) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    let data = { ...values };
+    setValues({ ...values, trackingNumber: "" });
     let item = {
       mailType: props.title,
-      trackingNo: values.trackingNumber,
+      trackingNo: data.trackingNumber,
       dateCreated: new Date(),
-      productType: values.productType,
-    }; 
-    axios.post("https://mailtrackerapi.azurewebsites.net/api/ExternalMails/", item);
-    setLastScanned(values.trackingNumber);
-    values.trackingNumber = ""; 
+      productType: data.productType,
+    };
+    await axios.post(
+      "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/",
+      item
+    );
     fetchData();
   };
 
@@ -144,18 +143,6 @@ export default function Scan(props) {
                       fullWidth
                     />
                   </Grid>
-                  <Grid container>
-                    <Grid item xs={12}>
-                      <Typography variant="body1" sx={{ ml: 3, mt: 1 }}>
-                        Last scanned:{" "}
-                        <b>
-                          {lastScanned.length > 0 &&
-                            values.productType.length > 0 &&
-                            lastScanned}
-                        </b>
-                      </Typography>
-                    </Grid>
-                  </Grid>
                 </Grid>
                 <button hidden onClick={handleSubmit} type="submit" />
               </form>
@@ -171,23 +158,9 @@ export default function Scan(props) {
                 flexDirection: "column",
               }}
             >
-              <Stack direction="row" justifyContent="space-between" >
-                <Typography variant="h6" color="primary" sx={{ mb: 1}}>
-                  Recent Scanned Mail
-                </Typography>
-                {lastScanned.length > 0 &&    
-                  <IconButton
-                    aria-label="refreshicon"
-                    color="secondary"
-                    onClick={() => {
-                      fetchData();
-                      setLastScanned("");
-                    }}
-                  >
-                    <RefreshIcon />
-                  </IconButton>
-                }
-              </Stack>
+              <Typography variant="h6" color="primary" sx={{ mb: 1 }}>
+                Recent Scanned Mail
+              </Typography>
               {isLoading ? (
                 <center>
                   <CircularProgress />
