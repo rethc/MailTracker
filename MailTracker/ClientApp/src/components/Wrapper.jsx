@@ -163,6 +163,11 @@ function Wrapper({ mode, setMode }, props) {
               <b>
                 <u>Tracking Number</u>
               </b>
+              <br />
+              <em>
+                The last item scanned will be displayed. You can click spinner
+                icon refresh the table.
+              </em>
             </React.Fragment>
           }
         >
@@ -195,6 +200,11 @@ function Wrapper({ mode, setMode }, props) {
               <b>
                 <u>Tracking Number</u>
               </b>
+              <br />
+              <em>
+                The last item scanned will be displayed. You can click spinner
+                icon refresh the table.
+              </em>
             </React.Fragment>
           }
         >
@@ -308,13 +318,15 @@ function Wrapper({ mode, setMode }, props) {
           </IconButton>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-             Mail Tracker
+            Mail Tracker
           </Typography>
           <Tooltip title="Toggle Dark Mode">
             <MaterialUISwitch
+              label="switch-list-label-darkmode"
               sx={{ mr: 1 }}
               onChange={() => setMode(mode === "light" ? "dark" : "light")}
               inputProps={{
+                 "aria-label" : "switch-list-label-darkmode",
                 "aria-labelledby": "switch-list-label-darkmode",
               }}
             />

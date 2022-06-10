@@ -14,14 +14,16 @@ import {
   MenuItem,
   CircularProgress,
   Box,
-  Chip,
+  IconButton,
+  Stack,
 } from "@mui/material";
-import React, { useState, useEffect, useRef } from "react";
-import createAPIEndpoint from "../api";
+import React, { useState, useEffect } from "react"; 
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
 import DrawerHeader from "./DrawerHeader";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import axios from "axios";
 
 export default function Scan(props) {
   //New External Mail Object
@@ -30,9 +32,7 @@ export default function Scan(props) {
     trackingNumber: "",
     productType: "",
     dateCreated: new Date(),
-  };
-  //Scanning In States
-  const trackingInput = useRef(); //Autofocus to tracking number field
+  }; 
   //initial state for External Mail Object
   const [values, setValues] = useState(initialValues);
   const [lastScanned, setLastScanned] = useState(values.lastScanned | null);
@@ -47,7 +47,9 @@ export default function Scan(props) {
   ];
 
   async function fetchData() {
-    const { data } = await createAPIEndpoint("ExternalMails").fetchAll();
+    const { data } = await axios.get(
+      "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/"
+    );
     setMailList(data);
     setLoading(false);
   }
@@ -87,12 +89,10 @@ export default function Scan(props) {
       trackingNo: values.trackingNumber,
       dateCreated: new Date(),
       productType: values.productType,
-    };
-    createAPIEndpoint("ExternalMails").create(item);
-
+    }; 
+    axios.post("https://mailtrackerapi.azurewebsites.net/api/ExternalMails/", item);
     setLastScanned(values.trackingNumber);
-    values.trackingNumber = "";
-    trackingInput.current.focus();
+    values.trackingNumber = ""; 
     fetchData();
   };
 
@@ -110,8 +110,9 @@ export default function Scan(props) {
                 flexDirection: "column",
               }}
             >
-              <Typography variant="h6">Scan {props.title} Mail</Typography>
-
+              <Typography variant="h6" color="primary" gutterBottom>
+                Scan {props.title} Mail
+              </Typography>
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
@@ -122,10 +123,6 @@ export default function Scan(props) {
                       name="productType"
                       value={values.productType}
                       fullWidth
-                      sx={{
-                        mt: 2,
-                        mb: 2,
-                      }}
                       onChange={handleInputChange}
                     >
                       {products.map((product) => (
@@ -138,24 +135,24 @@ export default function Scan(props) {
                   <Grid item xs={6}>
                     <TextField
                       autoFocus
+                      focused
                       variant="outlined"
                       label="Tracking Number"
                       name="trackingNumber"
                       value={values.trackingNumber}
                       onChange={handleInputChange}
-                      inputRef={trackingInput}
                       fullWidth
-                      sx={{
-                        mt: 2,
-                        mb: 2,
-                      }}
                     />
                   </Grid>
                   <Grid container>
                     <Grid item xs={12}>
-                      <Typography variant="body1" sx={{ ml: 3 }}>
+                      <Typography variant="body1" sx={{ ml: 3, mt: 1 }}>
                         Last scanned:{" "}
-                        <b>{lastScanned.length > 0 && lastScanned}</b>
+                        <b>
+                          {lastScanned.length > 0 &&
+                            values.productType.length > 0 &&
+                            lastScanned}
+                        </b>
                       </Typography>
                     </Grid>
                   </Grid>
@@ -174,7 +171,23 @@ export default function Scan(props) {
                 flexDirection: "column",
               }}
             >
-              <Typography variant="h6">Recent Scanned Mail</Typography>
+              <Stack direction="row" justifyContent="space-between" >
+                <Typography variant="h6" color="primary" sx={{ mb: 1}}>
+                  Recent Scanned Mail
+                </Typography>
+                {lastScanned.length > 0 &&    
+                  <IconButton
+                    aria-label="refreshicon"
+                    color="secondary"
+                    onClick={() => {
+                      fetchData();
+                      setLastScanned("");
+                    }}
+                  >
+                    <RefreshIcon />
+                  </IconButton>
+                }
+              </Stack>
               {isLoading ? (
                 <center>
                   <CircularProgress />

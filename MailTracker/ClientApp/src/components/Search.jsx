@@ -4,21 +4,23 @@ import {
   CssBaseline, 
   Box,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
-import createAPIEndpoint from "../api";
+import React, { useState, useEffect } from "react"; 
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
 
 import MUIDataTable from "mui-datatables";
 import DrawerHeader from "./DrawerHeader";
+import axios from "axios";
 
 export default function Search() {
   const [mailList, setMailList] = useState([]);
   const [isLoading, setLoading] = useState(true); //loading spinner
 
   async function fetchData() {
-    const { data } = await createAPIEndpoint("ExternalMails").fetchAll();
+    const { data } = await axios.get(
+      "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/"
+    );
     setMailList(data);
     setLoading(false);
   }

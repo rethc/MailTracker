@@ -2,7 +2,7 @@ import { Box, createTheme } from "@mui/material";
 import { useMemo, useState } from "react"; 
 import Wrapper from "./components/Wrapper";  
 import { Routes, Route} from "react-router-dom"; 
-import { blue,  grey } from "@mui/material/colors";
+import {  grey } from "@mui/material/colors";
 import { ThemeProvider } from '@mui/material/styles';
 import Search from "./components/Search"; 
 import TeamMail from "./components/TeamMail";
@@ -14,7 +14,13 @@ const getDesignTokens = (mode) => ({
     primary: {
       main: "#00465D",
       ...(mode === 'dark' && {
-        main: blue[300],
+        main: "#ffffff",
+      }),
+    },
+    secondary: {
+      main: "#1976d2",
+      ...(mode === 'dark' && {
+        main: "#ffffff",
       }),
     },
     background: {
