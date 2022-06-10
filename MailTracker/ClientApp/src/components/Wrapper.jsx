@@ -163,11 +163,6 @@ function Wrapper({ mode, setMode }, props) {
               <b>
                 <u>Tracking Number</u>
               </b>
-              <br />
-              <em>
-                The last item scanned will be displayed. You can click spinner
-                icon refresh the table.
-              </em>
             </React.Fragment>
           }
         >
@@ -200,11 +195,6 @@ function Wrapper({ mode, setMode }, props) {
               <b>
                 <u>Tracking Number</u>
               </b>
-              <br />
-              <em>
-                The last item scanned will be displayed. You can click spinner
-                icon refresh the table.
-              </em>
             </React.Fragment>
           }
         >

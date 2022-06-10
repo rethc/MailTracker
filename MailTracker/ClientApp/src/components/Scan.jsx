@@ -56,7 +56,7 @@ export default function Scan(props) {
 
   //Pagination
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -211,7 +211,7 @@ export default function Scan(props) {
                 </Table>
               )}
               <TablePagination
-                rowsPerPageOptions={[7, 15, 25]}
+                rowsPerPageOptions={[8, 15, 25]}
                 component="div"
                 count={mailList.length}
                 rowsPerPage={rowsPerPage}
