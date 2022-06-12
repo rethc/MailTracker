@@ -8,9 +8,7 @@ import React, { useState, useEffect } from "react";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
-
 import MUIDataTable from "mui-datatables";
-import DrawerHeader from "./DrawerHeader";
 import axios from "axios";
 
 export default function Search() {
@@ -85,9 +83,8 @@ export default function Search() {
   };
 
   return (
-    <Box component="main" sx={{ flexGrow: 1, marginLeft: { sm: 30, xs: 0 } }}>
+    <Box component="main" sx={{ flexGrow: 1, paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}>
       <CssBaseline />
-      <DrawerHeader />
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
         {isLoading ? (
           <center>
