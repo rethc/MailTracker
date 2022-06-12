@@ -81,24 +81,24 @@ export default function Scan(props) {
     });
   };
 
-//Product Type error handling
-const prodctBlur = () => {
-  if (!values.productType) {
-    setErrProduct(true);
-    return;
-  }
-  setErrProduct(false);
-  setErrTrackingNo(false); //Tracking number error handling
-};
+  //Product Type error handling
+  const prodctBlur = () => {
+    if (!values.productType) {
+      setErrProduct(true);
+      return;
+    }
+    setErrProduct(false);
+    setErrTrackingNo(false); //Tracking number error handling
+  };
 
-//Tracking Number error handling
-const trackingBlur = () => {
-  if (!values.trackingNumber) {
-    setErrTrackingNo(true);
-    return;
-  }
-  setErrTrackingNo(false);
-};
+  //Tracking Number error handling
+  const trackingBlur = () => {
+    if (!values.trackingNumber) {
+      setErrTrackingNo(true);
+      return;
+    }
+    setErrTrackingNo(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -110,18 +110,21 @@ const trackingBlur = () => {
       dateCreated: new Date(),
       productType: data.productType,
     };
-    await axios.post(
-      "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/",
-      item
-    ).catch((error) => {
-      if(error.response){
-       console.log(JSON.stringify(error.response.data.errors)) 
-       if(!item.productType)
-       setErrProduct(true);
-       if(!item.trackingNo)
-       setErrTrackingNo(true);
-      }
-  });
+    await axios
+      .post("https://mailtrackerapi.azurewebsites.net/api/ExternalMails/", item)
+      .catch((error) => {
+        if (error.response) {
+          console.log(JSON.stringify(error.response.data.errors));
+
+          if (!item.trackingNo) {
+            setErrTrackingNo(true);
+          } else {
+            setErrTrackingNo(false);
+          }
+
+          if (!item.productType) setErrProduct(true);
+        }
+      });
     fetchData();
   };
 
@@ -173,7 +176,9 @@ const trackingBlur = () => {
                       autoFocus
                       focused
                       helperText={
-                        errTrackingNo ? "The Tracking Number field is required." : ""
+                        errTrackingNo
+                          ? "The Tracking Number field is required."
+                          : ""
                       }
                       error={errTrackingNo}
                       onBlur={trackingBlur}
@@ -182,7 +187,7 @@ const trackingBlur = () => {
                       name="trackingNumber"
                       value={values.trackingNumber}
                       onChange={handleInputChange}
-                      fullWidth 
+                      fullWidth
                     />
                   </Grid>
                 </Grid>
