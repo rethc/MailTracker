@@ -16,7 +16,10 @@ namespace MailTrackerAPI.Models
 
         [DataType(DataType.DateTime)]
         public DateTime? DateCollected { get; set; }
-         
+
+        [DataType(DataType.DateTime)]
+        public DateTime? DateEntered { get; set; }
+
         public int TeamID { get; set; }
         public Team? Team { get; set; }
 

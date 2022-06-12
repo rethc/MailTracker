@@ -18,7 +18,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
-import Copyright from "./Copyright"; 
+import Copyright from "./Copyright";
 import axios from "axios";
 
 export default function Scan(props) {
@@ -33,6 +33,8 @@ export default function Scan(props) {
   const [values, setValues] = useState(initialValues);
   const [isLoading, setLoading] = useState(true); //loading spinner
   const [mailList, setMailList] = useState([]); //MailList
+  const [errProduct, setErrProduct] = useState(false); //product error handling
+  const [errTrackingNo, setErrTrackingNo] = useState(false); //product error handling
   const products = [
     "Passport",
     "BDM",
@@ -77,6 +79,25 @@ export default function Scan(props) {
     });
   };
 
+//Product Type error handling
+const prodctBlur = () => {
+  if (!values.productType) {
+    setErrProduct(true);
+    return;
+  }
+  setErrProduct(false);
+  setErrTrackingNo(false);
+};
+
+//Tracking Number error handling
+const trackingBlur = () => {
+  if (!values.trackingNumber) {
+    setErrTrackingNo(true);
+    return;
+  }
+  setErrTrackingNo(false);
+};
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = { ...values };
@@ -90,13 +111,24 @@ export default function Scan(props) {
     await axios.post(
       "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/",
       item
-    );
+    ).catch((error) => {
+      if(error.response){
+       console.log(JSON.stringify(error.response.data.errors)) 
+       if(!item.productType)
+       setErrProduct(true);
+       if(!item.trackingNo)
+       setErrTrackingNo(true);
+      }
+  });
     fetchData();
   };
 
   return (
-    <Box component="main" sx={{ flexGrow: 1, paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}>
-      <CssBaseline /> 
+    <Box
+      component="main"
+      sx={{ flexGrow: 1, paddingTop: 8, marginLeft: { sm: 30, xs: 0 } }}
+    >
+      <CssBaseline />
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -114,6 +146,11 @@ export default function Scan(props) {
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <TextField
+                      helperText={
+                        errProduct ? "The product type field is required." : ""
+                      }
+                      error={errProduct}
+                      onBlur={prodctBlur}
                       select
                       variant="outlined"
                       label="Product Type"
@@ -133,12 +170,17 @@ export default function Scan(props) {
                     <TextField
                       autoFocus
                       focused
+                      helperText={
+                        errTrackingNo ? "The tracking number field is required." : ""
+                      }
+                      error={errTrackingNo}
+                      onBlur={trackingBlur}
                       variant="outlined"
                       label="Tracking Number"
                       name="trackingNumber"
                       value={values.trackingNumber}
                       onChange={handleInputChange}
-                      fullWidth
+                      fullWidth 
                     />
                   </Grid>
                 </Grid>
