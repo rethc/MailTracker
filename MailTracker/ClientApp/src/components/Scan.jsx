@@ -60,11 +60,13 @@ export default function Scan(props) {
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    setErrTrackingNo(false); //Tracking number error handling
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    setErrTrackingNo(false); //Tracking number error handling
   };
 
   //Display Empty rows to fill table
@@ -86,7 +88,7 @@ const prodctBlur = () => {
     return;
   }
   setErrProduct(false);
-  setErrTrackingNo(false);
+  setErrTrackingNo(false); //Tracking number error handling
 };
 
 //Tracking Number error handling
@@ -147,7 +149,7 @@ const trackingBlur = () => {
                   <Grid item xs={6}>
                     <TextField
                       helperText={
-                        errProduct ? "The product type field is required." : ""
+                        errProduct ? "The Product Type field is required." : ""
                       }
                       error={errProduct}
                       onBlur={prodctBlur}
@@ -171,7 +173,7 @@ const trackingBlur = () => {
                       autoFocus
                       focused
                       helperText={
-                        errTrackingNo ? "The tracking number field is required." : ""
+                        errTrackingNo ? "The Tracking Number field is required." : ""
                       }
                       error={errTrackingNo}
                       onBlur={trackingBlur}
