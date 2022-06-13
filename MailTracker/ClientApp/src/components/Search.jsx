@@ -1,11 +1,11 @@
 import {
   CircularProgress,
   Container,
-  CssBaseline, 
+  CssBaseline,
   Box,
   TextField,
 } from "@mui/material";
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
@@ -18,10 +18,10 @@ export default function Search() {
   const [mailList, setMailList] = useState([]);
   const [isLoading, setLoading] = useState(true); //loading spinner
   const [dateValue, setDateValue] = useState(null);
-  
+
   const handleDateChange = (newValue) => {
-      setDateValue(newValue);
-    };
+    setDateValue(newValue);
+  };
 
   async function fetchData() {
     const { data } = await axios.get(
@@ -67,7 +67,8 @@ export default function Search() {
         filter: true,
         sort: true,
         display: "true",
-        filterType: "custom", customFilterListOptions: {
+        filterType: "custom",
+        customFilterListOptions: {
           render: (value) => {
             if (isNaN(value[0]) || !value[0]) return [];
             return [format(value[0], "dd/MM/yyyy")];
@@ -89,14 +90,13 @@ export default function Search() {
             }
 
             return filterList;
-          }
+          },
         },
         filterOptions: {
           logic: (dateTime, filters) => {
             if (isNaN(filters[0])) return false;
             let date = filters[0] && format(filters[0], "dd/MM/yyyy");
             let dateString = dateTime.split(" ")[0];
-            console.log(dateString);
             if (dateString === date) {
               return false;
             } else if (!date) {
@@ -120,10 +120,10 @@ export default function Search() {
                 />
               </LocalizationProvider>
             );
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   ];
 
   const data = mailList
@@ -146,11 +146,14 @@ export default function Search() {
     customToolbarSelect: () => {},
     print: false,
     searchOpen: true,
-    searchAlwaysOpen: true, 
+    searchAlwaysOpen: true,
   };
 
   return (
-    <Box component="main" sx={{ flexGrow: 1, paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}>
+    <Box
+      component="main"
+      sx={{ flexGrow: 1, paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}
+    >
       <CssBaseline />
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
         {isLoading ? (
