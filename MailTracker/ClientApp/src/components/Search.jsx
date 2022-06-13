@@ -56,7 +56,7 @@ export default function Search() {
       name: "dateCreated",
       label: "Date Scanned",
       options: {
-        filter: true,
+        filter: false,
         sort: true,
       },
     },
@@ -78,8 +78,11 @@ export default function Search() {
     .reverse();
 
   const options = {
-    filterType: "dropdown",
+    filterType: "checkbox",
     customToolbarSelect: () => {},
+    print: false,
+    searchOpen: true,
+    searchAlwaysOpen: true, 
   };
 
   return (
