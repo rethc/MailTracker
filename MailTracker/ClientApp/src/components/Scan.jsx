@@ -10,7 +10,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  TablePagination,
   MenuItem,
   CircularProgress,
   Box,
@@ -43,9 +42,10 @@ export default function Scan(props) {
     "Other",
   ];
 
+  //http://localhost:5243/api/
   async function fetchData() {
     const { data } = await axios.get(
-      "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/"
+      "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/GetLastMail/7"
     );
     setMailList(data);
     setLoading(false);
@@ -54,24 +54,6 @@ export default function Scan(props) {
   useEffect(() => {
     fetchData();
   }, []);
-
-  //Pagination
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(8);
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-    setErrTrackingNo(false); //Tracking number error handling
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-    setErrTrackingNo(false); //Tracking number error handling
-  };
-
-  //Display Empty rows to fill table
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, mailList.length - page * rowsPerPage);
 
   const handleInputChange = async (e) => {
     const { name, value } = e.target;
@@ -224,12 +206,6 @@ export default function Scan(props) {
                   </TableHead>
                   <TableBody>
                     {mailList
-                      .slice()
-                      .reverse()
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
                       .map((m) => (
                         <TableRow key={m.externalMailID}>
                           {/* If tracking number is longer than 30 characters, truncate and append ...*/}
@@ -249,23 +225,9 @@ export default function Scan(props) {
                           </TableCell>
                         </TableRow>
                       ))}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
                   </TableBody>
                 </Table>
               )}
-              <TablePagination
-                rowsPerPageOptions={[8, 15, 25]}
-                component="div"
-                count={mailList.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
             </Paper>
           </Grid>
         </Grid>

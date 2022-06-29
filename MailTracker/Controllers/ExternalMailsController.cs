@@ -28,6 +28,16 @@ namespace MailTracker.Controllers
             return await _context.ExternalMails.ToListAsync();
         }
 
+
+        // GET: api/GetLastMail/7
+        [HttpGet("GetLastMail/{take}")]
+        public async Task<ActionResult<IEnumerable<ExternalMail>>> GetLastMail(int take)
+        {
+            return await _context.ExternalMails.OrderByDescending(x => x.ExternalMailID).Take(take).ToListAsync();
+         
+        }
+
+
         // GET: api/ExternalMails/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ExternalMail>> GetExternalMail(int id)
@@ -41,29 +51,6 @@ namespace MailTracker.Controllers
 
             return externalMail;
         }
-
-        /*GET: api/ExternalMails/<search>
-        [HttpGet("{search}")]
-        public async Task<ActionResult<IEnumerable<ExternalMail>>> GetTrackingNumber(string search)
-        {
-            try
-            {
-                var result = await _context.GetTrackingNumber(search);
-
-                if (result.Any())
-                {
-                    return Ok(result);
-                }
-
-                return NotFound();
-
-            }
-            catch(Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ),);
-
-            }
-         }*/
 
         // PUT: api/ExternalMails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
