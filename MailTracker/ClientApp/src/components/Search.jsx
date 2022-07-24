@@ -45,16 +45,16 @@ export default function Search() {
       },
     },
     {
-      name: "productType",
-      label: "Product Type",
+      name: "mailType",
+      label: "Mail Type",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "mailType",
-      label: "Mail Type",
+      name: "productType",
+      label: "Product Type",
       options: {
         filter: true,
         sort: false,

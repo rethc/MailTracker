@@ -7,6 +7,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import Search from "./components/Search"; 
 import TeamMail from "./components/TeamMail";
 import Scan from "./components/Scan";
+import ScanOut from "./components/ScanOut";
 
 const getDesignTokens = (mode) => ({
   palette: {
@@ -68,8 +69,8 @@ function App() {
       <Box>
         <Wrapper setMode={setMode} mode={mode} />
         <Routes>
-          <Route path="/" element={<Scan title="Incoming" />} />
-          <Route path="/scanout" element={<Scan title="Outgoing" />} />
+          <Route path="/" element={<Scan />} />
+          <Route path="/scanout" element={<ScanOut />} />
           <Route path="/search" element={<Search />} />
           <Route path="/issuance1" element={<TeamMail teamName="Issuance 1" />} />
         </Routes>

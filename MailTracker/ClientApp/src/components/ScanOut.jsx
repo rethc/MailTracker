@@ -23,7 +23,7 @@ import axios from "axios";
 export default function Scan() {
   //New External Mail Object
   const initialValues = {
-    mailType: "Incoming",
+    mailType: "Outgoing",
     trackingNumber: "",
     productType: "",
     dateCreated: new Date(),
@@ -32,15 +32,8 @@ export default function Scan() {
   const [values, setValues] = useState(initialValues);
   const [isLoading, setLoading] = useState(true); //loading spinner
   const [mailList, setMailList] = useState([]); //MailList
-  const [errProduct, setErrProduct] = useState(false); //product error handling
   const [errTrackingNo, setErrTrackingNo] = useState(false); //product error handling
-  const products = [
-    "Passport",
-    "BDM",
-    "Authentication",
-    "Citizenship",
-    "Other",
-  ];
+
 
   //http://localhost:5243/api/
   async function fetchData() {
@@ -62,30 +55,27 @@ export default function Scan() {
       [name]: value,
     });
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = { ...values };
     setValues({ ...values, trackingNumber: "" });
     let item = {
-      mailType: "Incoming",
+      mailType: "Outgoing",
       trackingNo: data.trackingNumber,
       dateCreated: new Date(),
-      productType: data.productType,
+      productType: "",
     };
-    if(!item.productType){
-       setErrProduct(true);
-       return;
-    }
-    if (item.trackingNo) setErrTrackingNo(false);
-    if (item.productType) setErrProduct(false);
+    if(item.trackingNo) setErrTrackingNo(false);
     await axios
       .post("https://mailtrackerapi.azurewebsites.net/api/ExternalMails/", item)
       .catch((error) => {
         if (error.response) {
           console.log(JSON.stringify(error.response.data.errors));
 
-          if (!item.trackingNo) setErrTrackingNo(true);
+          if (!item.trackingNo) {
+            setErrTrackingNo(true);
+          }
         }
       });
     fetchData();
@@ -108,32 +98,11 @@ export default function Scan() {
               }}
             >
               <Typography variant="h6" color="primary" gutterBottom>
-                Scan Incoming Mail
+                Scan Outgoing Mail
               </Typography>
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <TextField
-                      helperText={
-                        errProduct ? "The Product Type field is required." : ""
-                      }
-                      error={errProduct}
-                      select
-                      variant="outlined"
-                      label="Product Type"
-                      name="productType"
-                      value={values.productType}
-                      fullWidth
-                      onChange={handleInputChange}
-                    >
-                      {products.map((product) => (
-                        <MenuItem key={product} value={product}>
-                          {product}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12}>
                     <TextField
                       autoFocus
                       focused
@@ -142,7 +111,7 @@ export default function Scan() {
                           ? "The Tracking Number field is required."
                           : ""
                       }
-                      error={errTrackingNo}
+                      error={errTrackingNo} 
                       variant="outlined"
                       label="Tracking Number"
                       name="trackingNumber"
@@ -179,30 +148,29 @@ export default function Scan() {
                     <TableRow>
                       <TableCell>Tracking Number</TableCell>
                       <TableCell>Mail Type</TableCell>
-                      <TableCell>Product Type</TableCell>
                       <TableCell>Date Scanned</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {mailList.map((m) => (
-                      <TableRow key={m.externalMailID}>
-                        {/* If tracking number is longer than 30 characters, truncate and append ...*/}
-                        <TableCell>
-                          {m.trackingNo.length > 80
-                            ? `${m.trackingNo.substring(0, 80)}...`
-                            : m.trackingNo}
-                        </TableCell>
-                        <TableCell>{m.mailType}</TableCell>
-                        <TableCell>{m.productType}</TableCell>
-                        <TableCell>
-                          {/* Returns a Date with the UTC time. date-fns-tz library will display the date and time in the local time of the user */}
-                          {format(
-                            zonedTimeToUtc(parseISO(m.dateCreated), "UTC"),
-                            "dd/MM/yyyy hh:mm aaa"
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {mailList
+                      .map((m) => (
+                        <TableRow key={m.externalMailID}>
+                          {/* If tracking number is longer than 30 characters, truncate and append ...*/}
+                          <TableCell>
+                            {m.trackingNo.length > 80
+                              ? `${m.trackingNo.substring(0, 80)}...`
+                              : m.trackingNo}
+                          </TableCell>
+                          <TableCell>{m.mailType}</TableCell>
+                          <TableCell>
+                            {/* Returns a Date with the UTC time. date-fns-tz library will display the date and time in the local time of the user */}
+                            {format(
+                              zonedTimeToUtc(parseISO(m.dateCreated), "UTC"),
+                              "dd/MM/yyyy hh:mm aaa"
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               )}

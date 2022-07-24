@@ -10,8 +10,7 @@ namespace MailTrackerAPI.Models
         [Required]
         [StringLength(50, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
         public string? MailType { get; set; }
-
-        [Required]
+ 
         [StringLength(50, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
         public string? ProductType { get; set; }
 
