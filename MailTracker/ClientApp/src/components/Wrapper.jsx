@@ -185,13 +185,7 @@ function Wrapper({ mode, setMode }, props) {
           title={
             <React.Fragment>
               <Typography color="inherit">Scan all Outgoing mail</Typography>
-              {"1. Select"}{" "}
-              <b>
-                <u>Product Type</u>
-              </b>{" "}
-              {"from dropdown"}
-              <br />
-              {"2. Scan"}{" "}
+              {"1. Scan"}{" "}
               <b>
                 <u>Tracking Number</u>
               </b>
