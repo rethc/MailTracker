@@ -73,6 +73,20 @@ function App() {
           <Route path="/scanout" element={<ScanOut />} />
           <Route path="/search" element={<Search />} />
           <Route path="/issuance1" element={<TeamMail teamName="Issuance 1" />} />
+          <Route path="/issuance2" element={<TeamMail teamName="Issuance 2" />} />
+          <Route path="/maintenance" element={<TeamMail teamName="Maintenance" />} />
+          <Route path="/registrations" element={<TeamMail teamName="Registrations" />} />
+          <Route path="/cos" element={<TeamMail teamName="COS Team" />} />
+          <Route path="/services1" element={<TeamMail teamName="Services 1" />} />
+          <Route path="/services2" element={<TeamMail teamName="Services 2" />} />
+          <Route path="/services3" element={<TeamMail teamName="Services 3" />} />
+          <Route path="/services4" element={<TeamMail teamName="Services 4" />} />
+          <Route path="/services5" element={<TeamMail teamName="Services 5" />} />
+          <Route path="/services6" element={<TeamMail teamName="Services 6" />} />
+          <Route path="/services7" element={<TeamMail teamName="Services 7" />} />
+          <Route path="/certify" element={<TeamMail teamName="Certify" />} />
+          <Route path="/translations" element={<TeamMail teamName="Services 7" />} />
+          <Route path="/onhold" element={<TeamMail teamName="On Hold Mail" />} />
         </Routes>
       </Box>
       </ThemeProvider>
