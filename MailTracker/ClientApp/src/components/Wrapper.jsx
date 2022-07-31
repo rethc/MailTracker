@@ -21,9 +21,9 @@ import {
   ListItem,
 } from "@mui/material";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
-import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import SearchIcon from "@mui/icons-material/Search";
+import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; 
@@ -173,7 +173,7 @@ function Wrapper({ mode, setMode }, props) {
               }}
             >
               <ListItemIcon>
-                <QrCodeScannerIcon />
+                <LocalPostOfficeIcon />
               </ListItemIcon>
               <ListItemText primary="Scan Incoming Mail" />
             </ListItemButton>
@@ -199,7 +199,7 @@ function Wrapper({ mode, setMode }, props) {
               }}
             >
               <ListItemIcon>
-                <DocumentScannerIcon />
+                <LocalShippingIcon />
               </ListItemIcon>
               <ListItemText primary="Scan Outgoing Mail" />
             </ListItemButton>
@@ -302,7 +302,7 @@ function Wrapper({ mode, setMode }, props) {
           </IconButton>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Mail Tracker
+            Operations Delivery Mail Tracker
           </Typography>
           <Tooltip title="Toggle Dark Mode">
             <MaterialUISwitch
@@ -310,7 +310,7 @@ function Wrapper({ mode, setMode }, props) {
               sx={{ mr: 1 }}
               onChange={() => setMode(mode === "light" ? "dark" : "light")}
               inputProps={{
-                 "aria-label" : "switch-list-label-darkmode",
+                "aria-label": "switch-list-label-darkmode",
                 "aria-labelledby": "switch-list-label-darkmode",
               }}
             />

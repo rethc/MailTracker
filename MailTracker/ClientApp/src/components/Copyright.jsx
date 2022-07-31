@@ -1,6 +1,5 @@
-import { Link, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import React from "react";
-
 export default function Copyright(props) {
   return (
     <Typography
@@ -9,12 +8,7 @@ export default function Copyright(props) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
-      <Link color="inherit" href="https://www.dia.govt.nz/">
-       Mail Tracker
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
+      Operations Delivery Mail Tracker v1.1
     </Typography>
   );
 }
