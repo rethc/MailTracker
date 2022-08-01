@@ -152,6 +152,7 @@ export default function Search() {
   return (
     <Box
       component="main"
+      
       sx={{ flexGrow: 1, paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}
     >
       <CssBaseline />

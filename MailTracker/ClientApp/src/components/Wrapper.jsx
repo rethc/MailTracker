@@ -5,7 +5,6 @@ import {
   Menu,
   MenuItem,
   Switch,
-  Collapse,
   Typography,
   Toolbar,
   ListItemText,
@@ -24,9 +23,7 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import SearchIcon from "@mui/icons-material/Search";
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
-import ContactMailIcon from "@mui/icons-material/ContactMail";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; 
+import TableChartIcon from "@mui/icons-material/TableChart";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import Weave from "../components/weave.webp";
@@ -102,30 +99,6 @@ function Wrapper({ mode, setMode }, props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  //Internal Mail
-  const [openMailMenu, setopenMailMenu] = React.useState(false);
-  const handleMailClick = () => {
-    setopenMailMenu(!openMailMenu);
-  };
-
-  const internalMailLabel = [
-    { label: "Issuance 1", navigate: "/issuance1" },
-    { label: "Issuance 2", navigate: "/issuance2" },
-    { label: "Maintenance", navigate: "/maintenance" },
-    { label: "Registrations", navigate: "/registrations" },
-    { label: "COS Team", navigate: "/cos" },
-    { label: "Services 1", navigate: "/services1" },
-    { label: "Services 2", navigate: "/services2" },
-    { label: "Services 3", navigate: "/services3" },
-    { label: "Services 4", navigate: "/services4" },
-    { label: "Services 5", navigate: "/services5" },
-    { label: "Services 6", navigate: "/services6" },
-    { label: "Services 7", navigate: "/services7" },
-    { label: "Certify", navigate: "/certify" },
-    { label: "Translations", navigate: "/translations" },
-    { label: "On Hold Mail", navigate: "/onhold" },
-  ];
 
   //Profile settings
   const settings = ["Profile", "Logout"];
@@ -232,46 +205,29 @@ function Wrapper({ mode, setMode }, props) {
             </ListItemButton>
           </ListItem>
         </HtmlTooltip>
+
         {/* Internal Mail */}
         <HtmlTooltip
           title={
             <React.Fragment>
-              <Typography color="inherit">Internal Mail Tracker</Typography>
-              {"Not yet implemented."}
+              <Typography color="inherit">Internal Mail</Typography>
+              {"Opens Internal Mail Tracker spreadsheet in new tab."}
             </React.Fragment>
           }
         >
           <ListItem disablePadding>
-            <ListItemButton onClick={handleMailClick}>
+            <ListItemButton
+              href="https://dia.cohesion.net.nz/sites/TEA/WLGO/_layouts/15/WopiFrame.aspx?sourcedoc={1e39d29d-32b2-4f39-8a81-ea75a709d032}&action=edit"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <ListItemIcon>
-                <ContactMailIcon />
+                <TableChartIcon />
               </ListItemIcon>
               <ListItemText primary="Internal Mail" />
-              {openMailMenu ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             </ListItemButton>
           </ListItem>
         </HtmlTooltip>
-        <Collapse in={openMailMenu} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {internalMailLabel.map((item) => (
-              <ListItemButton
-                onClick={() => {
-                  navigate(item.navigate);
-                }}
-                key={item.label}
-                sx={{ py: 0, minHeight: 32 }}
-              >
-                <ListItemText
-                  primary={item.label}
-                  primaryTypographyProps={{
-                    fontSize: 15,
-                    paddingLeft: 1,
-                  }}
-                />
-              </ListItemButton>
-            ))}
-          </List>
-        </Collapse>
       </List>
     </div>
   );
