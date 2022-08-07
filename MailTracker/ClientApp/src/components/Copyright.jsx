@@ -8,7 +8,7 @@ export default function Copyright(props) {
       align="center"
       {...props}
     >
-      Operations Delivery Mail Tracker v1.1
+      Operations Delivery Mail Tracker v1.2
     </Typography>
   );
 }

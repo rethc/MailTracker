@@ -5,9 +5,9 @@ import { Routes, Route} from "react-router-dom";
 import {  grey } from "@mui/material/colors";
 import { ThemeProvider } from '@mui/material/styles';
 import Search from "./components/Search"; 
-import TeamMail from "./components/TeamMail";
 import Scan from "./components/Scan";
 import ScanOut from "./components/ScanOut";
+import Stats from "./components/Stats";
 
 const getDesignTokens = (mode) => ({
   palette: {
@@ -72,6 +72,7 @@ function App() {
           <Route path="/" element={<Scan />} />
           <Route path="/scanout" element={<ScanOut />} />
           <Route path="/search" element={<Search />} /> 
+          <Route path="/stats" element={<Stats />} /> 
         </Routes>
       </Box>
       </ThemeProvider>

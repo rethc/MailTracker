@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MailTrackerAPI.Models;
+using System.Globalization;
 
 namespace MailTracker.Controllers
 {
@@ -19,6 +20,7 @@ namespace MailTracker.Controllers
         public ExternalMailsController(MailTrackerDbContext context)
         {
             _context = context;
+
         }
 
         // GET: api/ExternalMails
@@ -34,8 +36,60 @@ namespace MailTracker.Controllers
         public async Task<ActionResult<IEnumerable<ExternalMail>>> GetLastMail(int take)
         {
             return await _context.ExternalMails.OrderByDescending(x => x.ExternalMailID).Take(take).ToListAsync();
-         
+
         }
+
+        // GET: api/GetMailCount/Outgoing
+        [HttpGet("GetMailCount/{type}")]
+        public async Task<ActionResult<int>> GetMailCount(string type)
+        {
+            return await _context.ExternalMails.Where(x => x.MailType == type).CountAsync();
+
+        }
+
+        // GET: api/GetMails/Outgoing
+        [HttpGet("GetMails/{type}")]
+        public ActionResult<IEnumerable<object>> GetMails(string type)
+        {
+            int total, passport, bdm, authentication, citizenship, other;
+            total = passport = bdm = authentication = citizenship = other = 0;
+
+            var mail = _context.ExternalMails.Where(x => x.MailType == type);
+
+            total = mail.Count();
+
+            foreach (var item in mail)
+            {
+                switch (item.ProductType)
+                {
+                    case "Passport":
+                        passport++;
+                        break;
+                    case "BDM":
+                        bdm++;
+                        break;
+                    case "Authentication":
+                        authentication++;
+                        break;
+                    case "Citizenship":
+                        citizenship++;
+                        break;
+                    case "Other":
+                        other++;
+                        break;
+                }
+            }
+            return Ok(new
+            {
+                total,
+                passport,
+                bdm,
+                authentication,
+                citizenship,
+                other
+            });
+        }
+
 
 
         // GET: api/ExternalMails/5

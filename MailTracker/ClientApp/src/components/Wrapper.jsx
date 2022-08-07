@@ -28,6 +28,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import Weave from "../components/weave.webp";
 import WeaveBW from "../components/weavebw.webp";
+import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 
 const drawerWidth = 240;
 
@@ -210,7 +211,7 @@ function Wrapper({ mode, setMode }, props) {
         <HtmlTooltip
           title={
             <React.Fragment>
-              <Typography color="inherit">Internal Mail</Typography>
+              <Typography color="inherit">Internal Mail Tracker</Typography>
               {"Opens Internal Mail Tracker spreadsheet in new tab."}
             </React.Fragment>
           }
@@ -224,7 +225,32 @@ function Wrapper({ mode, setMode }, props) {
               <ListItemIcon>
                 <TableChartIcon />
               </ListItemIcon>
-              <ListItemText primary="Internal Mail" />
+              <ListItemText primary="Internal Mail Tracker" />
+            </ListItemButton>
+          </ListItem>
+        </HtmlTooltip>
+
+        {/* Stats */}
+        <HtmlTooltip
+          title={
+            <React.Fragment>
+              <Typography color="inherit">Stats</Typography>
+              {
+                "Under construction. Stats are working. Stacked graph is hardcoded"
+              }
+            </React.Fragment>
+          }
+        >
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                navigate("/stats");
+              }}
+            >
+              <ListItemIcon>
+                <LeaderboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Stats" />
             </ListItemButton>
           </ListItem>
         </HtmlTooltip>
