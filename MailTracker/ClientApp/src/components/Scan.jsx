@@ -19,6 +19,7 @@ import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
 import axios from "axios";
+import Title from "./Title";
 
 export default function Scan() {
   //New External Mail Object
@@ -107,9 +108,7 @@ export default function Scan() {
                 flexDirection: "column",
               }}
             >
-              <Typography variant="h6" color="primary" gutterBottom>
-                Scan Incoming Mail
-              </Typography>
+              <Title>Scan Incoming Mail</Title>
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
@@ -166,9 +165,7 @@ export default function Scan() {
                 flexDirection: "column",
               }}
             >
-              <Typography variant="h6" color="primary" sx={{ mb: 1 }}>
-                Recent Scanned Mail
-              </Typography>
+              <Title>Recent Scanned Mail</Title>
               {isLoading ? (
                 <center>
                   <CircularProgress />

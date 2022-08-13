@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
-  Avatar,
-  ListSubheader,
+  Avatar, 
   Menu,
   MenuItem,
   Switch,
@@ -13,11 +12,10 @@ import {
   List,
   IconButton,
   Drawer,
-  Divider,
   Box,
   AppBar,
   styled,
-  ListItem,
+  ListItem, 
 } from "@mui/material";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -25,10 +23,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
 import TableChartIcon from "@mui/icons-material/TableChart";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Weave from "../components/weave.webp";
 import WeaveBW from "../components/weavebw.webp";
-import LeaderboardIcon from "@mui/icons-material/Leaderboard";
+import LeaderboardIcon from "@mui/icons-material/Leaderboard"; 
 
 const drawerWidth = 240;
 
@@ -79,6 +77,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     borderRadius: 20 / 2,
   },
 }));
+ 
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip placement="right-start" {...props} classes={{ popper: className }} />
@@ -111,37 +110,58 @@ function Wrapper({ mode, setMode }, props) {
     setAnchorElUser(null);
   };
 
+  //Active Button
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  let location = useLocation();
+   useEffect(() => {
+     switch (location.pathname) {
+       case "/":
+         setSelectedIndex(0); 
+         break;
+       case "/scan-out":
+         setSelectedIndex(1); 
+         break;
+       case "/search":
+         setSelectedIndex(2); 
+         break;
+       case "/stats":
+         setSelectedIndex(4); 
+         break;
+       default:
+         break;
+     }
+   }, [location.pathname]);
+
   const drawer = (
     <div>
       <Toolbar />
 
-      <Divider />
       <List>
-        <ListItem disablePadding>
-          <ListSubheader component="div" inset>
-            Menu
-          </ListSubheader>
-        </ListItem>
+        <ListItem></ListItem>
         {/* Scan Incoming Mail */}
         <HtmlTooltip
           title={
             <React.Fragment>
-              <Typography color="inherit">Scan all Incoming mail</Typography>
+              <Typography color="inherit">How to scan Incoming Mail</Typography>
               {"1. Select"}{" "}
               <b>
                 <u>Product Type</u>
               </b>{" "}
-              {"from dropdown"}
+              {"from dropdown list."}
               <br />
-              {"2. Scan"}{" "}
+              {"2. Click into "}
               <b>
                 <u>Tracking Number</u>
               </b>
+              {" field."}
+              <br />
+              {"3. Scan barcode."}
             </React.Fragment>
           }
         >
           <ListItem disablePadding>
             <ListItemButton
+              selected={selectedIndex === 0}
               onClick={() => {
                 navigate("/");
               }}
@@ -158,18 +178,22 @@ function Wrapper({ mode, setMode }, props) {
         <HtmlTooltip
           title={
             <React.Fragment>
-              <Typography color="inherit">Scan all Outgoing mail</Typography>
-              {"1. Scan"}{" "}
+              <Typography color="inherit">How to scan Outgoing Mail</Typography>
+              {"1. Click into "}
               <b>
                 <u>Tracking Number</u>
               </b>
+              {" field."}
+              <br />
+              {"2. Scan barcode."}
             </React.Fragment>
           }
         >
           <ListItem disablePadding>
             <ListItemButton
+              selected={selectedIndex === 1}
               onClick={() => {
-                navigate("/scanout");
+                navigate("/scan-out");
               }}
             >
               <ListItemIcon>
@@ -195,6 +219,7 @@ function Wrapper({ mode, setMode }, props) {
         >
           <ListItem disablePadding>
             <ListItemButton
+              selected={selectedIndex === 2}
               onClick={() => {
                 navigate("/search");
               }}
@@ -229,7 +254,6 @@ function Wrapper({ mode, setMode }, props) {
             </ListItemButton>
           </ListItem>
         </HtmlTooltip>
-
         {/* Stats */}
         <HtmlTooltip
           title={
@@ -243,6 +267,7 @@ function Wrapper({ mode, setMode }, props) {
         >
           <ListItem disablePadding>
             <ListItemButton
+              selected={selectedIndex === 4}
               onClick={() => {
                 navigate("/stats");
               }}
@@ -266,10 +291,10 @@ function Wrapper({ mode, setMode }, props) {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(0100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          zIndex: (theme) => theme.zIndex.drawer + 1,
           backgroundImage:
-            mode === "light" ? `url(${Weave})` : `url(${WeaveBW})`,
+            mode === "light" ? `url(${Weave})` : `url(${WeaveBW})`, 
+            
         }}
       >
         <Toolbar>
@@ -330,8 +355,8 @@ function Wrapper({ mode, setMode }, props) {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
+        sx={{ width: { sm: drawerWidth }, flexShrink: 0 }}
+        aria-label="folders"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer

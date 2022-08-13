@@ -48,7 +48,6 @@ const getDesignTokens = (mode) => ({
  
 
 function App() { 
-
   const [mode, setMode] = useState('light');
   useMemo(
     () => ({
@@ -70,7 +69,7 @@ function App() {
         <Wrapper setMode={setMode} mode={mode} />
         <Routes>
           <Route path="/" element={<Scan />} />
-          <Route path="/scanout" element={<ScanOut />} />
+          <Route path="/scan-out" element={<ScanOut />} />
           <Route path="/search" element={<Search />} /> 
           <Route path="/stats" element={<Stats />} /> 
         </Routes>
