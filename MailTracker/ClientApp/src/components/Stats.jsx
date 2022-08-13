@@ -8,11 +8,20 @@ import {
   Card,
   CardContent,
   Stack,
-  CardActions, 
+  CardActions,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import axios from "axios"; 
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import axios from "axios";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 export default function Reports() {
   const [incoming, setIncoming] = useState([]);
@@ -23,7 +32,7 @@ export default function Reports() {
     const { data } = await axios.get(
       "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/GetMails/Incoming"
     );
-    setIncoming(data); 
+    setIncoming(data);
   }
 
   async function fetchOutgoing() {
@@ -34,12 +43,11 @@ export default function Reports() {
     setLoading(false);
   }
 
-
   useEffect(() => {
     fetchIncoming();
     fetchOutgoing();
   }, []);
-  
+
   const data = [
     {
       name: "01/07/2022",
@@ -349,7 +357,9 @@ export default function Reports() {
               </Grid>
             </Grid>
             <Typography component="p" sx={{ fontSize: 14, paddingTop: 2 }}>
-              Under constructon 😸🚧. {<br />} Total Mail stats is working. {<br />} Chart area - to allow users to select different graphs and date ranges
+              Under constructon 😸🚧. {<br />} Total Mail stats is working.{" "}
+              {<br />} Chart area - to allow users to select different graphs
+              and date ranges
             </Typography>
           </Grid>
         )}

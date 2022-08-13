@@ -85,7 +85,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: "white",
     color: "rgba(0, 0, 0, 0.87)",
-    maxWidth: 220,
+    maxWidth: 230,
     fontSize: theme.typography.pxToRem(13),
     border: "1px solid #dadde9",
   },
@@ -128,6 +128,7 @@ function Wrapper({ mode, setMode }, props) {
          setSelectedIndex(4); 
          break;
        default:
+        setSelectedIndex();
          break;
      }
    }, [location.pathname]);

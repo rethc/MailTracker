@@ -1,5 +1,4 @@
 import {
-  Typography,
   Container,
   Grid,
   Paper,
@@ -18,23 +17,23 @@ import React, { useState, useEffect } from "react";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
-import axios from "axios";
 import Title from "./Title";
+import api from "../services/api";
 
 export default function Scan() {
   //New External Mail Object
-  const initialValues = {
+  const initialMailRecord = {
     mailType: "Incoming",
     trackingNumber: "",
     productType: "",
     dateCreated: new Date(),
   };
   //initial state for External Mail Object
-  const [values, setValues] = useState(initialValues);
+  const [mailValue, setMailValue] = useState(initialMailRecord);
   const [isLoading, setLoading] = useState(true); //loading spinner
-  const [mailList, setMailList] = useState([]); //MailList
-  const [errProduct, setErrProduct] = useState(false); //product error handling
-  const [errTrackingNo, setErrTrackingNo] = useState(false); //product error handling
+  const [mailList, setMailList] = useState([]); //MailList array
+  const [errProduct, setErrProduct] = useState(false); //ProductType error handling
+  const [errTrackingNo, setErrTrackingNo] = useState(false); //TrackingNo error handling
   const products = [
     "Passport",
     "BDM",
@@ -43,45 +42,55 @@ export default function Scan() {
     "Other",
   ];
 
-  //http://localhost:5243/api/
+  //Get the recent scanned mail
   async function fetchData() {
-    const { data } = await axios.get(
-      "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/GetLastMail/7"
-    );
-    setMailList(data);
-    setLoading(false);
+    await api("ExternalMails/GetLastMail/7")
+      .getMail()
+      .then((res) => {
+        setMailList(res.data);
+        setLoading(false);
+      })
+      //Display error in console log and browser window alert
+      .catch((err) => {
+        window.alert(JSON.stringify(err.response.data.errors));
+        console.log(JSON.stringify(err.response.data.errors));
+      });
   }
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  //Event handler for input fields
   const handleInputChange = async (e) => {
     const { name, value } = e.target;
-    setValues({
-      ...values,
+    setMailValue({
+      ...mailValue,
       [name]: value,
     });
   };
 
+  //Event handler for submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let data = { ...values };
-    setValues({ ...values, trackingNumber: "" });
+    let data = { ...mailValue };
+    setMailValue({ ...mailValue, trackingNumber: "" });
     let item = {
       mailType: "Incoming",
       trackingNo: data.trackingNumber,
       dateCreated: new Date(),
       productType: data.productType,
     };
-    if(!item.productType){
-       setErrProduct(true);
-       return;
+
+    //Form validation if Product or Tracking Field are blank
+    if (!item.productType) {
+      setErrProduct(true);
+      return;
     }
     if (item.trackingNo) setErrTrackingNo(false);
     if (item.productType) setErrProduct(false);
-    await axios
-      .post("https://mailtrackerapi.azurewebsites.net/api/ExternalMails/", item)
+    await api("ExternalMails")
+      .create(item)
       .catch((error) => {
         if (error.response) {
           console.log(JSON.stringify(error.response.data.errors));
@@ -121,7 +130,7 @@ export default function Scan() {
                       variant="outlined"
                       label="Product Type"
                       name="productType"
-                      value={values.productType}
+                      value={mailValue.productType}
                       fullWidth
                       onChange={handleInputChange}
                     >
@@ -145,7 +154,7 @@ export default function Scan() {
                       variant="outlined"
                       label="Tracking Number"
                       name="trackingNumber"
-                      value={values.trackingNumber}
+                      value={mailValue.trackingNumber}
                       onChange={handleInputChange}
                       fullWidth
                     />
@@ -156,7 +165,7 @@ export default function Scan() {
             </Paper>
           </Grid>
 
-          {/* TABLE */}
+          {/* Recent Mail Table */}
           <Grid item xs={12}>
             <Paper
               sx={{
@@ -181,25 +190,26 @@ export default function Scan() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {mailList.map((m) => (
-                      <TableRow key={m.externalMailID}>
-                        {/* If tracking number is longer than 30 characters, truncate and append ...*/}
-                        <TableCell>
-                          {m.trackingNo.length > 80
-                            ? `${m.trackingNo.substring(0, 80)}...`
-                            : m.trackingNo}
-                        </TableCell>
-                        <TableCell>{m.mailType}</TableCell>
-                        <TableCell>{m.productType}</TableCell>
-                        <TableCell>
-                          {/* Returns a Date with the UTC time. date-fns-tz library will display the date and time in the local time of the user */}
-                          {format(
-                            zonedTimeToUtc(parseISO(m.dateCreated), "UTC"),
-                            "dd/MM/yyyy hh:mm aaa"
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {mailList &&
+                      mailList.map((m) => (
+                        <TableRow key={m.externalMailID}>
+                          {/* If tracking number is longer than 30 characters, truncate and append ...*/}
+                          <TableCell>
+                            {m.trackingNo.length > 80
+                              ? `${m.trackingNo.substring(0, 80)}...`
+                              : m.trackingNo}
+                          </TableCell>
+                          <TableCell>{m.mailType}</TableCell>
+                          <TableCell>{m.productType}</TableCell>
+                          <TableCell>
+                            {/* Returns a Date with the UTC time. date-fns-tz library will display the date and time in the local time of the user */}
+                            {format(
+                              zonedTimeToUtc(parseISO(m.dateCreated), "UTC"),
+                              "dd/MM/yyyy hh:mm aaa"
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               )}

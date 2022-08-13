@@ -10,9 +10,9 @@ import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
 import MUIDataTable from "mui-datatables";
-import axios from "axios";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import api from "../services/api";
 
 export default function Search() {
   const [mailList, setMailList] = useState([]);
@@ -24,11 +24,17 @@ export default function Search() {
   };
 
   async function fetchData() {
-    const { data } = await axios.get(
-      "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/"
-    );
-    setMailList(data);
-    setLoading(false);
+    await api("ExternalMails")
+      .getMail()
+      .then((res) => {
+        setMailList(res.data);
+        setLoading(false);
+      })
+      //Display error in console log and browser window alert
+      .catch((err) => {
+        window.alert(JSON.stringify(err.response.data.errors));
+        console.log(JSON.stringify(err.response.data.errors));
+      });
   }
 
   useEffect(() => {
@@ -152,7 +158,6 @@ export default function Search() {
   return (
     <Box
       component="main"
-      
       sx={{ flexGrow: 1, paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}
     >
       <CssBaseline />
