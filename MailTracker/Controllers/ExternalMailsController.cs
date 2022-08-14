@@ -23,6 +23,14 @@ namespace MailTracker.Controllers
 
         }
 
+        //TEST --- Search
+        // GET: api/ExternalMails/search/{trackingno}
+        [HttpGet("Search/{trackingno}")]
+        public async Task<ActionResult<IEnumerable<ExternalMail>>> Search(string trackingNo)
+        {
+            return await _context.ExternalMails.Where(x => x.TrackingNo.Contains(trackingNo)).ToListAsync();
+        }
+
         // GET: api/ExternalMails
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ExternalMail>>> GetExternalMails()
