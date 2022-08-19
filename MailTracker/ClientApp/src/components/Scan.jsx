@@ -4,21 +4,15 @@ import {
   Paper,
   CssBaseline,
   TextField,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
   MenuItem,
   CircularProgress,
   Box,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { format, zonedTimeToUtc } from "date-fns-tz";
-import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
 import Title from "./Title";
 import api from "../services/api";
+import RecentScanned from "./RecentScanned";
 
 export default function Scan() {
   //New External Mail Object
@@ -51,8 +45,7 @@ export default function Scan() {
         setLoading(false);
       })
       //Display error in console log and browser window alert
-      .catch((err) => {
-        window.alert(JSON.stringify(err.response.data.errors));
+      .catch((err) => { 
         console.log(JSON.stringify(err.response.data.errors));
       });
   }
@@ -104,7 +97,7 @@ export default function Scan() {
   return (
     <Box
       component="main"
-      sx={{ flexGrow: 1, paddingTop: 8, marginLeft: { sm: 30, xs: 0 } }}
+      sx={{ marginLeft: { sm: 30, xs: 0 }, paddingTop: { xs: 5, sm: 8}  }}
     >
       <CssBaseline />
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -180,38 +173,7 @@ export default function Scan() {
                   <CircularProgress />
                 </center>
               ) : (
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Tracking Number</TableCell>
-                      <TableCell>Mail Type</TableCell>
-                      <TableCell>Product Type</TableCell>
-                      <TableCell>Date Scanned</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {mailList &&
-                      mailList.map((m) => (
-                        <TableRow key={m.externalMailID}>
-                          {/* If tracking number is longer than 30 characters, truncate and append ...*/}
-                          <TableCell>
-                            {m.trackingNo.length > 80
-                              ? `${m.trackingNo.substring(0, 80)}...`
-                              : m.trackingNo}
-                          </TableCell>
-                          <TableCell>{m.mailType}</TableCell>
-                          <TableCell>{m.productType}</TableCell>
-                          <TableCell>
-                            {/* Returns a Date with the UTC time. date-fns-tz library will display the date and time in the local time of the user */}
-                            {format(
-                              zonedTimeToUtc(parseISO(m.dateCreated), "UTC"),
-                              "dd/MM/yyyy hh:mm aaa"
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
+                <RecentScanned data={mailList} type={"Incoming"} />
               )}
             </Paper>
           </Grid>

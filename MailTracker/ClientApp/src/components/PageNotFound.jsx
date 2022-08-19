@@ -1,4 +1,4 @@
-import { Box, CssBaseline, Paper } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import React from "react";
 
 export default function PageNotFound() {

@@ -319,11 +319,11 @@ export default function Reports() {
   const chartOptions = [
     {
       value: 0,
-      label: "Last Month Incoming Stats",
+      label: "Last Month Incoming",
     },
     {
       value: 1,
-      label: "Last Month Outgoing Stats",
+      label: "Last Month Outgoing",
     },
   ];
 
@@ -351,7 +351,7 @@ export default function Reports() {
                 label="Select Chart"
                 size="small"
                 onChange={handleChange}
-                sx={{ width: 250, alignSelf: "end" }}
+                sx={{ alignSelf: "end" }}
               >
                 {chartOptions.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -424,7 +424,7 @@ export default function Reports() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
-                  <Tooltip /> 
+                  <Tooltip />
                   <Line type="monotone" dataKey="Outgoing" stroke="#1976d2" />
                 </LineChart>
               </ResponsiveContainer>
