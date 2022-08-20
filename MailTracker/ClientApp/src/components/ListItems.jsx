@@ -6,7 +6,6 @@ import {
     Typography,
     styled,
     ListItemText,
-    Divider,
     Tooltip,
     tooltipClasses
   } from "@mui/material";

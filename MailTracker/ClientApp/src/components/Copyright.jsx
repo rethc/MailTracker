@@ -6,6 +6,7 @@ export default function Copyright(props) {
       variant="body2"
       color="text.secondary"
       align="center"
+      paddingTop={4}
       {...props}
     >
       Operations Delivery Mail Tracker v1.2

@@ -174,7 +174,7 @@ export default function Search() {
             options={options}
           />
         )}
-        <Copyright sx={{ pt: 4 }} />
+        <Copyright />
       </Container>
     </Box>
   );

@@ -97,7 +97,7 @@ export default function Scan() {
   return (
     <Box
       component="main"
-      sx={{ marginLeft: { sm: 30, xs: 0 }, paddingTop: { xs: 5, sm: 8}  }}
+      sx={{ marginLeft: { sm: 30, xs: 0 }, paddingTop: { xs: 6, sm: 8}  }}
     >
       <CssBaseline />
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -178,7 +178,7 @@ export default function Scan() {
             </Paper>
           </Grid>
         </Grid>
-        <Copyright sx={{ pt: 4 }} />
+        <Copyright />
       </Container>
     </Box>
   );
