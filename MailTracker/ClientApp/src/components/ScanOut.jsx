@@ -13,7 +13,7 @@ import Title from "./Title";
 import api from "../services/api";
 import RecentScanned from "./RecentScanned";
 
-export default function Scan() {
+export default function ScanOut() {
   //New External Mail Object
   const initialMailRecord = {
     mailType: "Outgoing",

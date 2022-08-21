@@ -9,9 +9,9 @@ import {
   CardContent,
   Stack,
   CardActions,
-  FormControl, 
+  FormControl,
   MenuItem,
-  TextField, 
+  TextField,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -25,7 +25,7 @@ import {
   XAxis,
   YAxis,
   Line,
-  LineChart, 
+  LineChart,
 } from "recharts";
 
 export default function Reports() {
@@ -33,11 +33,11 @@ export default function Reports() {
   const [outgoing, setOutgoing] = useState();
   const [isLoading, setLoading] = useState(true); //loading spinner
 
-   const [chart, setChart] = React.useState(0);
+  const [chart, setChart] = React.useState(0);
 
-   const handleChange = (event) => {
-     setChart(event.target.value);
-   };
+  const handleChange = (event) => {
+    setChart(event.target.value);
+  };
 
   async function fetchIncoming() {
     const { data } = await axios.get(
@@ -228,93 +228,93 @@ export default function Reports() {
       BDM: 39,
       Citizenship: 28,
     },
-  ]; 
-   const outgoingData = [
-     {
-       name: "01/07/2022",
-       Outgoing: 1140,
-     },
-     {
-       name: "04/07/2022",
-       Outgoing: 1247,
-     },
-     {
-       name: "05/07/2022",
-       Outgoing: 1334,
-     },
-     {
-       name: "06/07/2022",
-       Outgoing: 1300,
-     },
-     {
-       name: "07/07/2022",
-       Outgoing: 1698,
-     },
-     {
-       name: "08/07/2022",
-       Outgoing: 1291,
-     },
-     {
-       name: "11/07/2022",
-       Outgoing: 3357,
-     },
-     {
-       name: "12/07/2022",
-       Outgoing: 2026,
-     },
-     {
-       name: "13/07/2022",
-       Outgoing: 2379,
-     },
-     {
-       name: "14/07/2022",
-       Outgoing: 1572,
-     },
-     {
-       name: "15/07/2022",
-       Outgoing: 3131,
-     },
-     {
-       name: "18/07/2022",
-       Outgoing: 2955,
-     },
-     {
-       name: "19/07/2022",
-       Outgoing: 1823,
-     },
-     {
-       name: "20/07/2022",
-       Outgoing: 1814,
-     },
-     {
-       name: "21/07/2022",
-       Outgoing: 2047,
-     },
-     {
-       name: "22/07/2022",
-       Outgoing: 1728,
-     },
-     {
-       name: "25/07/2022",
-       Outgoing: 2656,
-     },
-     {
-       name: "26/07/2022",
-       Outgoing: 1662,
-     },
-     {
-       name: "27/07/2022",
-       Outgoing: 2651,
-     },
-     {
-       name: "28/07/2022",
-       Outgoing: 2405,
-     },
-     {
-       name: "29/07/2022",
-       Outgoing: 1948,
-     },
-   ];
+  ];
+  const outgoingData = [
+    {
+      name: "01/07/2022",
+      Outgoing: 1140,
+    },
+    {
+      name: "04/07/2022",
+      Outgoing: 1247,
+    },
+    {
+      name: "05/07/2022",
+      Outgoing: 1334,
+    },
+    {
+      name: "06/07/2022",
+      Outgoing: 1300,
+    },
+    {
+      name: "07/07/2022",
+      Outgoing: 1698,
+    },
+    {
+      name: "08/07/2022",
+      Outgoing: 1291,
+    },
+    {
+      name: "11/07/2022",
+      Outgoing: 3357,
+    },
+    {
+      name: "12/07/2022",
+      Outgoing: 2026,
+    },
+    {
+      name: "13/07/2022",
+      Outgoing: 2379,
+    },
+    {
+      name: "14/07/2022",
+      Outgoing: 1572,
+    },
+    {
+      name: "15/07/2022",
+      Outgoing: 3131,
+    },
+    {
+      name: "18/07/2022",
+      Outgoing: 2955,
+    },
+    {
+      name: "19/07/2022",
+      Outgoing: 1823,
+    },
+    {
+      name: "20/07/2022",
+      Outgoing: 1814,
+    },
+    {
+      name: "21/07/2022",
+      Outgoing: 2047,
+    },
+    {
+      name: "22/07/2022",
+      Outgoing: 1728,
+    },
+    {
+      name: "25/07/2022",
+      Outgoing: 2656,
+    },
+    {
+      name: "26/07/2022",
+      Outgoing: 1662,
+    },
+    {
+      name: "27/07/2022",
+      Outgoing: 2651,
+    },
+    {
+      name: "28/07/2022",
+      Outgoing: 2405,
+    },
+    {
+      name: "29/07/2022",
+      Outgoing: 1948,
+    },
+  ];
 
   const chartOptions = [
     {
@@ -330,7 +330,7 @@ export default function Reports() {
   return (
     <Box
       component="main"
-      sx={{ flexGrow: 1, paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}
+      sx={{ display: "flex", paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}
     >
       <CssBaseline />
       <Grid container spacing={3} height={"calc(100vh - 40px)"} p={3}>
@@ -343,27 +343,24 @@ export default function Reports() {
               height: "100%",
             }}
           >
-            <FormControl>
-              <TextField
-                select
-                id="select-chart"
-                value={chart}
-                label="Select Chart"
-                size="small"
-                onChange={handleChange}
-                sx={{ alignSelf: "end" }}
-              >
-                {chartOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </FormControl>
-
+            <TextField
+              select
+              id="select-chart"
+              value={chart}
+              label="Select Chart"
+              size="small"   
+              onChange={handleChange}
+              sx={{ alignSelf: "end"}}
+            >
+              {chartOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
             {chart === 0 ? (
               <Typography
-                variant="h4"
+                variant="h5"
                 color="primary"
                 align="center"
                 sx={{ mt: -5 }}
@@ -372,7 +369,7 @@ export default function Reports() {
               </Typography>
             ) : (
               <Typography
-                variant="h4"
+                variant="h5"
                 color="primary"
                 align="center"
                 sx={{ mt: -5 }}

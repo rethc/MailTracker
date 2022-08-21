@@ -86,7 +86,6 @@ export default function Search() {
               filterPos,
               index
             );
-
             if (filterPos === 0) {
               filterList[index].splice(filterPos, 1, "");
             } else if (filterPos === 1) {
@@ -94,7 +93,6 @@ export default function Search() {
             } else if (filterPos === -1) {
               filterList[index] = [];
             }
-
             return filterList;
           },
         },
@@ -164,6 +162,7 @@ export default function Search() {
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
         {isLoading ? (
           <center>
+            Loading...<br />
             <CircularProgress />
           </center>
         ) : (
