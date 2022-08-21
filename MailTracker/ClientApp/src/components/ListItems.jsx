@@ -18,6 +18,7 @@ import {
   import { useLocation, useNavigate } from "react-router-dom";
   
   function ListItems() {
+
     let navigate = useNavigate();
     //Active Button
     const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -65,7 +66,9 @@ import {
           <HtmlTooltip
             title={
               <React.Fragment>
-                <Typography color="inherit">How to scan Incoming Mail</Typography>
+                <Typography color="inherit">
+                  How to scan Incoming Mail
+                </Typography>
                 {"1. Select "}
                 <b>
                   <u>Product Type</u>
@@ -90,18 +93,27 @@ import {
                 }}
               >
                 <ListItemIcon>
-                  <LocalPostOfficeIcon />
+                  <LocalPostOfficeIcon
+                    color={selectedIndex === 0 ? "secondary" : "inherit"}
+                  />
                 </ListItemIcon>
-                <ListItemText primary="Scan Incoming Mail" />
+                <ListItemText
+                  primary="Scan Incoming Mail"
+                  sx={{
+                    color: selectedIndex === 0 ? "secondary.main" : "inherit",
+                  }}
+                />
               </ListItemButton>
             </ListItem>
           </HtmlTooltip>
-  
+
           {/* Scan Outgoing Mail */}
           <HtmlTooltip
             title={
               <React.Fragment>
-                <Typography color="inherit">How to scan Outgoing Mail</Typography>
+                <Typography color="inherit">
+                  How to scan Outgoing Mail
+                </Typography>
                 {"1. Click into "}
                 <b>
                   <u>Tracking Number</u>
@@ -120,13 +132,20 @@ import {
                 }}
               >
                 <ListItemIcon>
-                  <LocalShippingIcon />
+                  <LocalShippingIcon
+                    color={selectedIndex === 1 ? "secondary" : "inherit"}
+                  />
                 </ListItemIcon>
-                <ListItemText primary="Scan Outgoing Mail" />
+                <ListItemText
+                  primary="Scan Outgoing Mail"
+                  sx={{
+                    color: selectedIndex === 1 ? "secondary.main" : "inherit",
+                  }}
+                />
               </ListItemButton>
             </ListItem>
           </HtmlTooltip>
-  
+
           {/* Search External Mail */}
           <HtmlTooltip
             title={
@@ -148,13 +167,20 @@ import {
                 }}
               >
                 <ListItemIcon>
-                  <SearchIcon />
+                  <SearchIcon
+                    color={selectedIndex === 2 ? "secondary" : "inherit"}
+                  />
                 </ListItemIcon>
-                <ListItemText primary="Search Mail" />
+                <ListItemText
+                  primary="Search Mail"
+                  sx={{
+                    color: selectedIndex === 2 ? "secondary.main" : "inherit",
+                  }}
+                />
               </ListItemButton>
             </ListItem>
           </HtmlTooltip>
-  
+
           {/* Internal Mail */}
           <HtmlTooltip
             title={
@@ -196,16 +222,22 @@ import {
                 }}
               >
                 <ListItemIcon>
-                  <LeaderboardIcon />
+                  <LeaderboardIcon
+                    color={selectedIndex === 4 ? "secondary" : "inherit"}
+                  />
                 </ListItemIcon>
-                <ListItemText primary="Stats" />
+                <ListItemText
+                  primary="Stats"
+                  sx={{
+                    color: selectedIndex === 4 ? "secondary.main" : "inherit",
+                  }}
+                />
               </ListItemButton>
             </ListItem>
-          </HtmlTooltip> 
+          </HtmlTooltip>
         </List>
       </React.Fragment>
     );
   }
   
   export default ListItems;
-  

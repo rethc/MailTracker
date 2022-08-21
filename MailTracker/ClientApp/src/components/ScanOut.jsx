@@ -69,11 +69,9 @@ export default function Scan() {
     await api("ExternalMails")
       .create(item)
       .catch((error) => {
-        if (error.response) {
-          console.log(JSON.stringify(error.response.data.errors));
-
-          if (!item.trackingNo) setErrTrackingNo(true);
-        }
+        window.alert(error.response.data.errors.TrackingNo);
+        console.log(error.response.data.errors);
+        if (!item.trackingNo) setErrTrackingNo(true);
       });
     fetchData();
   };
