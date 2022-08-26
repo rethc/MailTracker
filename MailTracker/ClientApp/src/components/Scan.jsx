@@ -82,6 +82,7 @@ export default function Scan() {
     }
     if (item.trackingNo) setErrTrackingNo(false);
     if (item.productType) setErrProduct(false);
+    
     await api("ExternalMails")
       .create(item)
       .catch((error) => {

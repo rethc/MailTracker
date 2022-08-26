@@ -9,6 +9,7 @@ import Scan from "./components/Scan";
 import ScanOut from "./components/ScanOut";
 import Stats from "./components/Stats";
 import PageNotFound from "./components/PageNotFound";
+import Test from "./components/Test";
 
 const getDesignTokens = (mode) => ({
   palette: {
@@ -73,6 +74,7 @@ function App() {
           <Route path="/scan-out" element={<ScanOut />} />
           <Route path="/search" element={<Search />} /> 
           <Route path="/stats" element={<Stats />} /> 
+          <Route path="/test" element={<Test />} /> 
           <Route path="*" element={<PageNotFound />} /> 
         </Routes>
       </Box>

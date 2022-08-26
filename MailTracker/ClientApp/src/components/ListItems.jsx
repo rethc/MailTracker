@@ -7,7 +7,8 @@ import {
     styled,
     ListItemText,
     Tooltip,
-    tooltipClasses
+    tooltipClasses,
+    Divider
   } from "@mui/material";
   import React, { useEffect } from "react";
   import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -15,6 +16,7 @@ import {
   import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
   import TableChartIcon from "@mui/icons-material/TableChart";
   import LeaderboardIcon from "@mui/icons-material/Leaderboard";
+  import NewReleasesIcon from "@mui/icons-material/NewReleases";
   import { useLocation, useNavigate } from "react-router-dom";
   
   function ListItems() {
@@ -37,6 +39,9 @@ import {
           break;
         case "/stats":
           setSelectedIndex(4);
+          break;
+        case "/test":
+          setSelectedIndex(5);
           break;
         default:
           break;
@@ -203,6 +208,7 @@ import {
               </ListItemButton>
             </ListItem>
           </HtmlTooltip>
+
           {/* Stats */}
           <HtmlTooltip
             title={
@@ -230,6 +236,38 @@ import {
                   primary="Stats"
                   sx={{
                     color: selectedIndex === 4 ? "secondary.main" : "inherit",
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </HtmlTooltip>
+
+          <Divider />
+          {/* Test */}
+          <HtmlTooltip
+            title={
+              <React.Fragment>
+                <Typography color="inherit">Testing Area</Typography>
+                {"Testing area"}
+              </React.Fragment>
+            }
+          >
+            <ListItem disablePadding>
+              <ListItemButton
+                selected={selectedIndex === 5}
+                onClick={() => {
+                  navigate("/test");
+                }}
+              >
+                <ListItemIcon>
+                  <NewReleasesIcon
+                    color={selectedIndex === 5 ? "secondary" : "inherit"}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Testing Area"
+                  sx={{
+                    color: selectedIndex === 5 ? "secondary.main" : "inherit",
                   }}
                 />
               </ListItemButton>
