@@ -265,7 +265,7 @@ import {
                   />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Testing Area"
+                  primary="Testing"
                   sx={{
                     color: selectedIndex === 5 ? "secondary.main" : "inherit",
                   }}

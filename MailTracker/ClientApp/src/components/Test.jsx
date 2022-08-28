@@ -122,7 +122,7 @@ export default function Test() {
               The search criteria is <b>Contents Description</b> or
               <b> Tracking Number.</b>
               <br />
-              ⚠️ This is still being tested testing and is using spreadsheet
+              ⚠️ This is still being tested and is using spreadsheet
               data from 17/08/2022.
             </Typography>
             <button hidden onClick={handleSubmit} type="submit" />
