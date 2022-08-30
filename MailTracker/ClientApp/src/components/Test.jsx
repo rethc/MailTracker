@@ -74,13 +74,9 @@ export default function Test() {
       )
       .then((res) => {
         setExternalValues(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
       }); 
       setLoading(false);
       setHidden(false);
-      
   };
 
   return (

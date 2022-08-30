@@ -1,4 +1,5 @@
 using MailTrackerAPI.Models;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +11,22 @@ builder.Services.AddDbContext<MailTrackerDbContext>(options =>
 
 builder.Services.AddControllersWithViews();
 
+
 var app = builder.Build();
+
+
+//HSTS test
+app.Use((context, next) =>
+{
+    context.Request.Scheme = "https";
+    return next();
+});
+app.UseHsts();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
+
 }
 
 app.UseStaticFiles();
