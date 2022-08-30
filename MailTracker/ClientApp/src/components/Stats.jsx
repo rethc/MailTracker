@@ -9,7 +9,9 @@ import {
   CardContent,
   Stack,
   CardActions,
-  Divider, 
+  Divider,
+  TextField,
+  MenuItem, 
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -30,6 +32,12 @@ export default function Reports() {
   const [incoming, setIncoming] = useState([]);
   const [outgoing, setOutgoing] = useState();
   const [isLoading, setLoading] = useState(true); //loading spinner
+
+   const [chart, setChart] = React.useState(1);
+
+   const handleChange = (event) => {
+     setChart(event.target.value);
+   };
 
   async function fetchIncoming() {
     const { data } = await axios.get(
@@ -319,6 +327,274 @@ const incomingData = [
    },
  ];
 
+  const incomingData2 = [
+    {
+      name: "01/07/2022",
+      Other: 103,
+      Passport: 82,
+      Authentication: 0,
+      BDM: 0,
+      Citizenship: 29,
+    },
+    {
+      name: "04/07/2022",
+      Other: 50,
+      Passport: 2,
+      Authentication: 0,
+      BDM: 0,
+      Citizenship: 0,
+    },
+    {
+      name: "05/07/2022",
+      Other: 41,
+      Passport: 125,
+      Authentication: 33,
+      BDM: 17,
+      Citizenship: 35,
+    },
+    {
+      name: "06/07/2022",
+      Other: 65,
+      Passport: 77,
+      Authentication: 55,
+      BDM: 36,
+      Citizenship: 39,
+    },
+    {
+      name: "07/07/2022",
+      Other: 249,
+      Passport: 161,
+      Authentication: 0,
+      BDM: 28,
+      Citizenship: 38,
+    },
+    {
+      name: "08/07/2022",
+      Other: 32,
+      Passport: 166,
+      Authentication: 0,
+      BDM: 0,
+      Citizenship: 0,
+    },
+    {
+      name: "11/07/2022",
+      Other: 62,
+      Passport: 80,
+      Authentication: 0,
+      BDM: 0,
+      Citizenship: 0,
+    },
+    {
+      name: "12/07/2022",
+      Other: 44,
+      Passport: 103,
+      Authentication: 40,
+      BDM: 21,
+      Citizenship: 35,
+    },
+    {
+      name: "13/07/2022",
+      Other: 134,
+      Passport: 1,
+      Authentication: 0,
+      BDM: 0,
+      Citizenship: 0,
+    },
+    {
+      name: "14/07/2022",
+      Other: 475,
+      Passport: 94,
+      Authentication: 60,
+      BDM: 29,
+      Citizenship: 0,
+    },
+    {
+      name: "15/07/2022",
+      Other: 58,
+      Passport: 78,
+      Authentication: 30,
+      BDM: 24,
+      Citizenship: 27,
+    },
+    {
+      name: "18/07/2022",
+      Other: 73,
+      Passport: 220,
+      Authentication: 0,
+      BDM: 0,
+      Citizenship: 0,
+    },
+    {
+      name: "19/07/2022",
+      Other: 87,
+      Passport: 82,
+      Authentication: 35,
+      BDM: 22,
+      Citizenship: 31,
+    },
+    {
+      name: "20/07/2022",
+      Other: 36,
+      Passport: 95,
+      Authentication: 48,
+      BDM: 32,
+      Citizenship: 46,
+    },
+    {
+      name: "21/07/2022",
+      Other: 56,
+      Passport: 0,
+      Authentication: 3,
+      BDM: 1,
+      Citizenship: 21,
+    },
+    {
+      name: "22/07/2022",
+      Other: 22,
+      Passport: 72,
+      Authentication: 40,
+      BDM: 21,
+      Citizenship: 25,
+    },
+    {
+      name: "25/07/2022",
+      Other: 45,
+      Passport: 230,
+      Authentication: 0,
+      BDM: 0,
+      Citizenship: 0,
+    },
+    {
+      name: "26/07/2022",
+      Other: 492,
+      Passport: 76,
+      Authentication: 0,
+      BDM: 0,
+      Citizenship: 92,
+    },
+    {
+      name: "27/07/2022",
+      Other: 53,
+      Passport: 164,
+      Authentication: 0,
+      BDM: 0,
+      Citizenship: 0,
+    },
+    {
+      name: "28/07/2022",
+      Other: 24,
+      Passport: 147,
+      Authentication: 40,
+      BDM: 12,
+      Citizenship: 28,
+    },
+    {
+      name: "29/07/2022",
+      Other: 47,
+      Passport: 106,
+      Authentication: 67,
+      BDM: 39,
+      Citizenship: 28,
+    },
+  ];
+  const outgoingData2 = [
+    {
+      name: "01/07/2022",
+      Outgoing: 1140,
+    },
+    {
+      name: "04/07/2022",
+      Outgoing: 1247,
+    },
+    {
+      name: "05/07/2022",
+      Outgoing: 1334,
+    },
+    {
+      name: "06/07/2022",
+      Outgoing: 1300,
+    },
+    {
+      name: "07/07/2022",
+      Outgoing: 1698,
+    },
+    {
+      name: "08/07/2022",
+      Outgoing: 1291,
+    },
+    {
+      name: "11/07/2022",
+      Outgoing: 3357,
+    },
+    {
+      name: "12/07/2022",
+      Outgoing: 2026,
+    },
+    {
+      name: "13/07/2022",
+      Outgoing: 2379,
+    },
+    {
+      name: "14/07/2022",
+      Outgoing: 1572,
+    },
+    {
+      name: "15/07/2022",
+      Outgoing: 3131,
+    },
+    {
+      name: "18/07/2022",
+      Outgoing: 2955,
+    },
+    {
+      name: "19/07/2022",
+      Outgoing: 1823,
+    },
+    {
+      name: "20/07/2022",
+      Outgoing: 1814,
+    },
+    {
+      name: "21/07/2022",
+      Outgoing: 2047,
+    },
+    {
+      name: "22/07/2022",
+      Outgoing: 1728,
+    },
+    {
+      name: "25/07/2022",
+      Outgoing: 2656,
+    },
+    {
+      name: "26/07/2022",
+      Outgoing: 1662,
+    },
+    {
+      name: "27/07/2022",
+      Outgoing: 2651,
+    },
+    {
+      name: "28/07/2022",
+      Outgoing: 2405,
+    },
+    {
+      name: "29/07/2022",
+      Outgoing: 1948,
+    },
+  ];
+
+  const chartOptions = [
+    {
+      value: 0,
+      label: "This Month",
+    },
+    {
+      value: 1,
+      label: "Last Month",
+    },
+  ];
+
   return (
     <Box
       component="main"
@@ -341,14 +617,31 @@ const incomingData = [
               height: "100%",
             }}
           >
+            <TextField
+              select
+              id="select-chart"
+              value={chart}
+              label="Select Chart"
+              size="small"
+              onChange={handleChange}
+              sx={{ alignSelf: "end" }}
+            >
+              {chartOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
             <center>
-              <Typography variant="h6" color="primary" mt={-1}>
-                August 2022 Incoming Tracked Mail
+              <Typography variant="h6" color="primary" sx={{ mt: -5 }}>
+                {chart === 0
+                  ? "August 2022 Incoming Tracked Mail"
+                  : "July 2022 Incoming Tracked Mail"}
               </Typography>
             </center>
             <ResponsiveContainer>
               <BarChart
-                data={incomingData}
+                data={chart === 0 ? incomingData : incomingData2}
                 margin={{
                   top: 10,
                   right: 20,
@@ -371,13 +664,15 @@ const incomingData = [
             </ResponsiveContainer>
             <Divider />
             <center>
-              <Typography variant="h6" color="primary" mt={1}>
-                August 2022 Outgoing Tracked Mail
+              <Typography variant="h6" color="primary" sx={{ mt: 1 }}>
+                {chart === 0
+                  ? "August 2022 Incoming Tracked Mail"
+                  : "July 2022 Incoming Tracked Mail"}
               </Typography>
             </center>
             <ResponsiveContainer>
               <LineChart
-                data={outgoingData}
+                data={chart === 0 ? outgoingData : outgoingData2}
                 margin={{
                   top: 10,
                   right: 20,
