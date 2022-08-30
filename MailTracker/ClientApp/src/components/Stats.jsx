@@ -57,263 +57,275 @@ export default function Reports() {
     fetchIncoming();
     fetchOutgoing();
   }, []);
+const incomingData = [
+  {
+    name: "01/08/2022",
+    Other: 39,
+    Passport: 178,
+    Authentication: 3,
+    BDM: 3,
+    Citizenship: 4,
+  },
+  {
+    name: "02/08/2022",
+    Other: 64,
+    Passport: 122,
+    Authentication: 49,
+    BDM: 5,
+    Citizenship: 57,
+  },
+  {
+    name: "03/08/2022",
+    Other: 65,
+    Passport: 110,
+    Authentication: 43,
+    BDM: 38,
+    Citizenship: 54,
+  },
+  {
+    name: "04/08/2022",
+    Other: 42,
+    Passport: 180,
+    Authentication: 5,
+    BDM: 26,
+    Citizenship: 3,
+  },
+  {
+    name: "05/08/2022",
+    Other: 36,
+    Passport: 94,
+    Authentication: 40,
+    BDM: 34,
+    Citizenship: 33,
+  },
+  {
+    name: "08/08/2022",
+    Other: 65,
+    Passport: 118,
+    Authentication: 47,
+    BDM: 29,
+    Citizenship: 55,
+  },
+  {
+    name: "09/08/2022",
+    Other: 39,
+    Passport: 58,
+    Authentication: 33,
+    BDM: 24,
+    Citizenship: 26,
+  },
+  {
+    name: "10/08/2022",
+    Other: 47,
+    Passport: 127,
+    Authentication: 64,
+    BDM: 58,
+    Citizenship: 43,
+  },
+  {
+    name: "11/08/2022",
+    Other: 63,
+    Passport: 93,
+    Authentication: 51,
+    BDM: 26,
+    Citizenship: 21,
+  },
+  {
+    name: "12/08/2022",
+    Other: 51,
+    Passport: 76,
+    Authentication: 31,
+    BDM: 11,
+    Citizenship: 29,
+  },
+  {
+    name: "15/08/2022",
+    Other: 76,
+    Passport: 115,
+    Authentication: 60,
+    BDM: 41,
+    Citizenship: 43,
+  },
+  {
+    name: "16/08/2022",
+    Other: 33,
+    Passport: 80,
+    Authentication: 30,
+    BDM: 10,
+    Citizenship: 27,
+  },
+  {
+    name: "17/08/2022",
+    Other: 84,
+    Passport: 89,
+    Authentication: 24,
+    BDM: 18,
+    Citizenship: 22,
+  },
+  {
+    name: "18/08/2022",
+    Other: 273,
+    Passport: 83,
+    Authentication: 47,
+    BDM: 17,
+    Citizenship: 30,
+  },
+  {
+    name: "19/08/2022",
+    Other: 53,
+    Passport: 56,
+    Authentication: 35,
+    BDM: 26,
+    Citizenship: 23,
+  },
+  {
+    name: "22/08/2022",
+    Other: 39,
+    Passport: 53,
+    Authentication: 31,
+    BDM: 34,
+    Citizenship: 26,
+  },
+  {
+    name: "23/08/2022",
+    Other: 30,
+    Passport: 68,
+    Authentication: 36,
+    BDM: 23,
+    Citizenship: 26,
+  },
+  {
+    name: "24/08/2022",
+    Other: 33,
+    Passport: 23,
+    Authentication: 54,
+    BDM: 24,
+    Citizenship: 53,
+  },
+  {
+    name: "25/08/2022",
+    Other: 81,
+    Passport: 84,
+    Authentication: 47,
+    BDM: 24,
+    Citizenship: 0,
+  },
+  {
+    name: "26/08/2022",
+    Other: 33,
+    Passport: 45,
+    Authentication: 29,
+    BDM: 30,
+    Citizenship: 27,
+  },
+  {
+    name: "29/08/2022",
+    Other: 63,
+    Passport: 74,
+    Authentication: 53,
+    BDM: 28,
+    Citizenship: 39,
+  },
+  {
+    name: "30/08/2022",
+    Other: 73,
+    Passport: 47,
+    Authentication: 34,
+    BDM: 13,
+    Citizenship: 21,
+  },
+];
+ const outgoingData = [
+   {
+     name: "01/08/2022",
+     Outgoing: 1584,
+   },
+   {
+     name: "02/08/2022",
+     Outgoing: 1829,
+   },
+   {
+     name: "03/08/2022",
+     Outgoing: 2023,
+   },
+   {
+     name: "04/08/2022",
+     Outgoing: 1831,
+   },
+   {
+     name: "05/08/2022",
+     Outgoing: 1998,
+   },
+   {
+     name: "08/08/2022",
+     Outgoing: 2173,
+   },
+   {
+     name: "09/08/2022",
+     Outgoing: 2021,
+   },
+   {
+     name: "10/08/2022",
+     Outgoing: 1724,
+   },
+   {
+     name: "11/08/2022",
+     Outgoing: 2098,
+   },
+   {
+     name: "12/08/2022",
+     Outgoing: 1855,
+   },
+   {
+     name: "15/08/2022",
+     Outgoing: 2311,
+   },
+   {
+     name: "16/08/2022",
+     Outgoing: 2241,
+   },
+   {
+     name: "17/08/2022",
+     Outgoing: 2340,
+   },
+   {
+     name: "18/08/2022",
+     Outgoing: 2372,
+   },
+   {
+     name: "19/08/2022",
+     Outgoing: 1885,
+   },
+   {
+     name: "22/08/2022",
+     Outgoing: 1955,
+   },
+   {
+     name: "23/08/2022",
+     Outgoing: 2224,
+   },
+   {
+     name: "24/08/2022",
+     Outgoing: 1676,
+   },
+   {
+     name: "25/08/2022",
+     Outgoing: 1775,
+   },
+   {
+     name: "26/08/2022",
+     Outgoing: 1781,
+   },
+   {
+     name: "29/08/2022",
+     Outgoing: 2550,
+   },
+   {
+     name: "30/08/2022",
+     Outgoing: 2340,
+   },
+ ];
 
-  const incomingData = [
-    {
-      name: "01/07/2022",
-      Other: 103,
-      Passport: 82,
-      Authentication: 0,
-      BDM: 0,
-      Citizenship: 29,
-    },
-    {
-      name: "04/07/2022",
-      Other: 50,
-      Passport: 2,
-      Authentication: 0,
-      BDM: 0,
-      Citizenship: 0,
-    },
-    {
-      name: "05/07/2022",
-      Other: 41,
-      Passport: 125,
-      Authentication: 33,
-      BDM: 17,
-      Citizenship: 35,
-    },
-    {
-      name: "06/07/2022",
-      Other: 65,
-      Passport: 77,
-      Authentication: 55,
-      BDM: 36,
-      Citizenship: 39,
-    },
-    {
-      name: "07/07/2022",
-      Other: 249,
-      Passport: 161,
-      Authentication: 0,
-      BDM: 28,
-      Citizenship: 38,
-    },
-    {
-      name: "08/07/2022",
-      Other: 32,
-      Passport: 166,
-      Authentication: 0,
-      BDM: 0,
-      Citizenship: 0,
-    },
-    {
-      name: "11/07/2022",
-      Other: 62,
-      Passport: 80,
-      Authentication: 0,
-      BDM: 0,
-      Citizenship: 0,
-    },
-    {
-      name: "12/07/2022",
-      Other: 44,
-      Passport: 103,
-      Authentication: 40,
-      BDM: 21,
-      Citizenship: 35,
-    },
-    {
-      name: "13/07/2022",
-      Other: 134,
-      Passport: 1,
-      Authentication: 0,
-      BDM: 0,
-      Citizenship: 0,
-    },
-    {
-      name: "14/07/2022",
-      Other: 475,
-      Passport: 94,
-      Authentication: 60,
-      BDM: 29,
-      Citizenship: 0,
-    },
-    {
-      name: "15/07/2022",
-      Other: 58,
-      Passport: 78,
-      Authentication: 30,
-      BDM: 24,
-      Citizenship: 27,
-    },
-    {
-      name: "18/07/2022",
-      Other: 73,
-      Passport: 220,
-      Authentication: 0,
-      BDM: 0,
-      Citizenship: 0,
-    },
-    {
-      name: "19/07/2022",
-      Other: 87,
-      Passport: 82,
-      Authentication: 35,
-      BDM: 22,
-      Citizenship: 31,
-    },
-    {
-      name: "20/07/2022",
-      Other: 36,
-      Passport: 95,
-      Authentication: 48,
-      BDM: 32,
-      Citizenship: 46,
-    },
-    {
-      name: "21/07/2022",
-      Other: 56,
-      Passport: 0,
-      Authentication: 3,
-      BDM: 1,
-      Citizenship: 21,
-    },
-    {
-      name: "22/07/2022",
-      Other: 22,
-      Passport: 72,
-      Authentication: 40,
-      BDM: 21,
-      Citizenship: 25,
-    },
-    {
-      name: "25/07/2022",
-      Other: 45,
-      Passport: 230,
-      Authentication: 0,
-      BDM: 0,
-      Citizenship: 0,
-    },
-    {
-      name: "26/07/2022",
-      Other: 492,
-      Passport: 76,
-      Authentication: 0,
-      BDM: 0,
-      Citizenship: 92,
-    },
-    {
-      name: "27/07/2022",
-      Other: 53,
-      Passport: 164,
-      Authentication: 0,
-      BDM: 0,
-      Citizenship: 0,
-    },
-    {
-      name: "28/07/2022",
-      Other: 24,
-      Passport: 147,
-      Authentication: 40,
-      BDM: 12,
-      Citizenship: 28,
-    },
-    {
-      name: "29/07/2022",
-      Other: 47,
-      Passport: 106,
-      Authentication: 67,
-      BDM: 39,
-      Citizenship: 28,
-    },
-  ];
-  const outgoingData = [
-    {
-      name: "01/07/2022",
-      Outgoing: 1140,
-    },
-    {
-      name: "04/07/2022",
-      Outgoing: 1247,
-    },
-    {
-      name: "05/07/2022",
-      Outgoing: 1334,
-    },
-    {
-      name: "06/07/2022",
-      Outgoing: 1300,
-    },
-    {
-      name: "07/07/2022",
-      Outgoing: 1698,
-    },
-    {
-      name: "08/07/2022",
-      Outgoing: 1291,
-    },
-    {
-      name: "11/07/2022",
-      Outgoing: 3357,
-    },
-    {
-      name: "12/07/2022",
-      Outgoing: 2026,
-    },
-    {
-      name: "13/07/2022",
-      Outgoing: 2379,
-    },
-    {
-      name: "14/07/2022",
-      Outgoing: 1572,
-    },
-    {
-      name: "15/07/2022",
-      Outgoing: 3131,
-    },
-    {
-      name: "18/07/2022",
-      Outgoing: 2955,
-    },
-    {
-      name: "19/07/2022",
-      Outgoing: 1823,
-    },
-    {
-      name: "20/07/2022",
-      Outgoing: 1814,
-    },
-    {
-      name: "21/07/2022",
-      Outgoing: 2047,
-    },
-    {
-      name: "22/07/2022",
-      Outgoing: 1728,
-    },
-    {
-      name: "25/07/2022",
-      Outgoing: 2656,
-    },
-    {
-      name: "26/07/2022",
-      Outgoing: 1662,
-    },
-    {
-      name: "27/07/2022",
-      Outgoing: 2651,
-    },
-    {
-      name: "28/07/2022",
-      Outgoing: 2405,
-    },
-    {
-      name: "29/07/2022",
-      Outgoing: 1948,
-    },
-  ];
 
   const chartOptions = [
     {
@@ -347,9 +359,9 @@ export default function Reports() {
               id="select-chart"
               value={chart}
               label="Select Chart"
-              size="small"   
+              size="small"
               onChange={handleChange}
-              sx={{ alignSelf: "end"}}
+              sx={{ alignSelf: "end" }}
             >
               {chartOptions.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -364,7 +376,7 @@ export default function Reports() {
                 align="center"
                 sx={{ mt: -5 }}
               >
-                July 2022 Incoming Tracked Mail
+                August 2022 Incoming Tracked Mail
               </Typography>
             ) : (
               <Typography
@@ -373,7 +385,7 @@ export default function Reports() {
                 align="center"
                 sx={{ mt: -5 }}
               >
-                July 2022 Outgoing Tracked Mail
+                August 2022 Outgoing Tracked Mail
               </Typography>
             )}
 
