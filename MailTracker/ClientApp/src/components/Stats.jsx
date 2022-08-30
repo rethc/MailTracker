@@ -9,8 +9,7 @@ import {
   CardContent,
   Stack,
   CardActions,
-  MenuItem,
-  TextField,
+  Divider, 
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -31,12 +30,6 @@ export default function Reports() {
   const [incoming, setIncoming] = useState([]);
   const [outgoing, setOutgoing] = useState();
   const [isLoading, setLoading] = useState(true); //loading spinner
-
-  const [chart, setChart] = React.useState(0);
-
-  const handleChange = (event) => {
-    setChart(event.target.value);
-  };
 
   async function fetchIncoming() {
     const { data } = await axios.get(
@@ -326,25 +319,19 @@ const incomingData = [
    },
  ];
 
-
-  const chartOptions = [
-    {
-      value: 0,
-      label: "Last Month Incoming",
-    },
-    {
-      value: 1,
-      label: "Last Month Outgoing",
-    },
-  ];
-
   return (
     <Box
       component="main"
       sx={{ display: "flex", paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}
     >
       <CssBaseline />
-      <Grid container spacing={3} height={"calc(100vh - 40px)"} p={3}>
+      <Grid
+        container
+        spacing={3}
+        height={"calc(100vh - 35px)"}
+        p={3}
+        direction=""
+      >
         <Grid item xs={10}>
           <Paper
             sx={{
@@ -354,89 +341,57 @@ const incomingData = [
               height: "100%",
             }}
           >
-            <TextField
-              select
-              id="select-chart"
-              value={chart}
-              label="Select Chart"
-              size="small"
-              onChange={handleChange}
-              sx={{ alignSelf: "end" }}
-            >
-              {chartOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            {chart === 0 ? (
-              <Typography
-                variant="h5"
-                color="primary"
-                align="center"
-                sx={{ mt: -5 }}
-              >
+            <center>
+              <Typography variant="h6" color="primary" mt={-1}>
                 August 2022 Incoming Tracked Mail
               </Typography>
-            ) : (
-              <Typography
-                variant="h5"
-                color="primary"
-                align="center"
-                sx={{ mt: -5 }}
+            </center>
+            <ResponsiveContainer>
+              <BarChart
+                data={incomingData}
+                margin={{
+                  top: 10,
+                  right: 20,
+                  left: 0,
+                  bottom: 5,
+                }}
               >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="Passport" stackId="a" fill="#0088FE" />
+                <Bar dataKey="BDM" stackId="a" fill="#00C49F" />
+                <Bar dataKey="Authentication" stackId="a" fill="#FFBB28" />
+                <Bar dataKey="Citizenship" stackId="a" fill="#FF8042" />
+                <Bar dataKey="Other" stackId="a" fill="#8884d8" />
+                <Line type="monotone" dataKey="Outgoing" stroke="#ff7300" />
+              </BarChart>
+            </ResponsiveContainer>
+            <Divider />
+            <center>
+              <Typography variant="h6" color="primary" mt={1}>
                 August 2022 Outgoing Tracked Mail
               </Typography>
-            )}
-
-            {/* Incoming Mail Barchar */}
-            {chart === 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  width={500}
-                  height={300}
-                  data={incomingData}
-                  margin={{
-                    top: 20,
-                    right: 30,
-                    left: 0,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="Passport" stackId="a" fill="#0088FE" />
-                  <Bar dataKey="BDM" stackId="a" fill="#00C49F" />
-                  <Bar dataKey="Authentication" stackId="a" fill="#FFBB28" />
-                  <Bar dataKey="Citizenship" stackId="a" fill="#FF8042" />
-                  <Bar dataKey="Other" stackId="a" fill="#a4de6c" />
-                  <Line type="monotone" dataKey="Outgoing" stroke="#ff7300" />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                  width={500}
-                  height={300}
-                  data={outgoingData}
-                  margin={{
-                    top: 20,
-                    right: 30,
-                    left: 0,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="Outgoing" stroke="#1976d2" />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
+            </center>
+            <ResponsiveContainer>
+              <LineChart
+                data={outgoingData}
+                margin={{
+                  top: 10,
+                  right: 20,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="Outgoing" stroke="#1976d2" />
+              </LineChart>
+            </ResponsiveContainer>
           </Paper>
         </Grid>
         {isLoading ? (
