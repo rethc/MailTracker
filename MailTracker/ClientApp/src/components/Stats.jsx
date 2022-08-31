@@ -235,6 +235,14 @@ const incomingData = [
     BDM: 13,
     Citizenship: 21,
   },
+  {
+    name: "31/08/2022",
+    Other: 44,
+    Passport: 94,
+    Authentication: 33,
+    BDM: 34,
+    Citizenship: 12,
+  },
 ];
  const outgoingData = [
    {
@@ -324,6 +332,10 @@ const incomingData = [
    {
      name: "30/08/2022",
      Outgoing: 2340,
+   },
+   {
+     name: "31/08/2022",
+     Outgoing: 1591,
    },
  ];
 
