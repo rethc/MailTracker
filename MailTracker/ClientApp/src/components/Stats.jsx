@@ -33,7 +33,7 @@ export default function Reports() {
   const [outgoing, setOutgoing] = useState();
   const [isLoading, setLoading] = useState(true); //loading spinner
 
-   const [chart, setChart] = React.useState(1);
+   const [chart, setChart] = React.useState(0);
 
    const handleChange = (event) => {
      setChart(event.target.value);
@@ -587,11 +587,11 @@ const incomingData = [
   const chartOptions = [
     {
       value: 0,
-      label: "This Month",
+      label: "August 2022",
     },
     {
       value: 1,
-      label: "Last Month",
+      label: "July 2022",
     },
   ];
 
@@ -666,8 +666,8 @@ const incomingData = [
             <center>
               <Typography variant="h6" color="primary" sx={{ mt: 1 }}>
                 {chart === 0
-                  ? "August 2022 Incoming Tracked Mail"
-                  : "July 2022 Incoming Tracked Mail"}
+                  ? "August 2022 Outgoing Tracked Mail"
+                  : "July 2022 Outgoing Tracked Mail"}
               </Typography>
             </center>
             <ResponsiveContainer>
