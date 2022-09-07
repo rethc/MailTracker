@@ -16,7 +16,6 @@ import {
   import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
   import TableChartIcon from "@mui/icons-material/TableChart";
   import LeaderboardIcon from "@mui/icons-material/Leaderboard";
-  import NewReleasesIcon from "@mui/icons-material/NewReleases";
   import { useLocation, useNavigate } from "react-router-dom";
   
   function ListItems() {
@@ -39,9 +38,6 @@ import {
           break;
         case "/stats":
           setSelectedIndex(4);
-          break;
-        case "/test":
-          setSelectedIndex(5);
           break;
         default:
           break;
@@ -240,39 +236,7 @@ import {
                 />
               </ListItemButton>
             </ListItem>
-          </HtmlTooltip>
-
-          <Divider />
-          {/* Test */}
-          <HtmlTooltip
-            title={
-              <React.Fragment>
-                <Typography color="inherit">Testing Area</Typography>
-                {"Testing area"}
-              </React.Fragment>
-            }
-          >
-            <ListItem disablePadding>
-              <ListItemButton
-                selected={selectedIndex === 5}
-                onClick={() => {
-                  navigate("/test");
-                }}
-              >
-                <ListItemIcon>
-                  <NewReleasesIcon
-                    color={selectedIndex === 5 ? "secondary" : "inherit"}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Testing"
-                  sx={{
-                    color: selectedIndex === 5 ? "secondary.main" : "inherit",
-                  }}
-                />
-              </ListItemButton>
-            </ListItem>
-          </HtmlTooltip>
+          </HtmlTooltip> 
         </List>
       </React.Fragment>
     );

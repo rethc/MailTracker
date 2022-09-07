@@ -9,8 +9,8 @@ export const api = endpoint => {
     return {
         getMail: () => axios.get(url),
         getMailbyID: id => axios.get(url + id), 
-        getIncomingTotal: () => axios.get(url, "Incoming"),
-        getOutgoingTotal: () => axios.get(url, "Outgoing"),
+        getIncomingTotal: () => axios.get(url),
+        getOutgoingTotal: () => axios.get(url),
         create: newRecord => axios.post(url, newRecord),
         update: (id, updatedRecord) => axios.put(url + id, updatedRecord),
         delete: id => axios.delete(url +id)

@@ -1,6 +1,7 @@
 using MailTrackerAPI.Models;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore.Server.Kestrel.Core; 
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,7 +11,6 @@ builder.Services.AddDbContext<MailTrackerDbContext>(options =>
 );
 
 builder.Services.AddControllersWithViews();
-
 
 var app = builder.Build();
 

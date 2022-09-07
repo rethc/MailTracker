@@ -54,18 +54,18 @@ export default function Test() {
     if (value) errSetSearch(false);
     let item = value;
 
-    await axios
-      .post(
-        "https://prod-08.australiasoutheast.logic.azure.com:443/workflows/b0fbb41399944fa09040746a975325dc/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=rKdhFR1byWlsg_msA_rasGgOFGIbjrMxP3eopRoF-_4",
-        item
-      )
-      .then((res) => {
-        console.log(res.data);
-        setExcelValues(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
+    // await axios
+    //   .post(
+    //     "https://prod-08.australiasoutheast.logic.azure.com:443/workflows/b0fbb41399944fa09040746a975325dc/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=rKdhFR1byWlsg_msA_rasGgOFGIbjrMxP3eopRoF-_4",
+    //     item
+    //   )
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     setExcelValues(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.response);
+    //   });
 
     await axios
       .get(
@@ -138,46 +138,7 @@ export default function Test() {
         <></>
       ) : (
         <>
-          <Grid2 sx={{ pl: 2, pr: 2 }}>
-            <Accordion TransitionProps={{ unmountOnExit: true }}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography variant="h6">
-                  Internal Mail Results -{" "}
-                  {excelValues.length > 0
-                    ? excelValues.length + " records"
-                    : "no matches"}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <TableContainer>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Contents</TableCell>
-                        <TableCell>Collected by</TableCell>
-                        <TableCell>Date/Time picked up</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {excelValues &&
-                        excelValues.map((m, index) => (
-                          <TableRow key={index}>
-                            <TableCell>{m.Contents} </TableCell>
-                            <TableCell>{m.CollectedBy}</TableCell>
-                            <TableCell>{m.TimeDate}</TableCell>
-                            <TableCell></TableCell>
-                          </TableRow>
-                        ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </AccordionDetails>
-            </Accordion>
-          </Grid2>
+  
           <Grid2 sx={{ p: 2 }}>
             <Accordion TransitionProps={{ unmountOnExit: true }}>
               <AccordionSummary
