@@ -8,7 +8,8 @@ import {
     ListItemText,
     Tooltip,
     tooltipClasses,
-    Divider
+    Divider,
+    Collapse
   } from "@mui/material";
   import React, { useEffect } from "react";
   import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -17,13 +18,42 @@ import {
   import TableChartIcon from "@mui/icons-material/TableChart";
   import LeaderboardIcon from "@mui/icons-material/Leaderboard";
   import { useLocation, useNavigate } from "react-router-dom";
+  import ContactMailIcon from "@mui/icons-material/ContactMail";
+  import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+  import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; 
   
   function ListItems() {
+ 
+      //Internal Mail
+      const [openMailMenu, setopenMailMenu] = React.useState(false);
+      const handleMailClick = () => {
+        setopenMailMenu(!openMailMenu);
+      };
+
+    const internalMailLabel = [
+      { label: "Issuance 1", navigate: "/issuance1", selectedIndex: 5 },
+      { label: "Issuance 2" },
+      { label: "Maintenance" },
+      { label: "Registrations" },
+      { label: "COS Team" },
+      { label: "Services 1" },
+      { label: "Services 2" },
+      { label: "Services 3" },
+      { label: "Services 4" },
+      { label: "Services 5" },
+      { label: "Services 6" },
+      { label: "Services 7" },
+      { label: "Certify" },
+      { label: "Translations" },
+      { label: "On Hold Mail" },
+    ];
+ 
+
 
     let navigate = useNavigate();
     //Active Button
     const [selectedIndex, setSelectedIndex] = React.useState(0);
-  
+
     let location = useLocation();
     useEffect(() => {
       switch (location.pathname) {
@@ -39,11 +69,14 @@ import {
         case "/stats":
           setSelectedIndex(4);
           break;
+        case "/issuance1":
+          setSelectedIndex(5);
+          break;
         default:
           break;
       }
     }, [location.pathname]);
-  
+
     const HtmlTooltip = styled(({ className, ...props }) => (
       <Tooltip
         placement="right-start"
@@ -59,7 +92,7 @@ import {
         border: "1px solid #dadde9",
       },
     }));
-  
+
     return (
       <React.Fragment>
         <List>
@@ -138,9 +171,9 @@ import {
                   />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Scan Outgoing Mail"
-                  sx={{
-                    color: selectedIndex === 1 ? "secondary.main" : "inherit",
+                  primary="Scan Outgoing Mail" 
+                  sx={{       
+                    color: selectedIndex === 1 ? "secondary.main" : "inherit", 
                   }}
                 />
               </ListItemButton>
@@ -236,7 +269,56 @@ import {
                 />
               </ListItemButton>
             </ListItem>
-          </HtmlTooltip> 
+          </HtmlTooltip>
+
+          {/* Internal Mail
+          <HtmlTooltip
+            title={
+              <React.Fragment>
+                <Typography color="inherit">Test</Typography>
+                {"Not yet implemented."}
+              </React.Fragment>
+            }
+          >
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleMailClick}>
+                <ListItemIcon>
+                  <ContactMailIcon />
+                </ListItemIcon>
+                <ListItemText primary="Test" />
+                {openMailMenu ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </ListItemButton>
+            </ListItem>
+          </HtmlTooltip>
+          <Collapse in={openMailMenu} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {internalMailLabel.map((item) => (
+                <ListItemButton
+                  onClick={() => {
+                    navigate(item.navigate);
+                  }}
+                  key={item.label}
+                  sx={{ py: 0, minHeight: 32 }}
+                >
+                  <ListItemText
+                    primary={item.label}
+                    primaryTypographyProps={{
+                      fontSize: 15,
+                      paddingLeft: 1,
+                      fontWeight:
+                        item.selectedIndex === selectedIndex
+                          ? "bold"
+                          : "normal",
+                      color:
+                        item.selectedIndex === selectedIndex
+                          ? "secondary.main"
+                          : "inherit",
+                    }}
+                  />
+                </ListItemButton>
+              ))}
+            </List>
+          </Collapse> */}
         </List>
       </React.Fragment>
     );

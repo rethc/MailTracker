@@ -10,6 +10,7 @@ import ScanOut from "./components/ScanOut";
 import Stats from "./components/Stats";
 import PageNotFound from "./components/PageNotFound";
 import Test from "./components/Test";
+import TeamMail from "./components/TeamMail";
 
 const getDesignTokens = (mode) => ({
   palette: {
@@ -75,6 +76,7 @@ function App() {
           <Route path="/search" element={<Search />} /> 
           <Route path="/stats" element={<Stats />} /> 
           <Route path="/test" element={<Test />} /> 
+          <Route path="/issuance1" element={<TeamMail teamName="Issuance 1" />} />
           <Route path="*" element={<PageNotFound />} /> 
         </Routes>
       </Box>
