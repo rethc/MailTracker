@@ -29,6 +29,7 @@ import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import HistoryIcon from "@mui/icons-material/History";
+import Copyright from "./Copyright";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -132,8 +133,7 @@ export default function TeamMail(props) {
         </Grid>
       );
     },
-    print: false,
-    searchOpen: true, 
+    print: false, 
     download: false,
     filter: false,
     viewColumns: false,
@@ -291,8 +291,8 @@ const columsInactive = [
           textColor="secondary"
           indicatorColor="secondary"
         >
-          <Tab label="Active Mail" {...a11yProps(0)} />
-          <Tab label="Inactive Mail" {...a11yProps(1)} />
+          <Tab label="Mail Awaiting to be picked up" {...a11yProps(0)} />
+          <Tab label="Collected Mail" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -353,7 +353,7 @@ const columsInactive = [
               }}
             >
               <Typography variant="h6" color="primary" gutterBottom>
-                {"Add " + props.teamName + " Mail"}
+                {"Record " + props.teamName + " Mail"}
               </Typography>
               <form>
                 <Grid container spacing={2}>
@@ -382,8 +382,6 @@ const columsInactive = [
                   </Grid>
                 </Grid>
               </form>
-
-              <Typography paddingTop={1}>🚧 Under construction 😸</Typography>
             </Paper>
           </Grid>
         </Grid>
@@ -397,21 +395,23 @@ const columsInactive = [
             </center>
           ) : (
             <MUIDataTable
-              title={"External Mail List"}
+              title={props.teamName + " Mail to be picked up"}
               data={data}
               columns={columnsActive}
               options={options}
             />
           )}
         </Grid>
+        <Copyright />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <MUIDataTable
-          title={"External Mail List"}
+          title={props.teamName}
           data={rows}
           columns={columsInactive}
           options={optionsInactive}
         />
+        <Copyright />
       </TabPanel>
     </Box>
   );
