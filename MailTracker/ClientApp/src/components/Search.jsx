@@ -50,7 +50,13 @@ export default function Search() {
    const handleSubmit = async (e) => {
      e.preventDefault();
      //"The search term must at least 3 characters and not contain ONLY spaces
-     if (!value || value.trim().length === 0 || value.length < 3) {
+     if (
+       !value ||
+       value.trim().length === 0 ||
+       value.includes("/") ||
+       value.includes("\\") ||
+       value.length < 3
+     ) {
        errSetSearch(true);
        return;
      }
