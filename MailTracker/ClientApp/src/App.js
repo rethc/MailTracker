@@ -9,7 +9,7 @@ import Scan from "./components/Scan";
 import ScanOut from "./components/ScanOut";
 import Stats from "./components/Stats";
 import PageNotFound from "./components/PageNotFound";
-import Test from "./components/Test";
+import Table from "./components/Table";
 import TeamMail from "./components/TeamMail";
 
 const getDesignTokens = (mode) => ({
@@ -75,7 +75,7 @@ function App() {
           <Route path="/scan-out" element={<ScanOut />} />
           <Route path="/search" element={<Search />} /> 
           <Route path="/stats" element={<Stats />} /> 
-          <Route path="/test" element={<Test />} /> 
+          <Route path="/Table" element={<Table />} /> 
           <Route path="/issuance1" element={<TeamMail teamName="Issuance 1" />} />
           <Route path="*" element={<PageNotFound />} /> 
         </Routes>

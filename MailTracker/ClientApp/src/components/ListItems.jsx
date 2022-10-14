@@ -7,9 +7,7 @@ import {
     styled,
     ListItemText,
     Tooltip,
-    tooltipClasses,
-    Divider,
-    Collapse
+    tooltipClasses, 
   } from "@mui/material";
   import React, { useEffect } from "react";
   import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -17,38 +15,11 @@ import {
   import LocalPostOfficeIcon from "@mui/icons-material/LocalPostOffice";
   import TableChartIcon from "@mui/icons-material/TableChart";
   import LeaderboardIcon from "@mui/icons-material/Leaderboard";
-  import { useLocation, useNavigate } from "react-router-dom";
-  import ContactMailIcon from "@mui/icons-material/ContactMail";
-  import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-  import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; 
+  import { useLocation, useNavigate } from "react-router-dom"; 
+  import ListAltIcon from "@mui/icons-material/ListAlt";
   
   function ListItems() {
- 
-      //Internal Mail
-      const [openMailMenu, setopenMailMenu] = React.useState(false);
-      const handleMailClick = () => {
-        setopenMailMenu(!openMailMenu);
-      };
-
-    const internalMailLabel = [
-      { label: "Issuance 1", navigate: "/issuance1", selectedIndex: 5 },
-      { label: "Issuance 2" },
-      { label: "Maintenance" },
-      { label: "Registrations" },
-      { label: "COS Team" },
-      { label: "Services 1" },
-      { label: "Services 2" },
-      { label: "Services 3" },
-      { label: "Services 4" },
-      { label: "Services 5" },
-      { label: "Services 6" },
-      { label: "Services 7" },
-      { label: "Certify" },
-      { label: "Translations" },
-      { label: "On Hold Mail" },
-    ];
- 
-
+  
 
     let navigate = useNavigate();
     //Active Button
@@ -66,12 +37,13 @@ import {
         case "/search":
           setSelectedIndex(2);
           break;
-        case "/stats":
+        case "/table":
           setSelectedIndex(4);
           break;
-        case "/issuance1":
+        case "/stats":
           setSelectedIndex(5);
           break;
+
         default:
           break;
       }
@@ -171,9 +143,9 @@ import {
                   />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Scan Outgoing Mail" 
-                  sx={{       
-                    color: selectedIndex === 1 ? "secondary.main" : "inherit", 
+                  primary="Scan Outgoing Mail"
+                  sx={{
+                    color: selectedIndex === 1 ? "secondary.main" : "inherit",
                   }}
                 />
               </ListItemButton>
@@ -184,12 +156,17 @@ import {
           <HtmlTooltip
             title={
               <React.Fragment>
-                <Typography color="inherit">
-                  Search Incoming/Outgoing Mail
-                </Typography>
-                {
-                  "by Tracking Number, Product Type, Mail incoming/outgoing or Date scanned."
-                }
+                <Typography color="inherit">How to scan Search Mail</Typography>
+                {"1. Click into "}
+                <b>
+                  <u>Enter Tracking Number</u>
+                </b>
+                {" field."}
+                <br />
+                {"2. Scan barcode or type tracking number and press ENTER."}
+                <br />
+                <br />
+                <em>{"Note: tracking number must be atleast 3 characters"}</em>
               </React.Fragment>
             }
           >
@@ -238,13 +215,15 @@ import {
             </ListItem>
           </HtmlTooltip>
 
-          {/* Stats */}
+          {/* Search Full Ext DB */}
           <HtmlTooltip
             title={
               <React.Fragment>
-                <Typography color="inherit">Stats</Typography>
+                <Typography color="inherit">
+                  Search Incoming/Outgoing Mail
+                </Typography>
                 {
-                  "Under construction. Stats are working. Stacked graph is hardcoded"
+                  "by Tracking Number, Product Type, Mail incoming/outgoing or Date scanned."
                 }
               </React.Fragment>
             }
@@ -253,18 +232,49 @@ import {
               <ListItemButton
                 selected={selectedIndex === 4}
                 onClick={() => {
+                  navigate("/table");
+                }}
+              >
+                <ListItemIcon>
+                  <ListAltIcon
+                    color={selectedIndex === 4 ? "secondary" : "inherit"}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  primary="External Mail Table"
+                  sx={{
+                    color: selectedIndex === 4 ? "secondary.main" : "inherit",
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </HtmlTooltip>
+
+          {/* Stats */}
+          <HtmlTooltip
+            title={
+              <React.Fragment>
+                <Typography color="inherit">Stats</Typography>
+                {"Under construction."}
+              </React.Fragment>
+            }
+          >
+            <ListItem disablePadding>
+              <ListItemButton
+                selected={selectedIndex === 5}
+                onClick={() => {
                   navigate("/stats");
                 }}
               >
                 <ListItemIcon>
                   <LeaderboardIcon
-                    color={selectedIndex === 4 ? "secondary" : "inherit"}
+                    color={selectedIndex === 5 ? "secondary" : "inherit"}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Stats"
                   sx={{
-                    color: selectedIndex === 4 ? "secondary.main" : "inherit",
+                    color: selectedIndex === 5 ? "secondary.main" : "inherit",
                   }}
                 />
               </ListItemButton>

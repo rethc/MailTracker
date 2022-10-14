@@ -881,8 +881,7 @@ const augustIncomingData = [
         container
         spacing={3}
         height={"calc(100vh - 35px)"}
-        p={3}
-        direction=""
+        p={3} 
       >
         <Grid item xs={10}>
           <Paper

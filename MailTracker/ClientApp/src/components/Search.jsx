@@ -1,180 +1,178 @@
 import {
-  CircularProgress,
-  Container,
-  CssBaseline,
   Box,
+  CssBaseline,
+  Paper,
+  Table,
+  TableCell,
+  TableRow,
   TextField,
+  Typography,
+  TableBody,
+  TableHead,
+  TableContainer,
+  Grid,
+  Container,
+  CircularProgress,
+  TablePagination,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react"; 
+import Title from './Title';
+import axios from 'axios'; 
+
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
-import Copyright from "./Copyright";
-import MUIDataTable from "mui-datatables";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import api from "../services/api";
+import Copyright from "./Copyright"; 
 
+ 
 export default function Search() {
-  const [mailList, setMailList] = useState([]);
-  const [isLoading, setLoading] = useState(true); //loading spinner
-  const [dateValue, setDateValue] = useState(null);
+  const [value, setValue] = useState("");
+  const [notFound, setNotFound] = useState("");
+  const [data, setData] = useState([]);
 
-  const handleDateChange = (newValue) => {
-    setDateValue(newValue);
+  const [errSearch, errSetSearch] = useState(false); //error handling 
+  const [isLoading, setLoading] = useState(false); //loading spinner
+  
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
 
-  async function fetchData() {
-    await api("ExternalMails")
-      .getMail()
-      .then((res) => {
-        setMailList(res.data);
-        setLoading(false);
-      })
-      //Display error in console log and browser window alert
-      .catch((err) => {
-        window.alert(JSON.stringify(err.response.data.errors));
-        console.log(JSON.stringify(err.response.data.errors));
-      });
-  }
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  }; 
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  //Event handler for input fields
+  const handleInputChange = (event) => {
+    setValue(event.target.value);
+  }; 
+   const handleSubmit = async (e) => {
+     e.preventDefault();
+     //"The search term must at least 3 characters and not contain ONLY spaces
+     if (!value || value.trim().length === 0 || value.length < 3) {
+       errSetSearch(true);
+       return;
+     }
+     
+     setLoading(true); 
+     if (value) errSetSearch(false);
 
-  const columns = [
-    {
-      name: "trackingNo",
-      label: "Tracking Number",
-      options: {
-        filter: false,
-        sort: true,
-      },
-    },
-    {
-      name: "mailType",
-      label: "Mail Type",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
-    {
-      name: "productType",
-      label: "Product Type",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
-    {
-      name: "dateCreated",
-      label: "Date Scanned",
-      options: {
-        filter: true,
-        sort: true,
-        display: "true",
-        filterType: "custom",
-        customFilterListOptions: {
-          render: (value) => {
-            if (isNaN(value[0]) || !value[0]) return [];
-            return [format(value[0], "dd/MM/yyyy")];
-          },
-          update: (filterList, filterPos, index) => {
-            console.log(
-              "customFilterListOnDelete: ",
-              filterList,
-              filterPos,
-              index
-            );
-            if (filterPos === 0) {
-              filterList[index].splice(filterPos, 1, "");
-            } else if (filterPos === 1) {
-              filterList[index].splice(filterPos, 1);
-            } else if (filterPos === -1) {
-              filterList[index] = [];
-            }
-            return filterList;
-          },
-        },
-        filterOptions: {
-          logic: (dateTime, filters) => {
-            if (isNaN(filters[0])) return false;
-            let date = filters[0] && format(filters[0], "dd/MM/yyyy");
-            let dateString = dateTime.split(" ")[0];
-            if (dateString === date) {
-              return false;
-            } else if (!date) {
-              return false;
-            }
-            return true;
-          },
-          display: (filterList, onChange, index, column) => {
-            return (
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  label="Filter by Date"
-                  inputFormat="dd/MM/yyyy"
-                  value={filterList[index][0] || null}
-                  onChange={(e) => {
-                    handleDateChange(e);
-                    filterList[index][0] = e;
-                    onChange(filterList[index], index, column);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            );
-          },
-        },
-      },
-    },
-  ];
-
-  const data = mailList
-    .map((mail) => {
-      return {
-        trackingNo: mail.trackingNo,
-        productType: mail.productType,
-        mailType: mail.mailType,
-        dateCreated: format(
-          zonedTimeToUtc(parseISO(mail.dateCreated), "UTC"),
-          "dd/MM/yyyy hh:mm aaa"
-        ),
-      };
-    })
-    .slice()
-    .reverse();
-
-  const options = {
-    filterType: "dropdown",
-    customToolbarSelect: () => {},
-    print: false,
-    searchOpen: true,
-    searchAlwaysOpen: true,
-  };
+     await axios
+       .get(
+         "https://mailtrackerapi.azurewebsites.net/api/ExternalMails/search/" +
+           value
+       )
+       .then((res) => {
+         setData(res.data);
+       })
+     setNotFound("No records found with search term: " + value);
+     setLoading(false);
+   };
 
   return (
     <Box
       component="main"
-      sx={{ flexGrow: 1, paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}
+      sx={{ marginLeft: { sm: 30, xs: 0 }, paddingTop: { xs: 6, sm: 8 } }}
     >
       <CssBaseline />
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-        {isLoading ? (
-          <center>
-            Loading...<br />
-            <CircularProgress />
-          </center>
-        ) : (
-          <MUIDataTable
-            title={"External Mail List"}
-            data={data}
-            columns={columns}
-            options={options}
-          />
-        )}
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Title>Search Incoming/Outgoing Mail</Title>
+              <form onSubmit={handleSubmit}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      helperText={
+                        errSearch
+                          ? "The search term must at least 3 characters."
+                          : ""
+                      }
+                      error={errSearch}
+                      variant="outlined"
+                      label="Enter Tracking Number"
+                      name="Search"
+                      fullWidth
+                      onChange={handleInputChange}
+                    />
+                  </Grid>
+                </Grid>
+              </form>
+
+              {isLoading ? (
+                <center>
+                  <br />
+                  <CircularProgress />
+                </center>
+              ) : (
+                <React.Fragment>
+                  {data.length > 0 ? (
+                    <TableContainer>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Tracking Number</TableCell>
+                            <TableCell>Mail Type</TableCell>
+                            <TableCell>Product Type</TableCell>
+                            <TableCell>Date Scanned</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {data
+                            .slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                            .reverse()
+                            .map((row, index) => (
+                              <TableRow key={row.externalMailID}>
+                                <TableCell>{row.trackingNo}</TableCell>
+                                <TableCell>{row.mailType}</TableCell>
+                                <TableCell>{row.productType}</TableCell>
+                                <TableCell>
+                                  {/* Returns a Date with the UTC time. date-fns-tz library will display the date and time in the local time of the user */}
+                                  {format(
+                                    zonedTimeToUtc(
+                                      parseISO(row.dateCreated),
+                                      "UTC"
+                                    ),
+                                    "dd/MM/yyyy hh:mm aaa"
+                                  )}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                        </TableBody>
+                      </Table>
+                      <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={data.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                    </TableContainer>
+                  ) : (
+                    <Typography pt={1}>{notFound}</Typography>
+                  )}
+                </React.Fragment>
+              )}
+            </Paper>
+          </Grid>
+        </Grid>
+
         <Copyright />
       </Container>
     </Box>
   );
 }
+
