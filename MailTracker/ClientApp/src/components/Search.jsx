@@ -72,6 +72,7 @@ export default function Search() {
        .then((res) => {
          setData(res.data);
        })
+     setPage(0);
      setNotFound("No records found with search term: " + value);
      setLoading(false);
    };
