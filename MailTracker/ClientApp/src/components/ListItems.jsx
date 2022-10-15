@@ -157,16 +157,10 @@ import {
             title={
               <React.Fragment>
                 <Typography color="inherit">How to scan Search Mail</Typography>
-                {"1. Click into "}
-                <b>
-                  <u>Enter Tracking Number</u>
-                </b>
-                {" field."}
-                <br />
-                {"2. Scan barcode or type tracking number and press ENTER."}
+                {"Scan barcode or enter tracking number and press ENTER."}
                 <br />
                 <br />
-                <em>{"Note: tracking number must be atleast 3 characters"}</em>
+                <em>{"Note: tracking number must be atleast 3 characters."}</em>
               </React.Fragment>
             }
           >

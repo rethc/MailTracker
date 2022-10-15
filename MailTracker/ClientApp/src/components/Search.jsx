@@ -107,6 +107,8 @@ export default function Search() {
                       label="Enter Tracking Number"
                       name="Search"
                       fullWidth
+                      autoFocus
+                      focused
                       onChange={handleInputChange}
                     />
                   </Grid>
