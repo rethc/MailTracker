@@ -11,7 +11,6 @@ namespace MailTrackerAPI.Models
 
         public DbSet<ExternalMail>? ExternalMails { get; set; }
         public DbSet<InternalMail>? InternalMails { get; set; }
-        public DbSet<Person>? Persons { get; set; }
         public DbSet<Team>? Teams { get; set; } 
     }
 }

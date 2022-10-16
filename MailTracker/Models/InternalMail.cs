@@ -14,6 +14,12 @@ namespace MailTrackerAPI.Models
         [StringLength(50, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
         public string? CollectedBy { get; set; }
 
+        [StringLength(50, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
+        public string? Status { get; set; }
+
+        [StringLength(50, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
+        public string? ActionedBy { get; set; }
+
         [DataType(DataType.DateTime)]
         public DateTime? DateCollected { get; set; }
 
