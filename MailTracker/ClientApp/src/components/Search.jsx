@@ -56,6 +56,7 @@ export default function Search() {
        value.trim().length === 0 ||
        value.includes("/") ||
        value.includes("\\") ||
+       value.includes("+") ||
        value.length < 3
      ) {
        errSetSearch(true);
