@@ -4,6 +4,7 @@ import {
   CssBaseline,
   Box,
   TextField,
+  Backdrop,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { format, zonedTimeToUtc } from "date-fns-tz";
@@ -162,8 +163,9 @@ export default function Table() {
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
         {isLoading ? (
           <center>
-            Loading...<br />
-            <CircularProgress />
+            Loading...
+            <br />
+            <CircularProgress color="secondary" disableShrink />
           </center>
         ) : (
           <MUIDataTable

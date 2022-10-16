@@ -119,7 +119,7 @@ export default function Search() {
               {isLoading ? (
                 <center>
                   <br />
-                  <CircularProgress />
+                  <CircularProgress color="secondary"/>
                 </center>
               ) : (
                 <React.Fragment>
