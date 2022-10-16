@@ -136,11 +136,12 @@ export default function Search() {
                         </TableHead>
                         <TableBody>
                           {data
+                            .slice()
+                            .reverse()
                             .slice(
                               page * rowsPerPage,
                               page * rowsPerPage + rowsPerPage
                             )
-                            .reverse()
                             .map((row, index) => (
                               <TableRow key={row.externalMailID}>
                                 <TableCell>{row.trackingNo}</TableCell>
@@ -157,7 +158,8 @@ export default function Search() {
                                   )}
                                 </TableCell>
                               </TableRow>
-                            ))}
+                            ))
+                            .slice(0)}
                         </TableBody>
                       </Table>
                       <TablePagination
