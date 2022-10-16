@@ -877,12 +877,7 @@ const augustIncomingData = [
       sx={{ display: "flex", paddingTop: 7, marginLeft: { sm: 30, xs: 0 } }}
     >
       <CssBaseline />
-      <Grid
-        container
-        spacing={3}
-        height={"calc(100vh - 35px)"}
-        p={3} 
-      >
+      <Grid container spacing={3} height={"calc(100vh - 35px)"} p={3}>
         <Grid item xs={10}>
           <Paper
             sx={{
@@ -985,7 +980,7 @@ const augustIncomingData = [
         </Grid>
         {isLoading ? (
           <Box padding={10}>
-            <CircularProgress />
+            <CircularProgress color="secondary" />
           </Box>
         ) : (
           <Grid item xs={2}>

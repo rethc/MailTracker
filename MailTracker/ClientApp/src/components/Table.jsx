@@ -3,8 +3,7 @@ import {
   Container,
   CssBaseline,
   Box,
-  TextField,
-  Backdrop,
+  TextField, 
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { format, zonedTimeToUtc } from "date-fns-tz";
@@ -19,6 +18,7 @@ export default function Table() {
   const [mailList, setMailList] = useState([]);
   const [isLoading, setLoading] = useState(true); //loading spinner
   const [dateValue, setDateValue] = useState(null);
+  const [progress, setProgress] = React.useState(0);
 
   const handleDateChange = (newValue) => {
     setDateValue(newValue);
