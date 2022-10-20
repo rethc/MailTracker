@@ -88,7 +88,7 @@ export default function Search() {
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Paper
+            <Paper 
               sx={{
                 p: 2,
                 display: "flex",
@@ -117,67 +117,69 @@ export default function Search() {
                   </Grid>
                 </Grid>
               </form>
-               {isLoading ? (
+              {isLoading ? (
                 <center>
                   <br />
                   <CircularProgress color="secondary" />
-                </center> ) : <></>
-              }
-               <Collapse in={!isLoading} >          
-                  <React.Fragment>
-                    {data.length > 0 ? (
-                      <TableContainer>
-                        <Table>
-                          <TableHead>
-                            <TableRow>
-                              <TableCell>Tracking Number</TableCell>
-                              <TableCell>Mail Type</TableCell>
-                              <TableCell>Product Type</TableCell>
-                              <TableCell>Date Scanned</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {data
-                              .slice()
-                              .reverse()
-                              .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              )
-                              .map((row, index) => (
-                                <TableRow key={row.externalMailID}>
-                                  <TableCell>{row.trackingNo}</TableCell>
-                                  <TableCell>{row.mailType}</TableCell>
-                                  <TableCell>{row.productType}</TableCell>
-                                  <TableCell>
-                                    {/* Returns a Date with the UTC time. date-fns-tz library will display the date and time in the local time of the user */}
-                                    {format(
-                                      zonedTimeToUtc(
-                                        parseISO(row.dateCreated),
-                                        "UTC"
-                                      ),
-                                      "dd/MM/yyyy hh:mm aaa"
-                                    )}
-                                  </TableCell>
-                                </TableRow>
-                              ))
-                              .slice(0)}
-                          </TableBody>
-                        </Table>
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 25]}
-                          component="div"
-                          count={data.length}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onPageChange={handleChangePage}
-                          onRowsPerPageChange={handleChangeRowsPerPage}
-                        />
-                      </TableContainer>
-                    ) : (
-                      <Typography pt={1}>{notFound}</Typography>
-                    )}
-                  </React.Fragment>
+                </center>
+              ) : (
+                <></>
+              )}
+              <Collapse in={!isLoading}>
+                <React.Fragment>
+                  {data.length > 0 ? (
+                    <TableContainer>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Tracking Number</TableCell>
+                            <TableCell>Mail Type</TableCell>
+                            <TableCell>Product Type</TableCell>
+                            <TableCell>Date Scanned</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {data
+                            .slice()
+                            .reverse()
+                            .slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                            .map((row, index) => (
+                              <TableRow key={row.externalMailID}>
+                                <TableCell>{row.trackingNo}</TableCell>
+                                <TableCell>{row.mailType}</TableCell>
+                                <TableCell>{row.productType}</TableCell>
+                                <TableCell>
+                                  {/* Returns a Date with the UTC time. date-fns-tz library will display the date and time in the local time of the user */}
+                                  {format(
+                                    zonedTimeToUtc(
+                                      parseISO(row.dateCreated),
+                                      "UTC"
+                                    ),
+                                    "dd/MM/yyyy hh:mm aaa"
+                                  )}
+                                </TableCell>
+                              </TableRow>
+                            ))
+                            .slice(0)}
+                        </TableBody>
+                      </Table>
+                      <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={data.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                    </TableContainer>
+                  ) : (
+                    <Typography pt={1}>{notFound}</Typography>
+                  )}
+                </React.Fragment>
               </Collapse>
             </Paper>
           </Grid>
