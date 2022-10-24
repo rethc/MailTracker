@@ -22,14 +22,6 @@ app.Use((context, next) =>
 });
 app.UseHsts();
 
-//HTTP3 TEST
-app.Use((context, next) =>
-{
-    context.Response.Headers.AltSvc = "h3=\":443\"";
-    return next(context);
-});
-
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
