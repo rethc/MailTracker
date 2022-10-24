@@ -9,13 +9,8 @@ import {
   TextField,
   CircularProgress,
   Button,
-  Modal,
   Dialog,
   MenuItem,
-  TableContainer,
-  Table,
-  TableRow,
-  TableCell,
 } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import axios from "axios";
@@ -24,7 +19,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
-import MUIDataTable, { TableBody, TableHead } from "mui-datatables";
+import MUIDataTable from "mui-datatables";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";

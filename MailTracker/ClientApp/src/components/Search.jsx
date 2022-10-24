@@ -15,6 +15,7 @@ import {
   CircularProgress,
   TablePagination,
   Collapse,
+  InputAdornment,
 } from "@mui/material";
 import React, { useState } from "react"; 
 import Title from './Title';
@@ -23,8 +24,8 @@ import axios from 'axios';
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright"; 
+import SearchIcon from "@mui/icons-material/Search";
 
- 
 export default function Search() {
   const [value, setValue] = useState("");
   const [notFound, setNotFound] = useState("");
@@ -109,15 +110,21 @@ export default function Search() {
                           : ""
                       }
                       error={errSearch}
-                      variant="outlined"
-                      label="Enter Tracking Number"
                       name="Search"
                       fullWidth
                       autoFocus
                       focused
+                      placeholder="Enter tracking number here"
                       value={value}
                       onChange={handleInputChange}
-                      type="search"                      
+                      type="search"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SearchIcon />
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   </Grid>
                 </Grid>

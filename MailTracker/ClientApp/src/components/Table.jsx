@@ -17,8 +17,7 @@ import api from "../services/api";
 export default function Table() {
   const [mailList, setMailList] = useState([]);
   const [isLoading, setLoading] = useState(true); //loading spinner
-  const [dateValue, setDateValue] = useState(null);
-  const [progress, setProgress] = React.useState(0);
+  const [dateValue, setDateValue] = useState(null); 
 
   const handleDateChange = (newValue) => {
     setDateValue(newValue);
