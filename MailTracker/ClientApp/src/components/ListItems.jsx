@@ -20,35 +20,9 @@ import {
   
   function ListItems() {
   
-
     let navigate = useNavigate();
-    //Active Button
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
-
-    let location = useLocation();
-    useEffect(() => {
-      switch (location.pathname) {
-        case "/":
-          setSelectedIndex(0);
-          break;
-        case "/scan-out":
-          setSelectedIndex(1);
-          break;
-        case "/search":
-          setSelectedIndex(2);
-          break;
-        case "/table":
-          setSelectedIndex(4);
-          break;
-        case "/stats":
-          setSelectedIndex(5);
-          break;
-
-        default:
-          break;
-      }
-    }, [location.pathname]);
-
+     let location = useLocation(); 
+ 
     const HtmlTooltip = styled(({ className, ...props }) => (
       <Tooltip
         placement="right-start"
@@ -93,20 +67,21 @@ import {
           >
             <ListItem disablePadding>
               <ListItemButton
-                selected={selectedIndex === 0}
+                selected={location.pathname === "/"}
                 onClick={() => {
                   navigate("/");
                 }}
               >
                 <ListItemIcon>
                   <LocalPostOfficeIcon
-                    color={selectedIndex === 0 ? "secondary" : "inherit"}
+                    color={location.pathname === "/" ? "secondary" : "inherit"}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Scan Incoming Mail"
                   sx={{
-                    color: selectedIndex === 0 ? "secondary.main" : "inherit",
+                    color:
+                      location.pathname === "/" ? "secondary.main" : "inherit",
                   }}
                 />
               </ListItemButton>
@@ -132,20 +107,27 @@ import {
           >
             <ListItem disablePadding>
               <ListItemButton
-                selected={selectedIndex === 1}
+                selected={location.pathname === "/scan-out"}
                 onClick={() => {
                   navigate("/scan-out");
                 }}
               >
                 <ListItemIcon>
                   <LocalShippingIcon
-                    color={selectedIndex === 1 ? "secondary" : "inherit"}
+                    color={
+                      location.pathname === "/scan-out"
+                        ? "secondary"
+                        : "inherit"
+                    }
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Scan Outgoing Mail"
                   sx={{
-                    color: selectedIndex === 1 ? "secondary.main" : "inherit",
+                    color:
+                      location.pathname === "/scan-out"
+                        ? "secondary.main"
+                        : "inherit",
                   }}
                 />
               </ListItemButton>
@@ -166,20 +148,25 @@ import {
           >
             <ListItem disablePadding>
               <ListItemButton
-                selected={selectedIndex === 2}
+                selected={location.pathname === "/search"}
                 onClick={() => {
                   navigate("/search");
                 }}
               >
                 <ListItemIcon>
                   <SearchIcon
-                    color={selectedIndex === 2 ? "secondary" : "inherit"}
+                    color={
+                      location.pathname === "/search" ? "secondary" : "inherit"
+                    }
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Search Mail"
                   sx={{
-                    color: selectedIndex === 2 ? "secondary.main" : "inherit",
+                    color:
+                      location.pathname === "/search"
+                        ? "secondary.main"
+                        : "inherit",
                   }}
                 />
               </ListItemButton>
@@ -224,20 +211,25 @@ import {
           >
             <ListItem disablePadding>
               <ListItemButton
-                selected={selectedIndex === 4}
+                selected={location.pathname === "/table"}
                 onClick={() => {
                   navigate("/table");
                 }}
               >
                 <ListItemIcon>
                   <ListAltIcon
-                    color={selectedIndex === 4 ? "secondary" : "inherit"}
+                    color={
+                      location.pathname === "/table" ? "secondary" : "inherit"
+                    }
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="External Mail Table"
                   sx={{
-                    color: selectedIndex === 4 ? "secondary.main" : "inherit",
+                    color:
+                      location.pathname === "/table"
+                        ? "secondary.main"
+                        : "inherit",
                   }}
                 />
               </ListItemButton>
@@ -255,20 +247,25 @@ import {
           >
             <ListItem disablePadding>
               <ListItemButton
-                selected={selectedIndex === 5}
+                selected={location.pathname === "/stats"}
                 onClick={() => {
                   navigate("/stats");
                 }}
               >
                 <ListItemIcon>
                   <LeaderboardIcon
-                    color={selectedIndex === 5 ? "secondary" : "inherit"}
+                    color={
+                      location.pathname === "/stats" ? "secondary" : "inherit"
+                    }
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Stats"
                   sx={{
-                    color: selectedIndex === 5 ? "secondary.main" : "inherit",
+                    color:
+                      location.pathname === "/stats"
+                        ? "secondary.main"
+                        : "inherit",
                   }}
                 />
               </ListItemButton>
