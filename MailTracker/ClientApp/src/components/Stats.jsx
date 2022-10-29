@@ -33,7 +33,7 @@ export default function Reports() {
   const [outgoing, setOutgoing] = useState();
   const [isLoading, setLoading] = useState(true); //loading spinner
 
-   const [chart, setChart] = React.useState(2);
+   const [chart, setChart] = React.useState(3);
 
    const handleChange = (event) => {
      setChart(event.target.value);
@@ -611,6 +611,10 @@ const augustIncomingData = [
       value: 2,
       label: "September 2022",
     },
+    {
+      value: 3,
+      label: "October 2022",
+    },
   ];
 
   const sepIncomingData = [
@@ -871,6 +875,240 @@ const augustIncomingData = [
     },
   ];
 
+  const octIncomingData = [
+    {
+      name: "03/10/2022",
+      Other: 63,
+      Passport: 101,
+      Authentication: 33,
+      BDM: 20,
+      Citizenship: 39,
+    },
+    {
+      name: "04/10/2022",
+      Other: 22,
+      Passport: 14,
+      Authentication: 37,
+      BDM: 6,
+      Citizenship: 36,
+    },
+    {
+      name: "05/10/2022",
+      Other: 60,
+      Passport: 99,
+      Authentication: 46,
+      BDM: 38,
+      Citizenship: 40,
+    },
+    {
+      name: "06/10/2022",
+      Other: 37,
+      Passport: 89,
+      Authentication: 27,
+      BDM: 36,
+      Citizenship: 37,
+    },
+    {
+      name: "07/10/2022",
+      Other: 21,
+      Passport: 82,
+      Authentication: 39,
+      BDM: 24,
+      Citizenship: 29,
+    },
+    {
+      name: "10/10/2022",
+      Other: 42,
+      Passport: 96,
+      Authentication: 41,
+      BDM: 18,
+      Citizenship: 11,
+    },
+    {
+      name: "11/10/2022",
+      Other: 44,
+      Passport: 95,
+      Authentication: 41,
+      BDM: 22,
+      Citizenship: 31,
+    },
+    {
+      name: "12/10/2022",
+      Other: 49,
+      Passport: 85,
+      Authentication: 33,
+      BDM: 19,
+      Citizenship: 38,
+    },
+    {
+      name: "13/10/2022",
+      Other: 43,
+      Passport: 45,
+      Authentication: 37,
+      BDM: 18,
+      Citizenship: 26,
+    },
+    {
+      name: "14/10/2022",
+      Other: 60,
+      Passport: 107,
+      Authentication: 36,
+      BDM: 29,
+      Citizenship: 32,
+    },
+    {
+      name: "17/10/2022",
+      Other: 90,
+      Passport: 68,
+      Authentication: 23,
+      BDM: 20,
+      Citizenship: 25,
+    },
+    {
+      name: "18/10/2022",
+      Other: 71,
+      Passport: 63,
+      Authentication: 37,
+      BDM: 11,
+      Citizenship: 40,
+    },
+    {
+      name: "19/10/2022",
+      Other: 43,
+      Passport: 74,
+      Authentication: 18,
+      BDM: 22,
+      Citizenship: 18,
+    },
+    {
+      name: "20/10/2022",
+      Other: 130,
+      Passport: 79,
+      Authentication: 28,
+      BDM: 9,
+      Citizenship: 22,
+    },
+    {
+      name: "21/10/2022",
+      Other: 35,
+      Passport: 69,
+      Authentication: 36,
+      BDM: 11,
+      Citizenship: 23,
+    },
+    {
+      name: "25/10/2022",
+      Other: 8,
+      Passport: 103,
+      Authentication: 37,
+      BDM: 24,
+      Citizenship: 48,
+    },
+    {
+      name: "26/10/2022",
+      Other: 17,
+      Passport: 18,
+      Authentication: 21,
+      BDM: 9,
+      Citizenship: 17,
+    },
+    {
+      name: "27/10/2022",
+      Other: 103,
+      Passport: 52,
+      Authentication: 25,
+      BDM: 7,
+      Citizenship: 19,
+    },
+    {
+      name: "28/10/2022",
+      Other: 65,
+      Passport: 66,
+      Authentication: 20,
+      BDM: 18,
+      Citizenship: 7,
+    },
+  ]; 
+
+  const octOutgoingData = [
+    {
+      name: "03/10/2022",
+      Outgoing: 2098,
+    },
+    {
+      name: "04/10/2022",
+      Outgoing: 1694,
+    },
+    {
+      name: "05/10/2022",
+      Outgoing: 1579,
+    },
+    {
+      name: "06/10/2022",
+      Outgoing: 1647,
+    },
+    {
+      name: "07/10/2022",
+      Outgoing: 1745,
+    },
+    {
+      name: "10/10/2022",
+      Outgoing: 1931,
+    },
+    {
+      name: "11/10/2022",
+      Outgoing: 2336,
+    },
+    {
+      name: "12/10/2022",
+      Outgoing: 1605,
+    },
+    {
+      name: "13/10/2022",
+      Outgoing: 2289,
+    },
+    {
+      name: "14/10/2022",
+      Outgoing: 2409,
+    },
+    {
+      name: "17/10/2022",
+      Outgoing: 1763,
+    },
+    {
+      name: "18/10/2022",
+      Outgoing: 1675,
+    },
+    {
+      name: "19/10/2022",
+      Outgoing: 1587,
+    },
+    {
+      name: "20/10/2022",
+      Outgoing: 1789,
+    },
+    {
+      name: "21/10/2022",
+      Outgoing: 1387,
+    },
+    {
+      name: "25/10/2022",
+      Outgoing: 604,
+    },
+    {
+      name: "26/10/2022",
+      Outgoing: 1714,
+    },
+    {
+      name: "27/10/2022",
+      Outgoing: 1730,
+    },
+    {
+      name: "28/10/2022",
+      Outgoing: 1793,
+    },
+  ];
+
   return (
     <Box
       component="main"
@@ -911,7 +1149,9 @@ const augustIncomingData = [
                   ? "July 2022 Incoming Tracked Mail"
                   : chart === 1
                   ? "August 2022 Incoming Tracked Mail"
-                  : "September 2022 Incoming Tracked Mail"}
+                  : chart === 2
+                  ? "September 2022 Incoming Tracked Mail"
+                  : "October 2022 Incoming Tracked Mail"}
               </Typography>
             </center>
             <ResponsiveContainer>
@@ -921,7 +1161,9 @@ const augustIncomingData = [
                     ? julyIncomingData
                     : chart === 1
                     ? augustIncomingData
-                    : sepIncomingData
+                    : chart === 2
+                    ? sepIncomingData
+                    : octIncomingData
                 }
                 margin={{
                   top: 10,
@@ -950,7 +1192,9 @@ const augustIncomingData = [
                   ? "July 2022 Outgoing Tracked Mail"
                   : chart === 1
                   ? "August 2022 Outgoing Tracked Mail"
-                  : "September 2022 Outgoing Tracked Mail"}
+                  : chart === 2
+                  ? "September 2022 Outgoing Tracked Mail"
+                  : "October 2022 Outgoing Tracked Mail"}
               </Typography>
             </center>
             <ResponsiveContainer>
@@ -960,7 +1204,9 @@ const augustIncomingData = [
                     ? julyOutgoingData
                     : chart === 1
                     ? augustOutgoingData
-                    : sepOutgoingData
+                    : chart === 2
+                    ? sepOutgoingData
+                    : octOutgoingData
                 }
                 margin={{
                   top: 10,
