@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MailTrackerAPI.Models;
 
@@ -24,6 +19,10 @@ namespace MailTracker.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InternalMail>>> GetInternalMails()
         {
+            if (_context.InternalMails == null)
+            {
+                return NotFound();
+            }
             return await _context.InternalMails.ToListAsync();
         }
 
@@ -31,6 +30,10 @@ namespace MailTracker.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<InternalMail>> GetInternalMail(int id)
         {
+            if (_context.InternalMails == null)
+            {
+                return NotFound();
+            }
             var internalMail = await _context.InternalMails.FindAsync(id);
 
             if (internalMail == null)
@@ -77,6 +80,10 @@ namespace MailTracker.Controllers
         [HttpPost]
         public async Task<ActionResult<InternalMail>> PostInternalMail(InternalMail internalMail)
         {
+            if (_context.InternalMails == null)
+            {
+                return Problem("Entity set 'MailTrackerDbContext.InternalMails'  is null.");
+            }
             _context.InternalMails.Add(internalMail);
             await _context.SaveChangesAsync();
 
@@ -87,6 +94,10 @@ namespace MailTracker.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInternalMail(int id)
         {
+            if (_context.InternalMails == null)
+            {
+                return NotFound();
+            }
             var internalMail = await _context.InternalMails.FindAsync(id);
             if (internalMail == null)
             {
@@ -101,7 +112,7 @@ namespace MailTracker.Controllers
 
         private bool InternalMailExists(int id)
         {
-            return _context.InternalMails.Any(e => e.InternalMailID == id);
+            return (_context.InternalMails?.Any(e => e.InternalMailID == id)).GetValueOrDefault();
         }
     }
 }

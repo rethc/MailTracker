@@ -1,9 +1,4 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MailTrackerAPI.Models;
@@ -25,6 +20,10 @@ namespace MailTracker.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Team>>> GetTeams()
         {
+            if (_context.Teams == null)
+            {
+                return NotFound();
+            }
             return await _context.Teams.ToListAsync();
         }
 
@@ -32,6 +31,10 @@ namespace MailTracker.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Team>> GetTeam(int id)
         {
+            if (_context.Teams == null)
+            {
+                return NotFound();
+            }
             var team = await _context.Teams.FindAsync(id);
 
             if (team == null)
@@ -78,6 +81,10 @@ namespace MailTracker.Controllers
         [HttpPost]
         public async Task<ActionResult<Team>> PostTeam(Team team)
         {
+            if (_context.Teams == null)
+            {
+                return Problem("Entity set 'MailTrackerDbContext.Teams'  is null.");
+            }
             _context.Teams.Add(team);
             await _context.SaveChangesAsync();
 
@@ -88,6 +95,10 @@ namespace MailTracker.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTeam(int id)
         {
+            if (_context.Teams == null)
+            {
+                return NotFound();
+            }
             var team = await _context.Teams.FindAsync(id);
             if (team == null)
             {
@@ -102,7 +113,7 @@ namespace MailTracker.Controllers
 
         private bool TeamExists(int id)
         {
-            return _context.Teams.Any(e => e.TeamID == id);
+            return (_context.Teams?.Any(e => e.TeamID == id)).GetValueOrDefault();
         }
     }
 }

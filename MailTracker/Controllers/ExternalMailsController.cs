@@ -1,13 +1,7 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MailTrackerAPI.Models;
-using System.Globalization;
 
 namespace MailTracker.Controllers
 {
@@ -98,12 +92,14 @@ namespace MailTracker.Controllers
             });
         }
 
-
-
         // GET: api/ExternalMails/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ExternalMail>> GetExternalMail(int id)
         {
+            if (_context.ExternalMails == null)
+            {
+                return NotFound();
+            }
             var externalMail = await _context.ExternalMails.FindAsync(id);
 
             if (externalMail == null)
@@ -150,6 +146,11 @@ namespace MailTracker.Controllers
         [HttpPost]
         public async Task<ActionResult<ExternalMail>> PostExternalMail(ExternalMail externalMail)
         {
+            if (_context.ExternalMails == null)
+            {
+                return Problem("Entity set 'MailTrackerDbContext.ExternalMails'  is null.");
+            }
+
             _context.ExternalMails.Add(externalMail);
             await _context.SaveChangesAsync();
 
@@ -160,6 +161,10 @@ namespace MailTracker.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExternalMail(int id)
         {
+            if (_context.ExternalMails == null)
+            {
+                return NotFound();
+            }
             var externalMail = await _context.ExternalMails.FindAsync(id);
             if (externalMail == null)
             {
@@ -174,7 +179,7 @@ namespace MailTracker.Controllers
 
         private bool ExternalMailExists(int id)
         {
-            return _context.ExternalMails.Any(e => e.ExternalMailID == id);
+            return (_context.ExternalMails?.Any(e => e.ExternalMailID == id)).GetValueOrDefault();
         }
 
     }
