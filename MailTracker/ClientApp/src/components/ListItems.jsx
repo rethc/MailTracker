@@ -7,7 +7,8 @@ import {
     styled,
     ListItemText,
     Tooltip,
-    tooltipClasses, 
+    tooltipClasses,
+    Divider, 
   } from "@mui/material";
   import React from "react";
   import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -41,6 +42,7 @@ import {
 
     return (
       <React.Fragment>
+        <Divider sx={{ mt: 1 }} />
         <List>
           {/* Scan Incoming Mail */}
           <HtmlTooltip
@@ -195,6 +197,8 @@ import {
               </ListItemButton>
             </ListItem>
           </HtmlTooltip>
+
+          <Divider sx={{ my: 1 }} />
 
           {/* Search Full Ext DB */}
           <HtmlTooltip
