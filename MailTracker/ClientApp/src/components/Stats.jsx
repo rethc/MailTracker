@@ -1294,6 +1294,14 @@ const augustIncomingData = [
       BDM: 7,
       Citizenship: 13,
     },
+    {
+      name: "30/11/2022",
+      Other: 33,
+      Passport: 52,
+      Authentication: 25,
+      BDM: 29,
+      Citizenship: 64,
+    },
   ]; 
 
   const novOutgoingData = [
@@ -1380,6 +1388,10 @@ const augustIncomingData = [
     {
       name: "29/11/2022",
       Outgoing: 1151,
+    },
+    {
+      name: "30/11/2022",
+      Outgoing: 1684,
     },
   ];
 

@@ -122,6 +122,7 @@ export default function Scan() {
                       variant="outlined"
                       label="Product Type"
                       name="productType"
+                      autoComplete="off"
                       value={mailValue.productType}
                       fullWidth
                       onChange={handleInputChange}

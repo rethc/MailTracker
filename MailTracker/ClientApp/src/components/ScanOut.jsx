@@ -108,6 +108,7 @@ export default function ScanOut() {
                       variant="outlined"
                       label="Tracking Number"
                       name="trackingNumber"
+                      autoComplete="off"
                       value={mailValue.trackingNumber}
                       onChange={handleInputChange}
                       fullWidth
