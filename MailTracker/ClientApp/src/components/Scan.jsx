@@ -7,6 +7,9 @@ import {
   MenuItem,
   CircularProgress,
   Box,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Copyright from "./Copyright";
@@ -28,6 +31,7 @@ export default function Scan() {
   const [mailList, setMailList] = useState([]); //MailList array
   const [errProduct, setErrProduct] = useState(false); //ProductType error handling
   const [errTrackingNo, setErrTrackingNo] = useState(false); //TrackingNo error handling
+  const [open, setOpen] = useState(true); //open dialog
   const products = [
     "Passport",
     "BDM",
@@ -63,6 +67,16 @@ export default function Scan() {
     });
   };
 
+ const scanRef = React.createRef();
+
+   const handleClose = () => {
+     setOpen(false);  
+   };
+
+   const handleOpen = () => {
+     setOpen(true); 
+   };
+
   //Event handler for submit
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -93,6 +107,8 @@ export default function Scan() {
     fetchData();
   };
 
+  
+
   return (
     <Box
       component="main"
@@ -112,46 +128,56 @@ export default function Scan() {
               <Title>Scan Incoming Mail</Title>
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <TextField
-                      helperText={
-                        errProduct ? "The Product Type field is required." : ""
-                      }
-                      error={errProduct}
-                      select
-                      variant="outlined"
-                      label="Product Type"
-                      name="productType"
-                      autoComplete="off"
-                      value={mailValue.productType}
-                      fullWidth
-                      onChange={handleInputChange}
-                    >
-                      {products.map((product) => (
-                        <MenuItem key={product} value={product}>
-                          {product}
-                        </MenuItem>
-                      ))}
-                    </TextField>
+                  <Grid item xs={mailValue.productType ? 6 : 12}>
+                    <FormControl fullWidth>
+                      <InputLabel id="select-product-label">
+                        Product Type
+                      </InputLabel>
+                      <Select
+                        labelId="select-product-label"
+                        id="controlled-select-product-label"
+                        error={errProduct}
+                        variant="outlined"
+                        name="productType"
+                        label="Select Product Type"
+                        value={mailValue.productType}
+                        fullWidth
+                        open={open}
+                        onClose={handleClose}
+                        onOpen={handleOpen}
+                        onChange={handleInputChange}
+                      >
+                        {products.map((product) => (
+                          <MenuItem key={product} value={product}>
+                            {product}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      autoFocus
-                      focused
-                      helperText={
-                        errTrackingNo
-                          ? "The Tracking Number field is required."
-                          : ""
-                      }
-                      error={errTrackingNo}
-                      variant="outlined"
-                      label="Tracking Number"
-                      name="trackingNumber"
-                      value={mailValue.trackingNumber}
-                      onChange={handleInputChange}
-                      fullWidth
-                    />
-                  </Grid>
+                  {mailValue.productType ? (
+                    <Grid item xs={6}>
+                      <TextField
+                        autoFocus
+                        focused
+                        helperText={
+                          errTrackingNo
+                            ? "The Tracking Number field is required."
+                            : ""
+                        }
+                        error={errTrackingNo}
+                        variant="outlined"
+                        label="Tracking Number"
+                        name="trackingNumber"
+                        value={mailValue.trackingNumber}
+                        onChange={handleInputChange}
+                        fullWidth
+                        inputRef={scanRef}
+                      />
+                    </Grid>
+                  ) : (
+                    ""
+                  )}
                 </Grid>
                 <button hidden onClick={handleSubmit} type="submit" />
               </form>
