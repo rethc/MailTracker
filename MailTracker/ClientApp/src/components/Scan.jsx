@@ -139,7 +139,7 @@ export default function Scan() {
                         error={errProduct}
                         variant="outlined"
                         name="productType"
-                        label="Select Product Type"
+                        label="Product Type"
                         value={mailValue.productType}
                         fullWidth
                         open={open}
