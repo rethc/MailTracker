@@ -9,8 +9,8 @@ export default function SailBG() {
         position: "absolute", 
         bottom: 0,
         right: 0,
-        width: 620,
-        height: 274,
+        width: 580,
+        height: 256,
       }}
     />
   );
