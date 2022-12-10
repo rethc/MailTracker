@@ -25,6 +25,7 @@ import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright"; 
 import SearchIcon from "@mui/icons-material/Search";
+import SnowBG from "./SnowBG";
 
 export default function Search() {
   const [value, setValue] = useState("");
@@ -193,7 +194,8 @@ export default function Search() {
             </Paper>
           </Grid>
         </Grid>
-        <Copyright />
+        <Copyright /> 
+        <SnowBG />
       </Container>
     </Box>
   );

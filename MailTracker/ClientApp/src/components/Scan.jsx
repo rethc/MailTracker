@@ -16,6 +16,7 @@ import Copyright from "./Copyright";
 import Title from "./Title";
 import api from "../services/api";
 import RecentScanned from "./RecentScanned";
+import SailBG from "./SailBG";
 
 export default function Scan() {
   //New External Mail Object
@@ -65,12 +66,10 @@ export default function Scan() {
       ...mailValue,
       [name]: value,
     });
-  };
-
- const scanRef = React.createRef();
+  }; 
 
    const handleClose = () => {
-     setOpen(false);  
+     setOpen(false);   
    };
 
    const handleOpen = () => {
@@ -106,15 +105,14 @@ export default function Scan() {
       });
     fetchData();
   };
-
   
-
   return (
     <Box
       component="main"
       sx={{ marginLeft: { sm: 30, xs: 0 }, paddingTop: { xs: 6, sm: 8 } }}
     >
       <CssBaseline />
+
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -171,8 +169,7 @@ export default function Scan() {
                         name="trackingNumber"
                         value={mailValue.trackingNumber}
                         onChange={handleInputChange}
-                        fullWidth
-                        inputRef={scanRef}
+                        fullWidth 
                       />
                     </Grid>
                   ) : (
@@ -205,6 +202,7 @@ export default function Scan() {
           </Grid>
         </Grid>
         <Copyright />
+        <SailBG />
       </Container>
     </Box>
   );

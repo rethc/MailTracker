@@ -12,6 +12,7 @@ import Copyright from "./Copyright";
 import Title from "./Title";
 import api from "../services/api";
 import RecentScanned from "./RecentScanned";
+import SailBG from "./SailBG";
 
 export default function ScanOut() {
   //New External Mail Object
@@ -141,6 +142,7 @@ export default function ScanOut() {
           </Grid>
         </Grid>
         <Copyright />
+        <SailBG />
       </Container>
     </Box>
   );
