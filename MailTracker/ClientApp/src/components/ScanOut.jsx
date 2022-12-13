@@ -6,13 +6,15 @@ import {
   TextField,
   CircularProgress,
   Box,
-} from "@mui/material";
+  styled,
+} from "@mui/material"; 
 import React, { useState, useEffect } from "react";
 import Copyright from "./Copyright";
 import Title from "./Title";
 import api from "../services/api";
-import RecentScanned from "./RecentScanned";
-import SailBG from "./SailBG";
+import RecentScanned from "./RecentScanned"; 
+import Sail from "../components/sailbg.webp"; 
+import SailImg from "./SailImg";
 
 export default function ScanOut() {
   //New External Mail Object
@@ -77,6 +79,20 @@ export default function ScanOut() {
     fetchData();
   };
 
+  const SailImg = styled("img")({
+    backgroundRepeat: "no-repeat",
+    position: "fixed",
+    bottom: 0,
+    right: 0,
+    width: "30vw",
+    height: "auto",
+    //Fix blurry Image on transform scale
+    transform: "translateZ(0)",
+    WebkitBackfaceVisibility: "hidden",  
+    filter: "blur(0)", 
+    imageRendering: "-webkit-optimize-contrast",
+  });
+ 
   return (
     <Box
       component="main"
@@ -142,8 +158,8 @@ export default function ScanOut() {
           </Grid>
         </Grid>
         <Copyright />
-        <SailBG />
       </Container>
+      <SailImg src={Sail} alt="sail"/>
     </Box>
   );
 }

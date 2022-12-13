@@ -15,8 +15,9 @@ import React, { useState, useEffect } from "react";
 import Copyright from "./Copyright";
 import Title from "./Title";
 import api from "../services/api";
-import RecentScanned from "./RecentScanned";
-import SailBG from "./SailBG";
+import RecentScanned from "./RecentScanned"; 
+import Sail from "../components/sailbg.webp";
+import SailImg from "./SailImg";
 
 export default function Scan() {
   //New External Mail Object
@@ -169,7 +170,7 @@ export default function Scan() {
                         name="trackingNumber"
                         value={mailValue.trackingNumber}
                         onChange={handleInputChange}
-                        fullWidth 
+                        fullWidth
                       />
                     </Grid>
                   ) : (
@@ -202,8 +203,8 @@ export default function Scan() {
           </Grid>
         </Grid>
         <Copyright />
-        <SailBG />
       </Container>
+      <SailImg src={Sail} alt="sail" />
     </Box>
   );
 }
