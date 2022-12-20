@@ -11,8 +11,12 @@ import {
   Button,
   Dialog,
   MenuItem,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  DialogContentText,
 } from "@mui/material";
-import { DesktopDatePicker } from "@mui/x-date-pickers";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import axios from "axios";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -24,7 +28,7 @@ import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import HistoryIcon from "@mui/icons-material/History";
-import Copyright from "./Copyright";
+import Copyright from "./Copyright"; 
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,6 +86,11 @@ export default function TeamMail(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+ 
+
+  //DIALOG
+ 
+
 
   async function fetchData() {
     const { data } = await axios.get(
@@ -140,7 +149,7 @@ export default function TeamMail(props) {
        return (
          <Grid container justify="flex-end">
            <Button
-             variant="contained" 
+             variant="contained"
              size="large"
              endIcon={<HistoryIcon />}
            >
@@ -190,7 +199,7 @@ export default function TeamMail(props) {
           DateEntered: "11/09/2022 10:00am",
           PickedUpDate: "11/09/2022 3:00pm",
           ActionedBy: "Bevan Stephen",
-          Status: "Inactive",
+          Status: "Picked Up",
         },
         {
           Contents: "RATS surveillance kits",
@@ -198,7 +207,7 @@ export default function TeamMail(props) {
           DateEntered: "13/09/2022 7:35am",
           PickedUpDate: "13/09/2022 8:15am",
           ActionedBy: "Bevan Stephen",
-          Status: "Inactive",
+          Status: "Picked Up",
         },
         {
           Contents:
@@ -207,7 +216,7 @@ export default function TeamMail(props) {
           DateEntered: "13/09/2022 7:35am",
           PickedUpDate: "13/09/2022 8:15am",
           ActionedBy: "Bevan Stephen",
-          Status: "Inactive",
+          Status: "Picked Up",
         },
         {
           Contents:
@@ -216,7 +225,7 @@ export default function TeamMail(props) {
           DateEntered: "13/09/2022 7:35am",
           PickedUpDate: "13/09/2022 8:15am",
           ActionedBy: "Bevan Stephen",
-          Status: "Inactive",
+          Status: "Picked Up",
         },
       ];
 
@@ -291,22 +300,19 @@ const columsInactive = [
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {props.teamName} Mail - xxx items selected
-            </Typography>
-            <Grid container spacing={1} mt={1}>
-              <Grid item xs={4}>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>{props.teamName} Mail - xxx items selected</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please select the date & time, and the person who collected
+              the mail.
+            </DialogContentText>
+            <Grid container spacing={1} mt={2}>
+              <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DesktopDatePicker
-                    label="Date Picked Up"
-                    inputFormat="dd/MM/yyyy"
+                  <DateTimePicker
+                    label="Date/Time Picked Up"
+                    inputFormat="dd/MM/yyyy hh:mm a"
                     value={dateValue}
                     onChange={handleDate}
                     renderInput={(params) => <TextField {...params} />}
@@ -330,13 +336,12 @@ const columsInactive = [
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={2} mt={1}>
-                <Button variant="contained" onClick={handleOpen}>
-                  Confirm
-                </Button>
-              </Grid>
             </Grid>
-          </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>Confirm</Button>
+          </DialogActions>
         </Dialog>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -354,9 +359,9 @@ const columsInactive = [
                 <Grid container spacing={2}>
                   <Grid item xs={2}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DesktopDatePicker
+                      <DateTimePicker
                         label="Date Entered"
-                        inputFormat="dd/MM/yyyy"
+                        inputFormat="dd/MM/yyyy hh:mm a"
                         value={dateValue}
                         onChange={handleDate}
                         renderInput={(params) => <TextField {...params} />}
