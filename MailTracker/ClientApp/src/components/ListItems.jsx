@@ -310,14 +310,7 @@ import {
                     primaryTypographyProps={{
                       fontSize: 15,
                       paddingLeft: 1,
-                      fontWeight:
-                        item.selectedIndex === selectedIndex
-                          ? "bold"
-                          : "normal",
-                      color:
-                        item.selectedIndex === selectedIndex
-                          ? "secondary.main"
-                          : "inherit",
+                      fontWeight: location.pathname === "/stats" ? "secondary" : "inherit"
                     }}
                   />
                 </ListItemButton>

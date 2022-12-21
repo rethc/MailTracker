@@ -70,6 +70,7 @@ function App() {
     <ThemeProvider theme={theme}> 
       <Box>
         <Wrapper setMode={setMode} mode={mode} />
+        
         <Routes>
           <Route path="/" element={<Scan />} />
           <Route path="/scan-out" element={<ScanOut />} />
