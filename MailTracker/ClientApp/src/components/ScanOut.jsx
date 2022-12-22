@@ -13,8 +13,7 @@ import Copyright from "./Copyright";
 import Title from "./Title";
 import api from "../services/api";
 import RecentScanned from "./RecentScanned"; 
-import Sail from "../components/sailbg.webp"; 
-import SailImg from "./SailImg";
+import Sail from "../components/sailbg.webp";  
 
 export default function ScanOut() {
   //New External Mail Object

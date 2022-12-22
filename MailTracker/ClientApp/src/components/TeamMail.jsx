@@ -173,15 +173,7 @@ export default function TeamMail(props) {
         "dd/MM/yyyy hh:mm aaa"
       ),
     };
-  });
-
-  const style = {
-    width: 600,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 3,
-  };
+  }); 
 
   const persons = [
     "Bevan Stephen",
