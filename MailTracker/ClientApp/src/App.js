@@ -50,8 +50,10 @@ const getDesignTokens = (mode) => ({
 });
  
 
-function App() { 
-  const [mode, setMode] = useState('light');
+function App() {  
+  const [mode, setMode] = useState('light'); 
+  const [location, setLocation] = useState(localStorage.getItem("MailLocation") ? localStorage.getItem("MailLocation") : "Wellington");
+
   useMemo(
     () => ({
       // The dark mode switch would invoke this method
@@ -66,14 +68,18 @@ function App() {
 
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
+  const handleLocationChange = (newLocation) => {
+    console.log("New location:", newLocation);
+    setLocation(newLocation); 
+  }
+
   return (
     <ThemeProvider theme={theme}> 
       <Box>
-        <Wrapper setMode={setMode} mode={mode} />
-        
+        <Wrapper setMode={setMode} mode={mode} onLocationChange={handleLocationChange} /> 
         <Routes>
-          <Route path="/" element={<Scan />} />
-          <Route path="/scan-out" element={<ScanOut />} />
+          <Route path="/" element={<Scan location={location} />} />
+          <Route path="/scan-out" element={<ScanOut location={location} />} />
           <Route path="/search" element={<Search />} /> 
           <Route path="/stats" element={<Stats />} /> 
           <Route path="/Table" element={<Table />} /> 

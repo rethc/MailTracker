@@ -15,7 +15,7 @@ import React, { useState, useEffect } from "react";
 import Copyright from "./Copyright";
 import Title from "./Title";
 import api from "../services/api";
-import RecentScanned from "./RecentScanned"; 
+import RecentScanned from "./RecentScanned";
 import Sail from "../components/sailbg.webp";
 import SailImg from "./SailImg";
 
@@ -51,7 +51,7 @@ export default function Scan() {
         setLoading(false);
       })
       //Display error in console log and browser window alert
-      .catch((err) => { 
+      .catch((err) => {
         console.log(JSON.stringify(err.response.data.errors));
       });
   }
@@ -67,15 +67,15 @@ export default function Scan() {
       ...mailValue,
       [name]: value,
     });
-  }; 
+  };
 
-   const handleClose = () => {
-     setOpen(false);   
-   };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-   const handleOpen = () => {
-     setOpen(true); 
-   };
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   //Event handler for submit
   const handleSubmit = async (e) => {
@@ -96,7 +96,7 @@ export default function Scan() {
     }
     if (item.trackingNo) setErrTrackingNo(false);
     if (item.productType) setErrProduct(false);
-    
+
     await api("ExternalMails")
       .create(item)
       .catch((error) => {
@@ -106,7 +106,7 @@ export default function Scan() {
       });
     fetchData();
   };
-  
+
   return (
     <Box
       component="main"
