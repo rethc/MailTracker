@@ -15,7 +15,7 @@ import api from "../services/api";
 import RecentScanned from "./RecentScanned";
 import Sail from "../components/sailbg.webp";
 
-export default function ScanOut() {
+export default function ScanOut(props) {
   //New External Mail Object
   const initialMailRecord = {
     mailType: "Outgoing",
@@ -108,7 +108,7 @@ export default function ScanOut() {
                 flexDirection: "column",
               }}
             >
-              <Title>Scan Outgoing Mail</Title>
+              <Title>Scan {props.location} Outgoing Mail</Title>
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>

@@ -19,7 +19,7 @@ import RecentScanned from "./RecentScanned";
 import Sail from "../components/sailbg.webp";
 import SailImg from "./SailImg";
 
-export default function Scan() {
+export default function Scan(props) {
   //New External Mail Object
   const initialMailRecord = {
     mailType: "Incoming",
@@ -124,7 +124,7 @@ export default function Scan() {
                 flexDirection: "column",
               }}
             >
-              <Title>Scan Incoming Mail</Title>
+              <Title>Scan {props.location} Incoming Mail </Title>
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid item xs={mailValue.productType ? 6 : 12}>

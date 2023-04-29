@@ -1,7 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Avatar,
-  Menu,
   MenuItem,
   Switch,
   Typography,
@@ -12,12 +10,18 @@ import {
   AppBar,
   styled,
   Tooltip,
+  Select,
+  FormControl,
+  InputBase,
+  alpha,
+  SvgIcon,
+  Grid,
 } from "@mui/material";
 import ListItems from "../components/ListItems";
 import MenuIcon from "@mui/icons-material/Menu";
+import BusinessIcon from "@mui/icons-material/Business";
 import Weave from "../components/weave.webp";
 import WeaveBW from "../components/weavebw.webp";
-
 const drawerWidth = 240;
 
 //Dark mode switch
@@ -68,7 +72,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-function Wrapper({ mode, setMode }, props) {
+function Wrapper({ mode, setMode, onLocationChange }, props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -76,15 +80,50 @@ function Wrapper({ mode, setMode }, props) {
     setMobileOpen(!mobileOpen);
   };
 
-  //Profile settings
-  const settings = ["Profile", "Logout"];
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  //LOCATION
+const [location, setLocation] = useState(() => {
+  const savedLocation = localStorage.getItem("MailLocation");
+  if (savedLocation) {
+    return savedLocation;
+  } else {
+    const defaultLocation = "Wellington";
+    localStorage.setItem("MailLocation", defaultLocation);
+    return defaultLocation;
+  }
+});
+
+const handleChange = (event) => {
+  const newLocation = event.target.value;
+  setLocation(newLocation);
+  onLocationChange(newLocation);
+  localStorage.setItem("MailLocation", newLocation);
+};
+
+  const BootstrapInput = styled(InputBase)(({ theme }) => ({
+    "label + &": {
+      marginTop: theme.spacing(1),
+    },
+    "& .MuiInputBase-input": {
+      borderRadius: 4,
+      position: "relative",
+
+      backgroundColor:
+        theme.palette.mode === "light"
+          ? alpha(theme.palette.common.white, 0.7)
+          : alpha(theme.palette.common.black, 0.7),
+      //border: "1px solid #ced4da",
+      fontSize: 16,
+      padding: "10px 26px 10px 12px",
+      transition: theme.transitions.create(["border-color", "box-shadow"]),
+    },
+  }));
+
+  const locationList = [
+    {
+      value: "Wellington",
+      label: "Wellington",
+    } 
+  ];
 
   const drawer = (
     <React.Fragment>
@@ -120,10 +159,39 @@ function Wrapper({ mode, setMode }, props) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Operations Delivery Mail Tracker
           </Typography>
+
+          <Tooltip title="WELLINGTON ONLY" placement="left">
+            <FormControl>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={location}
+                onChange={handleChange}
+                label="Location"
+                input={<BootstrapInput />}
+                renderValue={(value) => {
+                  return (
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <SvgIcon color="primary">
+                        <BusinessIcon />
+                      </SvgIcon>
+                      {value}
+                    </Box>
+                  );
+                }}
+              >
+                {locationList.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.value}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Tooltip>
+
           <Tooltip title="Toggle Dark Mode">
             <MaterialUISwitch
               label="switch-list-label-darkmode"
-              sx={{ mr: 1 }}
               onChange={() => setMode(mode === "light" ? "dark" : "light")}
               inputProps={{
                 "aria-label": "switch-list-label-darkmode",
@@ -131,35 +199,6 @@ function Wrapper({ mode, setMode }, props) {
               }}
             />
           </Tooltip>
-          <Box alignContent="flex-end">
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Chesda" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "42px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
         </Toolbar>
       </AppBar>
       <Box
