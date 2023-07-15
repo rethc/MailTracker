@@ -1,45 +1,68 @@
 import {
-  CircularProgress,
+  Button,
   Container,
   CssBaseline,
   Box,
-  TextField, 
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { format, zonedTimeToUtc } from "date-fns-tz";
 import { parseISO } from "date-fns";
 import Copyright from "./Copyright";
 import MUIDataTable from "mui-datatables";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import api from "../services/api";
+import axios from 'axios';  
+
+// Custom toolbar component
+const CustomToolbar = ({ searchQuery, setSearchQuery }) => {
+  const handleReset = () => {
+    setSearchQuery("");
+  };
+
+  return (
+    searchQuery && (
+      <Button variant="contained" onClick={handleReset}>Reset</Button>
+    )
+  );
+};
 
 export default function Table() {
   const [mailList, setMailList] = useState([]);
-  const [isLoading, setLoading] = useState(true); //loading spinner
-  const [dateValue, setDateValue] = useState(null); 
+  const [isLoading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [sortOrder, setSortOrder] = useState({ name: 'ExternalMailID', direction: 'desc' });
+  const [searchQuery, setSearchQuery] = useState(""); 
 
-  const handleDateChange = (newValue) => {
-    setDateValue(newValue);
-  };
+ 
+ 
+  const fetchData = useCallback(async (currentPage, currentLimit, currentSearchQuery) => {
+    setLoading(true);
+    let url = `https://mailtrackerapi.azurewebsites.net/api/ExternalMails/GetPaged?page=${currentPage}&rowsPerPage=${currentLimit}&sortField=${sortOrder.name}&sortDir=${sortOrder.direction}`;
 
-  async function fetchData() {
-    await api("ExternalMails")
-      .getMail()
-      .then((res) => {
-        setMailList(res.data);
-        setLoading(false);
-      })
-      //Display error in console log and browser window alert
-      .catch((err) => {
-        window.alert(JSON.stringify(err.response.data.errors));
-        console.log(JSON.stringify(err.response.data.errors));
-      });
-  }
+    if(currentSearchQuery && currentSearchQuery.trim() !== '') {
+        url += `&trackingNo=${currentSearchQuery}`;
+    }
+    try {
+        const res = await axios.get(url);
+        const formattedData = res.data.data.map(mail => {
+          return {
+            ...mail,
+            dateCreated: format(zonedTimeToUtc(parseISO(mail.dateCreated), "UTC"), "dd/MM/yyyy hh:mm aaa")
+          }
+        });
+  
+        setMailList(formattedData);
+        setPage(currentPage);
+        setTotal(res.data.total);
+    } catch (error) {
+        console.error("Error fetching data", error);
+    }
+    setLoading(false);
+  }, [sortOrder]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(page, limit, searchQuery);
+  }, [fetchData, page, limit, searchQuery]);
 
   const columns = [
     {
@@ -47,14 +70,14 @@ export default function Table() {
       label: "Tracking Number",
       options: {
         filter: false,
-        sort: true,
+        sort: false,
       },
     },
     {
       name: "mailType",
       label: "Mail Type",
       options: {
-        filter: true,
+        filter: false,
         sort: false,
       },
     },
@@ -62,7 +85,7 @@ export default function Table() {
       name: "productType",
       label: "Product Type",
       options: {
-        filter: true,
+        filter: false,
         sort: false,
       },
     },
@@ -70,87 +93,43 @@ export default function Table() {
       name: "dateCreated",
       label: "Date Scanned",
       options: {
-        filter: true,
-        sort: true,
-        display: "true",
-        filterType: "custom",
-        customFilterListOptions: {
-          render: (value) => {
-            if (isNaN(value[0]) || !value[0]) return [];
-            return [format(value[0], "dd/MM/yyyy")];
-          },
-          update: (filterList, filterPos, index) => {
-            console.log(
-              "customFilterListOnDelete: ",
-              filterList,
-              filterPos,
-              index
-            );
-            if (filterPos === 0) {
-              filterList[index].splice(filterPos, 1, "");
-            } else if (filterPos === 1) {
-              filterList[index].splice(filterPos, 1);
-            } else if (filterPos === -1) {
-              filterList[index] = [];
-            }
-            return filterList;
-          },
-        },
-        filterOptions: {
-          logic: (dateTime, filters) => {
-            if (isNaN(filters[0])) return false;
-            let date = filters[0] && format(filters[0], "dd/MM/yyyy");
-            let dateString = dateTime.split(" ")[0];
-            if (dateString === date) {
-              return false;
-            } else if (!date) {
-              return false;
-            }
-            return true;
-          },
-          display: (filterList, onChange, index, column) => {
-            return (
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  label="Filter by Date"
-                  inputFormat="dd/MM/yyyy"
-                  value={filterList[index][0] || null}
-                  onChange={(e) => {
-                    handleDateChange(e);
-                    filterList[index][0] = e;
-                    onChange(filterList[index], index, column);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            );
-          },
-        },
+        filter: false,
+        sort: false,
       },
     },
   ];
 
-  const data = mailList
-    .map((mail) => {
-      return {
-        trackingNo: mail.trackingNo,
-        productType: mail.productType,
-        mailType: mail.mailType,
-        dateCreated: format(
-          zonedTimeToUtc(parseISO(mail.dateCreated), "UTC"),
-          "dd/MM/yyyy hh:mm aaa"
-        ),
-      };
-    })
-    .slice()
-    .reverse();
-
   const options = {
-    filterType: "dropdown",
-    customToolbarSelect: () => {},
-    print: false,
+    serverSide: true,
+    filter: false,
+    responsive: "vertical",
     searchOpen: true,
     searchAlwaysOpen: true,
+    count: total,
+    rowsPerPage: limit,
+    rowsPerPageOptions: [],
+    sortOrder: sortOrder,
+    print: false,
+    searchText: searchQuery,
+    download: false,
+    viewColumns: false,
+    customToolbar: () => {
+      return (
+        <CustomToolbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      );
+    },
+    onTableChange: async (action, tableState) => {
+      switch (action) {
+        case "changePage":
+          setPage(tableState.page);
+          break;
+        case "search":
+          setSearchQuery(tableState.searchText || "");
+          break;
+        default:
+          console.log("Action not handled.");
+      }
+    },
   };
 
   return (
@@ -160,20 +139,12 @@ export default function Table() {
     >
       <CssBaseline />
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-        {isLoading ? (
-          <center>
-            Loading...
-            <br />
-            <CircularProgress color="secondary" disableShrink />
-          </center>
-        ) : (
-          <MUIDataTable
-            title={"External Mail List"}
-            data={data}
-            columns={columns}
-            options={options}
-          />
-        )}
+        <MUIDataTable
+          title={"External Mail List"}
+          data={mailList}
+          columns={columns}
+          options={options}
+        />
         <Copyright />
       </Container>
     </Box>

@@ -15,7 +15,43 @@ namespace MailTracker.Controllers
         {
             _context = context;
 
+        } 
+
+        // GET: api/ExternalMails/GetPaged
+        [HttpGet("GetPaged")]
+        public async Task<ActionResult> GetPaged(int page = 0, int pageSize = 10, string sortField = "ExternalMailID", string sortDir = "desc", string trackingNo = null)
+        {
+            // apply the search condition
+            var mails = _context.ExternalMails.AsQueryable();
+            if (!string.IsNullOrEmpty(trackingNo))
+            {
+                mails = mails.Where(e => e.TrackingNo.Contains(trackingNo));
+            }
+
+            // apply the sorting
+            if (sortDir == "desc")
+            {
+                mails = mails.OrderByDescending(e => EF.Property<object>(e, sortField));
+            }
+            else
+            {
+                mails = mails.OrderBy(e => EF.Property<object>(e, sortField));
+            }
+
+            // get the total count
+            var totalCount = await mails.CountAsync();
+
+            // apply pagination
+            var pagedMails = await mails.Skip(page * pageSize).Take(pageSize).ToListAsync();
+
+            return Ok(new
+            {
+                data = pagedMails,
+                total = totalCount,
+                page = page,
+            });
         }
+
 
         //TEST --- Search
         // GET: api/ExternalMails/search/{trackingno}
