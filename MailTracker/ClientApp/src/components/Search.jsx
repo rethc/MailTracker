@@ -147,6 +147,8 @@ export default function Search() {
                           <TableCell>Mail Type</TableCell>
                           <TableCell>Product Type</TableCell>
                           <TableCell>Date Scanned</TableCell>
+                          <TableCell>Location</TableCell>
+                          <TableCell>Scanned By</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -172,6 +174,8 @@ export default function Search() {
                                   "dd/MM/yyyy hh:mm aaa"
                                 )}
                               </TableCell>
+                              <TableCell>{row.location}</TableCell>
+                              <TableCell>{row.scannedBy}</TableCell>
                             </TableRow>
                           ))
                           .slice(0)}

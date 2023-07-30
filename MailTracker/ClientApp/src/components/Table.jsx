@@ -33,8 +33,6 @@ export default function Table() {
   const [sortOrder, setSortOrder] = useState({ name: 'ExternalMailID', direction: 'desc' });
   const [searchQuery, setSearchQuery] = useState(""); 
 
- 
- 
   const fetchData = useCallback(async (currentPage, currentLimit, currentSearchQuery) => {
     setLoading(true);
     let url = `https://mailtrackerapi.azurewebsites.net/api/ExternalMails/GetPaged?page=${currentPage}&rowsPerPage=${currentLimit}&sortField=${sortOrder.name}&sortDir=${sortOrder.direction}`;
@@ -92,6 +90,22 @@ export default function Table() {
     {
       name: "dateCreated",
       label: "Date Scanned",
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: "location",
+      label: "Location",
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: "scannedBy",
+      label: "Scanned By",
       options: {
         filter: false,
         sort: false,

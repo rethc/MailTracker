@@ -25,6 +25,8 @@ export default function Scan(props) {
     mailType: "Incoming",
     trackingNumber: "",
     productType: "",
+    location: "Wellington",
+    scannedBy: "Trolley Run",
     dateCreated: new Date(),
   };
   //initial state for External Mail Object
@@ -87,6 +89,8 @@ export default function Scan(props) {
       trackingNo: data.trackingNumber,
       dateCreated: new Date(),
       productType: data.productType,
+      location: data.location,
+      scannedBy: data.scannedBy
     };
 
     //Form validation if Product or Tracking Field are blank
@@ -113,8 +117,7 @@ export default function Scan(props) {
       sx={{ marginLeft: { sm: 30, xs: 0 }, paddingTop: { xs: 6, sm: 8 } }}
     >
       <CssBaseline />
-
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper

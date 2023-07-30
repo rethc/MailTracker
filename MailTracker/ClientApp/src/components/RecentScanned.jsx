@@ -27,6 +27,8 @@ import { parseISO } from "date-fns";
                   <React.Fragment></React.Fragment>
                 )}
                 <TableCell>Date Scanned</TableCell>
+                <TableCell>Location</TableCell>
+                <TableCell>Scanned By</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -52,6 +54,8 @@ import { parseISO } from "date-fns";
                         "dd/MM/yyyy hh:mm aaa"
                       )}
                     </TableCell>
+                    <TableCell>{m.location}</TableCell>
+                    <TableCell>{m.scannedBy}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>

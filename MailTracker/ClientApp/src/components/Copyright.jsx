@@ -9,7 +9,7 @@ export default function Copyright(props) {
       paddingTop={4}
       {...props}
     >
-      Operations Delivery Mail Tracker v1.5
+      Operations Delivery Mail Tracker v1.6
     </Typography>
   );
 }
